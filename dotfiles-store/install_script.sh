@@ -36,6 +36,7 @@ options=(
   6  "tmux" off
   7  "Miniconda" off
   8  "Visual Studio Code" off
+  9  "vim" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -129,6 +130,14 @@ for choice in $choices; do
       rm -rf /tmp/vscode
       echo "Visual Studio Code installation completed."
       echo "Install Settings Sync extenstion and setup the same."
+      echo ""
+      ;;
+    9)
+      # Installing Visual Studio Code
+      echo ""
+      echo "Installing vim...."
+      sudo apt install -y vim
+      echo "Vim installed. Make sure to alias vi to vim"
       echo ""
       ;;
     *)
