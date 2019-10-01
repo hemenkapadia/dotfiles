@@ -1,0 +1,5 @@
+# Environment Variables sourced by .bashrc
+
+# dotdrop variables
+export DOTDROP_PROFILE=worklaptop
+export DOTDROP_CONFIG=$HOME/dotfiles/config.yaml
