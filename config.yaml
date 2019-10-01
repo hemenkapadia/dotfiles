@@ -24,6 +24,9 @@ dotfiles:
   f_bash_functions:
     src: bash_functions
     dst: ~/.bash_functions
+  f_profile:
+    src: profile
+    dst: ~/.profile
 profiles:
   worklaptop:
     dotfiles:
@@ -32,3 +35,4 @@ profiles:
     - f_bash_envvars
     - f_bash_aliases
     - f_bash_functions
+    - f_profile
