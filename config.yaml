@@ -1,11 +1,18 @@
 config:
   backup: true
-  banner: false 
+  banner: false
   create: true
   dotpath: dotfiles-store
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
-  longkey: false
+  longkey: true
+  workdir: ~/.config/dotdrop
 dotfiles:
+  f_gitconfig:
+    src: gitconfig
+    dst: ~/.gitconfig
 profiles:
+  worklaptop:
+    dotfiles:
+    - f_gitconfig
