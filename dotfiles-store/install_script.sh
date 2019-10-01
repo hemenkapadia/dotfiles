@@ -11,7 +11,10 @@ sudo apt-get update
 
 # Install base dependencies
 echo ">>> Installing base dependencies ...."
-sudo apt install -y dialog tree curl snapd openssl python3 python3-virtualenv python3-pip
+sudo apt install -y dialog tree wget curl snapd openssl \
+                    python3 python3-virtualenv python3-pip \
+                    apt-transport-https ca-certificates gnupg-agent \
+                    software-properties-common
 
 # Check if upgrade is needed
 dialog --title "Upgrade" \
@@ -28,23 +31,25 @@ clear
 # Offer list of applications to select for installation
 cmd=(dialog --separate-output --checklist "Please Select Software you want to install:" 22 76 16)
 options=(
-  1  "Git" off
-  2  "Git SSH keys" off
-  3  "dotdrop" off
-  4  "Tig" off
-  5  "Lazygit" off
-  6  "tmux" off
-  7  "Miniconda" off
-  8  "Visual Studio Code" off
-  9  "vim" off
+  01  "Git" off
+  02  "Git SSH keys" off
+  03  "dotdrop" off
+  04  "Tig" off
+  05  "Lazygit" off
+  06  "tmux" off
+  07  "Miniconda" off
+  08  "Visual Studio Code" off
+  09  "vim" off
+  10  "VirtualBox and Vagrant" off
+  11  "Docker CE" off
+  12  "NodeJS LTS using n-install" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
 
 for choice in $choices; do
   case $choice in
-    1)
-      # Install Git
+    01) # Install Git
       echo ""
       echo ">>> Installing Git ...."
       sudo add-apt-repository ppa:git-core/ppa
@@ -57,8 +62,7 @@ for choice in $choices; do
       git config --global user.name "${username}"
       git config --global user.email "${useremail}"
       ;;
-    2)
-      # Install Git SSH Keys only if file encrypted-ssh-keys.tar.gz is present in this directory.
+    02) # Install Git SSH Keys only if file encrypted-ssh-keys.tar.gz is present in this directory.
       # It is created using the command below - https://www.tecmint.com/encrypt-decrypt-files-tar-openssl-linux/
       # tar --exclude='.ssh/environment' --exclude='.ssh/known_hosts' -czvf - .ssh | openssl enc -e -aes256 -out encrypted-ssh-keys.tar.gz
       echo ""
@@ -70,16 +74,14 @@ for choice in $choices; do
       echo ">>> Adding keys to ssh-agent"
       find ~/.ssh -type f -name *id_rsa -exec /usr/bin/ssh-add {} \;
       ;;
-    3)
-      # Install dotdrop using snapd
+    03) # Install dotdrop using snapd
       echo ""
       echo "Installing dotdrop from pypi in the normal python environment, not using virtualenv ...."
       pip3 install --user dotdrop
       echo "dotdrop Installation completed."
       echo "Please setup your dordrop repository as explained at https://github.com/deadc0de6/dotdrop/wiki/installation#setup-your-repository"
       ;;
-    4)
-      # Install Tig
+    04) # Install Tig 
       echo ""
       echo "Installing Tig ...."
       sudo apt-get update
@@ -87,8 +89,7 @@ for choice in $choices; do
       echo "Tig Installation completed."
       echo ""
       ;;
-    5)
-      # Install Lazygit
+    05) # Install Lazygit 
       echo ""
       echo "Installing Lazygit  ...."
       sudo add-apt-repository ppa:lazygit-team/release
@@ -97,8 +98,7 @@ for choice in $choices; do
       echo "Lazygit Installation completed."
       echo ""
       ;;
-    6)
-      # Install tmux
+    06) # Install tmux 
       echo ""
       echo "Installing tmux...."
       sudo apt-get update
@@ -106,8 +106,7 @@ for choice in $choices; do
       echo "Lazygit Installation completed."
       echo ""
       ;;
-    7)
-      # Install Miniconda latest
+    07) # Install Miniconda latest 
       echo ""
       echo "Installing Miniconda3 latest...."
       wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -q --show-progress
@@ -118,8 +117,7 @@ for choice in $choices; do
       echo "Miniconda Installation completed."
       echo ""
       ;;
-    8)
-      # Installing Visual Studio Code
+    08) # Installing Visual Studio CodeP
       echo ""
       echo "Installing Visual Studio Code ...."
       mkdir -p /tmp/vscode
@@ -132,13 +130,45 @@ for choice in $choices; do
       echo "Install Settings Sync extenstion and setup the same."
       echo ""
       ;;
-    9)
-      # Installing Visual Studio Code
+    09) # Installing vim
       echo ""
       echo "Installing vim...."
       sudo apt install -y vim
       echo "Vim installed. Make sure to alias vi to vim"
       echo ""
+      ;;
+    10) # Installing Virtual Box and Vagrant 
+      echo ""
+      echo "Installing VirtualBox...."
+      wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+      wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+      sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib"
+      sudo apt-get update
+      sudo apt-get install -y virtualbox-6.0
+      echo "VirtualBox installation completed."
+      echo ""
+      echo "Installing Vagrant ...."
+      sudo add-apt-repository ppa:tiagohillebrandt/vagrant
+      sudo apt-get update
+      sudo apt-get install -y vagrant
+      echo "Vagrant installation completed."
+      ;;
+    11) # Installing Docker Community Edition 
+      echo ""
+      echo "Installing Docker CE...."
+      sudo apt-get remove docker docker-engine docker.io containerd runc
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      sudo apt-get update
+      sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+      echo "Docker installation completed."
+      ;;
+    12) # Installing NodeJS LTS using n 
+      echo ""
+      echo "Installing n...."
+      curl -L https://git.io/n-install | bash
+      n lts
+      echo "NodeJS installation completed."
       ;;
     *)
       # Default Option
