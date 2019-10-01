@@ -15,8 +15,20 @@ dotfiles:
   f_bashrc:
     src: bashrc
     dst: ~/.bashrc
+  f_bash_envvars:
+    src: bash_envvars
+    dst: ~/.bash_envvars
+  f_bash_aliases:
+    src: bash_aliases
+    dst: ~/.bash_aliases
+  f_bash_functions:
+    src: bash_functions
+    dst: ~/.bash_functions
 profiles:
   worklaptop:
     dotfiles:
     - f_gitconfig
     - f_bashrc
+    - f_bash_envvars
+    - f_bash_aliases
+    - f_bash_functions
