@@ -12,7 +12,11 @@ dotfiles:
   f_gitconfig:
     src: gitconfig
     dst: ~/.gitconfig
+  f_bashrc:
+    src: bashrc
+    dst: ~/.bashrc
 profiles:
   worklaptop:
     dotfiles:
     - f_gitconfig
+    - f_bashrc
