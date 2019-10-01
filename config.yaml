@@ -27,6 +27,9 @@ dotfiles:
   f_profile:
     src: profile
     dst: ~/.profile
+  f_bash_logout:
+    src: bash_logout
+    dst: ~/.bash_logout
 profiles:
   worklaptop:
     dotfiles:
@@ -36,3 +39,4 @@ profiles:
     - f_bash_aliases
     - f_bash_functions
     - f_profile
+    - f_bash_logout
