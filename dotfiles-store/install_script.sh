@@ -61,6 +61,7 @@ options=(
   17  "MineTime" off
   18  "VPN and Gnome Network Manager" off
   19  "Touchpad Indicator" off
+  20  "Tmux, powerline" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -70,7 +71,7 @@ for choice in $choices; do
     01) # Install Git
       echo ""
       echo ">>> Installing Git ...."
-      sudo add-apt-repository ppa:git-core/ppa
+      sudo add-apt-repository ppa:git-core/ppa -y
       sudo apt-get update
       sudo apt install -y git
       echo ">>> Git Installation completed."
@@ -110,7 +111,7 @@ for choice in $choices; do
     05) # Install Lazygit 
       echo ""
       echo "Installing Lazygit  ...."
-      sudo add-apt-repository ppa:lazygit-team/release
+      sudo add-apt-repository ppa:lazygit-team/release -y
       sudo apt-get update
       sudo apt install lazygit
       echo "Lazygit Installation completed."
@@ -160,13 +161,13 @@ for choice in $choices; do
       echo "Installing VirtualBox...."
       wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
       wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
-      sudo add-apt-repository "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib"
+      sudo add-apt-repository "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" -y
       sudo apt-get update
       sudo apt-get install -y virtualbox-6.0
       echo "VirtualBox installation completed."
       echo ""
       echo "Installing Vagrant ...."
-      sudo add-apt-repository ppa:tiagohillebrandt/vagrant
+      sudo add-apt-repository ppa:tiagohillebrandt/vagrant -y
       sudo apt-get update
       sudo apt-get install -y vagrant
       echo "Vagrant installation completed."
@@ -176,7 +177,7 @@ for choice in $choices; do
       echo "Installing Docker CE...."
       sudo apt-get remove docker docker-engine docker.io containerd runc
       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
       sudo apt-get update
       sudo apt-get install -y docker-ce docker-ce-cli containerd.io
       sudo usermod -a -G docker
@@ -254,10 +255,24 @@ for choice in $choices; do
     19) # Installing Touchpad Indicator
       echo ""
       echo "Installing Touchpad Indicator...."
-      sudo add-apt-repository ppa:atareao/atareao
+      sudo add-apt-repository ppa:atareao/atareao -y
       sudo apt-get update
       sudo apt install -y touchpad-indicator
       echo "Touchpad indicator installation completed."
+      echo ""
+      ;;
+    20) # Installing Tmux and Powerline
+      echo ""
+      echo "Installing Tmux and Powerline...."
+      sudo apt install -y tmux fonts-powerline powerline python3-powerline
+      git clone https://github.com/adidenko/powerline ~/.config/powerline
+      echo "Configuring Powerline for vim...."
+      echo "set laststatus=2" >> ~/.vimrc
+      echo -e "python3 from powerline.vim import setup as powerline_setup" >> ~/.vimrc
+      echo -e "python3 powerline_setup()\npython3 del powerline_setup" >> ~/.vimrc
+      echo "Configuring Powerline for terminal...."
+      echo ". /usr/share/powerline/bindings/bash/powerline.sh" >> ~/.bashrc
+      echo "Tmux and Powerline installation completed."
       echo ""
       ;;
     *)
