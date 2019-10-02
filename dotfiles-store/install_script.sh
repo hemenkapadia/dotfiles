@@ -8,7 +8,7 @@ sudo -v && exit 1 'Sudo access needed to execute this script'
 # First update
 # Check if update is needed
 dialog --title "Update" \
-  --yesno "Do you want to run apt-get update ?" 6 25
+  --yesno "Do you want to run apt-get update ?" 8 45
 if [[ "$?" -eq 0 ]]; then
   echo " >>> Updating apt list ...."
   sudo apt-get update
@@ -17,7 +17,7 @@ clear
 
 # Install Base dependencies 
 dialog --title "Install dependencies" \
-  --yesno "Do you want to install base dependencies (recommended) ?" 6 25
+  --yesno "Do you want to install base dependencies (recommended) ?" 8 55
 if [[ "$?" -eq 0 ]]; then
   # Install base dependencies
   echo ">>> Installing base dependencies ...."
@@ -31,7 +31,7 @@ clear
 
 # Check if upgrade is needed
 dialog --title "Upgrade" \
-  --yesno "Do you want to run apt-get upgrade ?" 6 25
+  --yesno "Do you want to run apt-get upgrade ?" 8 55
 if [[ "$?" -eq 0 ]]; then
   echo ">>> Upgrading system ...."
   sudo apt-get upgrade -y
@@ -54,6 +54,7 @@ options=(
   10  "VirtualBox and Vagrant" off
   11  "Docker CE" off
   12  "NodeJS LTS using n-install" off
+  13  "Ubuntu Restricted Extras" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -181,6 +182,12 @@ for choice in $choices; do
       n lts
       echo "NodeJS installation completed."
       ;;
+    13) # Installing Ubuntu extras 
+      echo ""
+      echo "Installing ubuntu extras...."
+      sudo apt install -y ubuntu-restricted-extras
+      echo "Ubuntu extras installation completed."
+      ;;
     *)
       # Default Option
       echo "Hmm ... nothing to do here"
@@ -190,7 +197,7 @@ done
 
 # Check if autoremove is needed
 dialog --title "Auto Remove? " \
-  --yesno "Do you want to run apt auto-remove ?" 6 25
+  --yesno "Do you want to run apt auto-remove ?" 8 45
 if [[ "$?" -eq 0 ]]; then
   echo ">>> Removing unwanted applications ...."
   sudo apt auto-remove -y
