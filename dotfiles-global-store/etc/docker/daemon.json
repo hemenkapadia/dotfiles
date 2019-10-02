@@ -1,0 +1,6 @@
+{
+  "bip": "192.168.112.254/16",
+  "default-address-pools": [{"base": "172.30.0.0/16", "size": 24}, {"base": "172.31.0.0/16", "size": 24} ],
+  "insecure-registries": ["harbor.h2o.ai", "docker.h2o.ai"]
+}
+

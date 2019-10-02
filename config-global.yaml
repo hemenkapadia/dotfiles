@@ -9,4 +9,10 @@ config:
   longkey: true
   workdir: ~/.config/dotdrop-global
 dotfiles:
+  f_etc_docker_daemon.json:
+    src: etc/docker/daemon.json
+    dst: /etc/docker/daemon.json
 profiles:
+  worklaptop:
+    dotfiles:
+    - f_etc_docker_daemon.json
