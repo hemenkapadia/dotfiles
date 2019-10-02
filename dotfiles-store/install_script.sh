@@ -55,6 +55,7 @@ options=(
   11  "Docker CE" off
   12  "NodeJS LTS using n-install" off
   13  "Ubuntu Restricted Extras" off
+  14  "Jetbrains Toolbox" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -187,6 +188,19 @@ for choice in $choices; do
       echo "Installing ubuntu extras...."
       sudo apt install -y ubuntu-restricted-extras
       echo "Ubuntu extras installation completed."
+      ;;
+    14) # Installing Jetbrains Toolbox
+      echo ""
+      echo "Installing Jetbrains Toolbox ...."
+      mkdir -p /tmp/jetbrains
+      pushd /tmp/jetbrains
+      wget https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.15.5796.tar.gz
+      tar -zxvf jetbrains*.tar.gz
+      ./jetbrains*/jetbrains-toolbox
+      popd
+      rm -rf /tmp/jetbrains
+      echo "Jetbrains installation completed."
+      echo ""
       ;;
     *)
       # Default Option
