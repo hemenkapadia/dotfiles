@@ -1,6 +1,18 @@
 # Bash Aliases.
 
 # This file is sourced by .bashrc and is used to configure all bash aliases
+# Functions are similar to aliases, but provide more functionality.
+# Mostly functions cannot be implemented in a single code line like alias can
 
-
+# Command aliases
 alias vi=vim
+
+# Directory aliases
+alias cdo="cd $HOME/Workspace/Office"
+alias cdpwc="cd $HOME/Workspace/Office/Customers/PwC"
+alias cdp="cd $HOME/Workspace/Personal"
+
+# Utility Aliases
+alias memutil='free -wht --si'
+alias memfree='memutil; sudo tee /proc/sys/vm/drop_caches <<< 1; memutil'
+
