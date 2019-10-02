@@ -6,15 +6,28 @@
 sudo -v && exit 1 'Sudo access needed to execute this script'
 
 # First update
-echo " >>> Updating apt list ...."
-sudo apt-get update
+# Check if update is needed
+dialog --title "Update" \
+  --yesno "Do you want to run apt-get update ?" 6 25
+if [[ "$?" -eq 0 ]]; then
+  echo " >>> Updating apt list ...."
+  sudo apt-get update
+fi
+clear
 
-# Install base dependencies
-echo ">>> Installing base dependencies ...."
-sudo apt install -y dialog tree wget curl snapd openssl \
-                    python3 python3-virtualenv python3-pip \
-                    apt-transport-https ca-certificates gnupg-agent \
-                    software-properties-common
+# Install Base dependencies 
+dialog --title "Install dependencies" \
+  --yesno "Do you want to install base dependencies (recommended) ?" 6 25
+if [[ "$?" -eq 0 ]]; then
+  # Install base dependencies
+  echo ">>> Installing base dependencies ...."
+  sudo apt install -y dialog tree wget curl snapd openssl \
+                      python3 python3-virtualenv python3-pip \
+                      apt-transport-https ca-certificates gnupg-agent \
+                      software-properties-common
+fi
+clear
+
 
 # Check if upgrade is needed
 dialog --title "Upgrade" \
@@ -22,8 +35,6 @@ dialog --title "Upgrade" \
 if [[ "$?" -eq 0 ]]; then
   echo ">>> Upgrading system ...."
   sudo apt-get upgrade -y
-else
-  echo ">>> Proceeding without system upgrade ..."
 fi
 clear
 
@@ -176,3 +187,12 @@ for choice in $choices; do
       ;;
   esac
 done
+
+# Check if autoremove is needed
+dialog --title "Auto Remove? " \
+  --yesno "Do you want to run apt auto-remove ?" 6 25
+if [[ "$?" -eq 0 ]]; then
+  echo ">>> Removing unwanted applications ...."
+  sudo apt auto-remove -y
+fi
+clear
