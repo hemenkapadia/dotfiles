@@ -24,7 +24,7 @@ if [[ "$?" -eq 0 ]]; then
   sudo apt install -y dialog tree wget curl snapd openssl \
                       python3 python3-virtualenv python3-pip \
                       apt-transport-https ca-certificates gnupg-agent \
-                      software-properties-common
+                      software-properties-common net-tools
 fi
 clear
 
@@ -59,6 +59,7 @@ options=(
   15  "Slack" off
   16  "Mailspring" off
   17  "MineTime" off
+  18  "VPN and Gnome Network Manager" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -177,6 +178,7 @@ for choice in $choices; do
       sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
       sudo apt-get update
       sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+      sudo usermod -a -G docker
       echo "Docker installation completed."
       ;;
     12) # Installing NodeJS LTS using n 
@@ -239,6 +241,13 @@ for choice in $choices; do
       popd
       rm -rf /tmp/minetime
       echo "Minetime installation completed."
+      echo ""
+      ;;
+    18) # Installing VPN and Gnome Network Manager
+      echo ""
+      echo "Installing VPN...."
+      sudo apt install -y vpnc vpnc-connect network-manager-vpnc-gnome
+      echo "VPN installation completed. You will need to configure VPN connection yourself."
       echo ""
       ;;
     *)
