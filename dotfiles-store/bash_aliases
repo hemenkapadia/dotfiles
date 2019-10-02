@@ -6,6 +6,8 @@
 
 # Command aliases
 alias vi=vim
+# dotdrop
+alias global-dotdrop="dotdrop --cfg $HOME/dotfiles/config-global.yaml"
 
 # Directory aliases
 alias cdo="cd $HOME/Workspace/Office"

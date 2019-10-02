@@ -1,0 +1,12 @@
+config:
+  backup: true
+  banner: false
+  create: true
+  dotpath: dotfiles-global-store
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: true
+  workdir: ~/.config/dotdrop-global
+dotfiles:
+profiles:
