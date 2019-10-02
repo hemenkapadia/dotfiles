@@ -1,0 +1,5 @@
+" Remap keys for a more ergonomic hand placement on the keyboard
+noremap ; l
+noremap l k
+noremap k j
+noremap j h

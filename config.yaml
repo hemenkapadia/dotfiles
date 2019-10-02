@@ -33,6 +33,9 @@ dotfiles:
   f_install_script.sh:
     src: install_script.sh
     dst: ~/install_script.sh
+  f_vimrc:
+    src: vimrc
+    dst: ~/.vimrc
 profiles:
   worklaptop:
     dotfiles:
@@ -44,3 +47,4 @@ profiles:
     - f_profile
     - f_bash_logout
     - f_install_script.sh
+    - f_vimrc
