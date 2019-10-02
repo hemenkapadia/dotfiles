@@ -60,6 +60,7 @@ options=(
   16  "Mailspring" off
   17  "MineTime" off
   18  "VPN and Gnome Network Manager" off
+  19  "Touchpad Indicator" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -248,6 +249,15 @@ for choice in $choices; do
       echo "Installing VPN...."
       sudo apt install -y vpnc vpnc-connect network-manager-vpnc-gnome
       echo "VPN installation completed. You will need to configure VPN connection yourself."
+      echo ""
+      ;;
+    19) # Installing Touchpad Indicator
+      echo ""
+      echo "Installing Touchpad Indicator...."
+      sudo add-apt-repository ppa:atareao/atareao
+      sudo apt-get update
+      sudo apt install -y touchpad-indicator
+      echo "Touchpad indicator installation completed."
       echo ""
       ;;
     *)
