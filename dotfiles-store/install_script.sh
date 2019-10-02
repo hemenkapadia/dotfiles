@@ -56,6 +56,9 @@ options=(
   12  "NodeJS LTS using n-install" off
   13  "Ubuntu Restricted Extras" off
   14  "Jetbrains Toolbox" off
+  15  "Slack" off
+  16  "Mailspring" off
+  17  "MineTime" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -155,7 +158,7 @@ for choice in $choices; do
       echo "Installing VirtualBox...."
       wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
       wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
-      sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib"
+      sudo add-apt-repository "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib"
       sudo apt-get update
       sudo apt-get install -y virtualbox-6.0
       echo "VirtualBox installation completed."
@@ -200,6 +203,42 @@ for choice in $choices; do
       popd
       rm -rf /tmp/jetbrains
       echo "Jetbrains installation completed."
+      echo ""
+      ;;
+    15) # Installing Slack
+      echo ""
+      echo "Installing Slack...."
+      mkdir -p /tmp/slack
+      pushd /tmp/slack
+      wget https://downloads.slack-edge.com/linux_releases/slack-desktop-4.0.2-amd64.deb
+      sudo dpkg -i slack*.deb
+      popd
+      rm -rf /tmp/slack
+      echo "Slack installation completed."
+      echo ""
+      ;;
+    16) # Installing Mailspring 
+      echo ""
+      echo "Installing Mailspring...."
+      mkdir -p /tmp/mailspring
+      pushd /tmp/mailspring
+      curl -L https://updates.getmailspring.com/download?platform=linuxDeb --output mailspring.deb
+      sudo dpkg -i mailspring.deb
+      popd
+      rm -rf /tmp/mailspring
+      echo "Mailspring installation completed."
+      echo ""
+      ;;
+    17) # Installing MineTime 
+      echo ""
+      echo "Installing MineTime...."
+      mkdir -p /tmp/minetime
+      pushd /tmp/minetime
+      curl -L https://minetime-deploy.herokuapp.com/download/linux_deb_64 --output minetime.deb
+      sudo dpkg -i minetime.deb
+      popd
+      rm -rf /tmp/minetime
+      echo "Minetime installation completed."
       echo ""
       ;;
     *)
