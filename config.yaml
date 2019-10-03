@@ -36,6 +36,9 @@ dotfiles:
   f_vimrc:
     src: vimrc
     dst: ~/.vimrc
+  f_ideavimrc:
+    src: ideavimrc
+    dst: ~/.ideavimrc
 profiles:
   worklaptop:
     dotfiles:
@@ -48,3 +51,4 @@ profiles:
     - f_bash_logout
     - f_install_script.sh
     - f_vimrc
+    - f_ideavimrc
