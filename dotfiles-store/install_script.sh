@@ -67,6 +67,7 @@ options=(
   22  "dbeaver Community - Databse Tool" off
   23  "hid_apple patch for magic keyboard" off
   24  "Zoom Meetings App" off
+  25  "OpenJDK 8" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -335,6 +336,13 @@ for choice in $choices; do
       popd
       rm -rf /tmp/zoom
       echo "Zoom installation completed."
+      echo ""
+      ;;
+    25) # Installing OpenJDK 8
+      echo ""
+      echo "Installing OpenJDK 8...."
+      sudo apt install -y openjdk-8-jdk 
+      echo "OpenJDK 8 installation completed."
       echo ""
       ;;
     *)
