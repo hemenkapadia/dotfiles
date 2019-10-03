@@ -24,7 +24,8 @@ if [[ "$?" -eq 0 ]]; then
   sudo apt install -y dialog tree wget curl snapd openssl \
                       python3 python3-virtualenv python3-pip \
                       apt-transport-https ca-certificates gnupg-agent \
-                      software-properties-common net-tools
+                      software-properties-common net-tools wmctrl \
+                      htop
 fi
 clear
 
