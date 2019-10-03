@@ -1,0 +1,250 @@
+# Bash functions sourced .bashrc
+
+# There could be some aliases and env variables declared here in order to keep them closer
+# to the code using them
+
+
+# Generic Utility functions
+function spdr {
+  source activate base; spyder &
+}
+
+function enabletouchpad {
+  touchid=$(xinput list | grep 'Touchpad' | grep -P -o 'id=[0-9]+' | cut -d '=' -f 2)
+  xinput set-prop $touchid "Device Enabled" 1
+}
+
+# SSH Agent configuration
+# File to store the SSH Agent environment
+SSH_ENV=$HOME/.ssh/environment
+# start the ssh-agent
+function start_agent {
+    echo "Initializing new SSH agent..."
+    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+    echo "Agent started...."
+    
+    # Source environment, which sets SSH_AGENT_PID in the current environment
+    chmod 600 "${SSH_ENV}"
+    . "${SSH_ENV}" > /dev/null
+    
+    # Adding keys to ssh agent
+    find ~/.ssh -type f -name *id_rsa -exec /usr/bin/ssh-add {} \;
+}
+# Do not start SSH Agent if SSH agent is still running as the same PID 
+# as the one stored in the environment
+if [ -f "${SSH_ENV}" ]; then
+     . "${SSH_ENV}" > /dev/null
+         ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+            start_agent;
+        }
+else
+    start_agent;
+fi
+
+# Window Manager funtions
+# wmctrl -e flag takes option in format Gravity, X,Y , Width, Height of the window
+function devdesk {
+  display_count=$(xrandr --query | grep '\bconnected\b' | wc -l)
+  if [[ $display_count -eq 1 ]]; then
+    wmctrl -r 'PyCharm' -e '0,5,20,1350,1310'
+    wmctrl -r 'IntelliJ IDEA' -e '0,5,20,1350,1310'
+    wmctrl -r 'Visual Studio Code' -e '0,5,20,1350,1310'
+    wmctrl -r 'Mailspring' -e '0,5,1470,1350,1310'
+    wmctrl -r '0xdata Mail' -e '0,5,1470,1350,1310'
+    wmctrl -r 'Mozilla Firefox' -e '0,1370,20,1180,635'
+    wmctrl -r 'Slack' -e '0,1370,1470,1180,635'
+    wmctrl -r 'Terminal' -e '0,1370,710,1180,635'
+    wmctrl -r 'MineTime' -e '0,1370,2140,1180,635'
+  elif [[ $display_count -eq 2 ]]; then
+    wmctrl -r 'PyCharm' -e '0,2570,30,1850,2034'
+    wmctrl -r 'IntelliJ IDEA' -e '0,2570,30,1850,2034'
+    wmctrl -r 'Visual Studio Code' -e '0,2750,30,1850,2034'
+    wmctrl -r 'Mailspring' -e '0,5,470,1300,1310'
+    wmctrl -r '0xdata Mail' -e '0,5,470,1300,1310'
+    wmctrl -r 'Mozilla Firefox' -e '0,4430,30,1960,1290'
+    wmctrl -r 'MineTime' -e '0,1320,1130,1230,650'
+    wmctrl -r 'Slack' -e '0,1320,470,1230,630'
+    wmctrl -r 'Terminal' -e '0,4430,1360,1960,707'
+  fi  
+}
+
+function ruindesk {
+  wmctrl -r 'PyCharm' -e '0,10,650,230,350'
+  wmctrl -r 'IntelliJ IDEA' -e '0,10,650,230,350'
+  wmctrl -r 'Visual Studio Code' -e '0,300,650,230,350'
+  wmctrl -r 'Mailspring' -e '0,1300,50,230,350'
+  wmctrl -r '0xdata Mail' -e '0,1300,50,230,350'
+  wmctrl -r 'Mozilla Firefox' -e '0,800,650,230,350'
+  wmctrl -r 'Slack' -e '0,800,50,230,350'
+  wmctrl -r 'Terminal' -e '0,1300,650,230,350'
+  wmctrl -r 'MineTime' -e '0,10,50,230,350'
+}
+
+function rd {
+  ruindesk
+  devdesk
+}
+
+
+# git functions
+# git refresh remote branch list
+function grrbl {
+  git remote update origin --prune
+}
+
+
+# Driverless AI functions
+function builddai {
+  cd ~/Workspace/Office/Codebases/h2oai
+  . env/bin/activate
+  chmod -R a+w /home/hemen/Workspace/Office/Codebases/h2oai/env/lib/python3.6/site-packages
+  make fullinstall
+}
+
+function rundai {
+  cd ~/Workspace/Office/Codebases/h2oai
+  . env/bin/activate
+  export DRIVERLESS_AI_MLI_STRICT_VERSION_CHECK=false
+  deps/procsy &> procsy.out & 
+  java -jar vis-data-server.jar &> vis-data-server.out & 
+  java -jar h2o.jar &> h2o.out & 
+#  CUDA_VISIBLE_DEVICES=  python -m h2oai
+  DRIVERLESS_AI_LIST_FILES_WITHOUT_EXTENSIONS=true CUDA_VISIBLE_DEVICES=  python -m h2oai
+}
+
+function killdai {
+  pkill --signal 9 -f -u $USER 'procsy|h2o.jar|vis-data-server.jar'
+}
+
+
+# Docker functions
+
+# Container
+function dcl {
+  docker container ls -a
+}
+function dcrm {
+  docker container rm $(docker container ls -aq)
+}
+function dcs {
+  count=$(docker container ls | grep -c $1)
+  [[ $count -eq 0 ]] && { echo "No docker containers match pattern"; return 1; }
+  [[ $count -gt 1 ]] && { echo "More than 1 docker containers match pattern"; return 1; }
+  c_label=$(docker container ls | grep "${1}" | cut -d " " -f 1)
+  [[ -z "${c_label}" ]] && { echo "Container pattern matching failed"; return 1; }
+  docker container stop "${c_label}"
+}
+
+# Image
+function dil {
+  docker image ls $1 
+}
+
+# Volume
+function dvl {
+  docker volume ls
+}
+function dvi {
+  count=$(docker volume ls | grep -c $1)
+  [[ $count -eq 0 ]] && { echo "No docker volumes match pattern"; return 1; }
+  [[ $count -gt 1 ]] && { echo "More than 1 docker volumes match pattern"; return 1; }
+  vol_label=$(docker volume ls | grep "${1}" | cut -d " " -f 16)
+  [[ -z "${vol_label}" ]] && { echo "Volumes pattern matching failed"; return 1; }
+  docker volume inspect "${vol_label}"
+}
+function dvpr {
+  docker volume prune
+}
+ 
+
+# PWC audit AI specific STAR
+export PWC_ROOT='/home/hemen/Workspace/Office/Customers/PwC'
+export AUDIT_API="${PWC_ROOT}/audit-api"
+export AUDIT_FE="${PWC_ROOT}/audit-ai-fe"
+export AUDIT_DATA_ENTRY="${PWC_ROOT}/audit-data-entry"
+
+# functions to build audit.ai components
+function build_audit_api {
+  cd ${AUDIT_API} && ./gradlew clean build 
+}
+
+# functions to run audit.ai components
+function start_audit_db { 
+  echo '> Starting local postgres container'
+  cd ${AUDIT_API} && docker run -d --name auditai_pglocal -v ${AUDIT_API}/etc/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql -p 5432:5432 -e POSTGRES_PASSWORD=password postgres:9.6
+  echo '> Started'
+}
+
+function start_audit_api {
+  cd ${AUDIT_API} && \
+  SPRING_JPA_HIBERNATE_DDL_AUTO=update\
+  SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/postgres\
+  SPRING_DATASOURCE_USERNAME=postgres\
+  SPRING_DATASOURCE_PASSWORD=password\
+  SPRING_PROFILES_ACTIVE=dev\
+  GOOGLE_APPLICATION_CREDENTIALS=${AUDIT_API}/etc/pubsub/dev-pubsub.key\
+  GOOGLE_CLOUD_PROJECT=fake_project\
+  CLIENT_ID=client_id\
+  CLIENT_SECRET=client_secret\
+  ACCESS_URL=access_url\
+  REDIRECT_URI=redirect_uri\
+  DATA_ENTRY_CLIENT_ID=data_entry_client_id\
+  DATA_ENTRY_CLIENT_SECRET=data_entry_client_secret\
+  DATA_ENTRY_ACCESS_URL=data_entry_access_url\
+  DATA_ENTRY_REDIRECT_URI=data_entry_redirect_uri\
+  DATA_ENTRY_URL=data_entry_url\
+  IDAM_TOKEN_HOST=fedsvc-dev.pwc.com\
+  IDAM_KEY_PATH=file:${AUDIT_API}/etc/idam/idam-dev.pub\
+  SERVER_SSL_ENABLED=false\
+  SERVER_PORT=8080\
+  SERVICE_AUTH_TOKEN=service_token\
+  CORS_ORIGINS="http://localhost:4201 http://localhost:4200"\
+  JSON_WEB_KEY="{'kty': 'oct','use': 'enc','kid': '1','k': 'ItmHtbB7G0r8H_AuHWzkuOzMUajKmkos-Zhx6OCAzFI','alg': 'HS512'}"\
+  QUARTZ_REQUIREMENTSTATUS_CRON='0 0 0/1 * * ?'\
+  JAVA_OPTS='-Xmx2g -Xms2g'\
+  java -jar build/libs/audit.jar
+} 
+
+function start_audit_fe {
+  cd ${AUDIT_FE} && ng serve
+}
+
+function start_audit_de {
+  cd ${AUDIT_DATA_ENTRY} && ng serve --port 4201
+}
+
+# function for audit.ai utilities.
+function start_cloud_pg {
+  cd ${AUDIT_API}
+  echo '> Starting cloud proxy container'
+  docker run -d --name auditai_proxy -v /tmp:/cloudsql -v ${AUDIT_API}/etc/cloudsql/config:/config -p 127.0.0.1:5435:5432 gcr.io/cloudsql-docker/gce-proxy:1.12 /cloud_sql_proxy -instances=pg-uk-n-app-869549:europe-west1:simple-uploader=tcp:0.0.0.0:5432 -credential_file=/config/pg-uk-n-app-869549-gad-terraform.json
+}
+
+function stop_cloud_pg {
+  docker container stop auditai_proxy && docker container rm auditai_proxy
+}
+
+function dump_cloud_pg {
+  cd ${AUDIT_API}
+  # stop postgres container
+  echo '> Stopping local postgres container'
+  docker container stop auditai_pglocal && docker container rm auditai_pglocal 
+  echo '> Stopped'
+  # start the cloud PostgreSQL proxy container
+  echo '> Starting cloud proxy container'
+  docker run -d --name auditai_proxy -v /tmp:/cloudsql -v ${AUDIT_API}/etc/cloudsql/config:/config -p 127.0.0.1:5435:5432 gcr.io/cloudsql-docker/gce-proxy:1.12 /cloud_sql_proxy -instances=pg-uk-n-app-869549:europe-west1:simple-uploader=tcp:0.0.0.0:5432 -credential_file=/config/pg-uk-n-app-869549-gad-terraform.json && \
+  sleep 10 && echo '> Starting data dump...You will be prompted for cloud postgres password. Contact Jeff/Justin if you dont have it.' && \
+  pg_dump --file=${AUDIT_API}/etc/postgres/init.sql --dbname=postgres --schema=public --username=postgres --host=localhost --port=5435 && \
+  sed -i -e 's/CREATE SCHEMA/--CREATE SCHEMA/' ${AUDIT_API}/etc/postgres/init.sql && \
+  sed -i -e 's/ALTER SCHEMA/--ALTER SCHEMA/' ${AUDIT_API}/etc/postgres/init.sql && \
+  sed -i -e 's/REVOKE ALL ON SCHEMA public FROM cloudsqladmin/--REVOKE ALL ON SCHEMA public FROM cloudsqladmin/' ${AUDIT_API}/etc/postgres/init.sql && \
+  sed -i -e 's/GRANT ALL ON SCHEMA public TO cloudsqlsuperuser/--GRANT ALL ON SCHEMA public TO cloudsqlsuperuser/' ${AUDIT_API}/etc/postgres/init.sql
+  echo '> Data dumped successfully'
+  echo '> Stopping cloud proxy container'
+  docker container stop auditai_proxy && docker container rm auditai_proxy
+  echo '> Stopped'
+  start_audit_db 
+}
+
+alias audit_typescript='cd $AUDIT_API && cp src/test/resources/approved/models.ts $AUDIT_FE/src/app/models.ts'
+# PWC audit AI specific END 
