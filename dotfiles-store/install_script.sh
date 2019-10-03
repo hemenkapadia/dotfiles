@@ -63,6 +63,8 @@ options=(
   19  "Touchpad Indicator" off
   20  "Tmux, powerline" off
   21  "Libreoffice" off
+  22  "dbeaver Community - Databse Tool" off
+  23  "hid_apple patch for magic keyboard" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -283,6 +285,44 @@ for choice in $choices; do
       echo "Libreoffice installation completed."
       echo ""
       ;;
+    22) # Installing DBeaver
+      echo ""
+      echo "Installing dbeaver...."
+      mkdir -p /tmp/dbeaver
+      pushd /tmp/dbeaver
+      curl -L https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb --output dbeaver.deb
+      sudo dpkg -i dbeaver.deb
+      popd
+      rm -rf /tmp/dbeaver
+      echo "DBeaver installation completed."
+      echo ""
+      ;;
+    23) # Installing Apple Magic Keyboard config kernel module
+      echo ""
+      echo "Installing dkms..."
+      sudo apt install dkms
+      echo "Installing hid_apple patched...."
+      mkdir -p /tmp/magickb
+      pushd /tmp/magickb
+      git clone https://github.com/free5lot/hid-apple-patched
+      pushd hid-apple-patched
+      sudo dkms add .
+      sudo dkms build hid-apple/1.0
+      sudo dkms install hid-apple/1.0
+      echo "Creating /etc/modprobe.d/hid_apple.conf file...."
+      echo "options hid_apple fnmode=2" | sudo tee /etc/modprobe.d/hid_apple.conf
+      echo "options hid_apple swap_fn_leftctrl=1" | sudo tee -a /etc/modprobe.d/hid_apple.conf
+      echo "options hid_apple swap_opt_cmd=1" | sudo tee -a /etc/modprobe.d/hid_apple.conf
+      echo "options hid_apple rightalt_as_rightctrl=1" | sudo tee -a /etc/modprobe.d/hid_apple.conf
+      echo "options hid_apple ejectcd_as_delete=1" | sudo tee -a /etc/modprobe.d/hid_apple.conf
+      sudo update-initramfs -u
+      popd
+      popd
+      # rm -rf /tmp/magickb
+      echo "Installallation of hid_apple patched completed...."
+      echo "Please reboot your machine."
+      echo ""
+      ;;
     *)
       # Default Option
       echo "Hmm ... nothing to do here"
@@ -291,10 +331,10 @@ for choice in $choices; do
 done
 
 # Check if autoremove is needed
-dialog --title "Auto Remove? " \
-  --yesno "Do you want to run apt auto-remove ?" 8 45
-if [[ "$?" -eq 0 ]]; then
-  echo ">>> Removing unwanted applications ...."
-  sudo apt auto-remove -y
-fi
-clear
+# dialog --title "Auto Remove? " \
+#   --yesno "Do you want to run apt auto-remove ?" 8 45
+# if [[ "$?" -eq 0 ]]; then
+#   echo ">>> Removing unwanted applications ...."
+#   sudo apt auto-remove -y
+# fi
+# clear
