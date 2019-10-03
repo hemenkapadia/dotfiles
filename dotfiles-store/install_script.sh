@@ -62,6 +62,7 @@ options=(
   18  "VPN and Gnome Network Manager" off
   19  "Touchpad Indicator" off
   20  "Tmux, powerline" off
+  21  "Libreoffice" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -273,6 +274,13 @@ for choice in $choices; do
       echo "Configuring Powerline for terminal...."
       echo ". /usr/share/powerline/bindings/bash/powerline.sh" >> ~/.bashrc
       echo "Tmux and Powerline installation completed."
+      echo ""
+      ;;
+    21) # Installing Libreoffice
+      echo ""
+      echo "Installing Libreoffice...."
+      sudo apt install -y libreoffice 
+      echo "Libreoffice installation completed."
       echo ""
       ;;
     *)

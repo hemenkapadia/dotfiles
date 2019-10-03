@@ -3,6 +3,8 @@ noremap ; l
 noremap l k
 noremap k j
 noremap j h
+
+" Powerline setup
 set laststatus=2
 python3 from powerline.vim import setup as powerline_setup
 python3 powerline_setup()
