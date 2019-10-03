@@ -65,6 +65,7 @@ options=(
   21  "Libreoffice" off
   22  "dbeaver Community - Databse Tool" off
   23  "hid_apple patch for magic keyboard" off
+  24  "Zoom Meetings App" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -318,9 +319,21 @@ for choice in $choices; do
       sudo update-initramfs -u
       popd
       popd
-      # rm -rf /tmp/magickb
+      rm -rf /tmp/magickb
       echo "Installallation of hid_apple patched completed...."
       echo "Please reboot your machine."
+      echo ""
+      ;;
+    24) # Installing Zoom Meeting
+      echo ""
+      echo "Installing zoom meeting app...."
+      mkdir -p /tmp/zoom
+      pushd /tmp/zoom
+      curl -L https://zoom.us/client/latest/zoom_amd64.deb --output zoom.deb
+      sudo apt install ./zoom.deb
+      popd
+      rm -rf /tmp/zoom
+      echo "Zoom installation completed."
       echo ""
       ;;
     *)
@@ -330,11 +343,18 @@ for choice in $choices; do
   esac
 done
 
+# Run fixbroken install?
+dialog --title "Fix Broken? " \
+  --yesno "Do you want to run apt --fix-broken install ?" 8 45
+if [[ "$?" -eq 0 ]]; then
+  echo ">>> Fixing broken install applications ...."
+  sudo apt --fix-broken -y install
+fi
+
 # Check if autoremove is needed
-# dialog --title "Auto Remove? " \
-#   --yesno "Do you want to run apt auto-remove ?" 8 45
-# if [[ "$?" -eq 0 ]]; then
-#   echo ">>> Removing unwanted applications ...."
-#   sudo apt auto-remove -y
-# fi
-# clear
+dialog --title "Auto Remove? " \
+  --yesno "Do you want to run apt auto-remove ?" 8 45
+if [[ "$?" -eq 0 ]]; then
+  echo ">>> Removing unwanted applications ...."
+  sudo apt auto-remove -y
+fi
