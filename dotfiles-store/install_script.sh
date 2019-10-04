@@ -68,6 +68,7 @@ options=(
   23  "hid_apple patch for magic keyboard" off
   24  "Zoom Meetings App" off
   25  "OpenJDK 8" off
+  26  "Adapta theme" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -342,6 +343,15 @@ for choice in $choices; do
       echo ""
       echo "Installing OpenJDK 8...."
       sudo apt install -y openjdk-8-jdk 
+      echo "OpenJDK 8 installation completed."
+      echo ""
+      ;;
+    26) # Installing Adapta Theme
+      echo ""
+      echo "Installing Adapta Theme...."
+      sudo apt-add-repository ppa:tista/adapta -y
+      suao apt-get update
+      sudo apt install -y adapta-gtk-theme
       echo "OpenJDK 8 installation completed."
       echo ""
       ;;
