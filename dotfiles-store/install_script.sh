@@ -59,7 +59,7 @@ options=(
   14  "Jetbrains Toolbox" off
   15  "Slack" off
   16  "Mailspring" off
-  17  "MineTime" off
+  17  "Gnome Calendar" off
   18  "VPN and Gnome Network Manager" off
   19  "Touchpad Indicator" off
   20  "Tmux, powerline" off
@@ -240,16 +240,11 @@ for choice in $choices; do
       echo "Mailspring installation completed."
       echo ""
       ;;
-    17) # Installing MineTime 
+    17) # Installing Gnome Calendar 
       echo ""
-      echo "Installing MineTime...."
-      mkdir -p /tmp/minetime
-      pushd /tmp/minetime
-      curl -L https://minetime-deploy.herokuapp.com/download/linux_deb_64 --output minetime.deb
-      sudo dpkg -i minetime.deb
-      popd
-      rm -rf /tmp/minetime
-      echo "Minetime installation completed."
+      echo "Installing Gnome Calendar...."
+      sudo apt install -y gnome-calendar
+      echo "Gnome Calendar installation completed."
       echo ""
       ;;
     18) # Installing VPN and Gnome Network Manager
@@ -350,9 +345,9 @@ for choice in $choices; do
       echo ""
       echo "Installing Adapta Theme...."
       sudo apt-add-repository ppa:tista/adapta -y
-      suao apt-get update
+      sudo apt-get update
       sudo apt install -y adapta-gtk-theme
-      echo "OpenJDK 8 installation completed."
+      echo "Adapta theme installation completed."
       echo ""
       ;;
     *)
