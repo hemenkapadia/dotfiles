@@ -5,6 +5,9 @@
 # If already cached, increase sudo timeout by 5 min
 sudo -v && exit 1 'Sudo access needed to execute this script'
 
+# Check if dialog is installed. If not, install it.
+dialog -v || sudo apt install -y dialog
+
 # First update
 # Check if update is needed
 dialog --title "Update" \
@@ -21,7 +24,7 @@ dialog --title "Install dependencies" \
 if [[ "$?" -eq 0 ]]; then
   # Install base dependencies
   echo ">>> Installing base dependencies ...."
-  sudo apt install -y dialog tree wget curl snapd openssl \
+  sudo apt install -y tree wget curl snapd openssl \
                       python3 python3-virtualenv python3-pip \
                       apt-transport-https ca-certificates gnupg-agent \
                       software-properties-common net-tools wmctrl \
