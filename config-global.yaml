@@ -12,7 +12,11 @@ dotfiles:
   f_etc_docker_daemon.json:
     src: etc/docker/daemon.json
     dst: /etc/docker/daemon.json
+  f_etc_sysctl.d_60-idea.conf:
+    src: etc/sysctl.d/60-idea.conf
+    dst: /etc/sysctl.d/60-idea.conf
 profiles:
   worklaptop:
     dotfiles:
     - f_etc_docker_daemon.json
+    - f_etc_sysctl.d_60-idea.conf
