@@ -72,6 +72,7 @@ options=(
   24  "Zoom Meetings App" off
   25  "OpenJDK 8" off
   26  "Adapta theme" off
+  27  "Lazydocker" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -351,6 +352,13 @@ for choice in $choices; do
       sudo apt-get update
       sudo apt install -y adapta-gtk-theme
       echo "Adapta theme installation completed."
+      echo ""
+      ;;
+    27) # Installing Lazydocker
+      echo ""
+      echo "Installing Lazydocker ...."
+      curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+      echo "Lazydocker installation completed."
       echo ""
       ;;
     *)
