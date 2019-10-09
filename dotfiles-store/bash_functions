@@ -42,17 +42,26 @@ else
 fi
 
 # Window Manager funtions
+function infodesk {
+  deskdim=$(xdotool getdisplaygeometry)
+  echo "Screen Dimensions: ${deskdim}"
+  echo "Window List:"
+  wmctrl -lG
+  echo "Window Dimensions:"
+  wmctrl -l | cut -d ' ' -f 1 | xargs -t -n1 xdotool getwindowgeometry
+}
+
 # wmctrl -e flag takes option in format Gravity, X,Y , Width, Height of the window
 function devdesk {
   display_count=$(xrandr --query | grep '\bconnected\b' | wc -l)
   if [[ $display_count -eq 1 ]]; then
-    wmctrl -r '/Workspace/' -e '0,10,90,1350,1310'
-    wmctrl -r 'Visual Studio Code' -e '0,10,90,1350,1310'
-    wmctrl -r 'Mozilla Firefox' -e '0,1375,90,1180,635'
-    wmctrl -r 'Terminal' -e '0,1375,770,1180,635'
-    wmctrl -r 'Mailspring' -e '0,5,1470,1350,1310'
-    wmctrl -r 'Slack' -e '0,1370,1470,1180,635'
-    wmctrl -r 'Calendar' -e '0,1370,2140,1180,635'
+    wmctrl -r '/Workspace/' -t 0 -e '0,10,35,1350,1310'
+    wmctrl -r 'Visual Studio Code' -t 0 -e '0,10,35,1350,1310'
+    wmctrl -r 'Mozilla Firefox' -t 0 -e '0,1365,35,1180,808'
+    wmctrl -r 'Terminal' -t 0 -e '0,1365,875,1180,485'
+    wmctrl -r 'Mailspring' -t 1 -e '0,10,35,1350,1310'
+    wmctrl -r 'Slack' -t 1 -e '0,1365,35,1180,785'
+    wmctrl -r 'Calendar' -t 1 -e '0,1328,822,1253,485'
   elif [[ $display_count -eq 2 ]]; then
     wmctrl -r '/Workspace/' -e '0,2570,30,1850,2034'
     wmctrl -r 'Visual Studio Code' -e '0,2750,30,1850,2034'
@@ -65,13 +74,13 @@ function devdesk {
 }
 
 function ruindesk {
-  wmctrl -r '/Workspace/' -e '0,10,650,230,350'
-  wmctrl -r 'Visual Studio Code' -e '0,300,650,230,350'
-  wmctrl -r 'Mozilla Firefox' -e '0,800,650,230,350'
-  wmctrl -r 'Terminal' -e '0,1300,650,230,350'
-  wmctrl -r 'Mailspring' -e '0,1300,50,230,350'
-  wmctrl -r 'Calendar' -e '0,10,50,230,350'
-  wmctrl -r 'Slack' -e '0,800,50,230,350'
+  wmctrl -r '/Workspace/' -t 0 -e '0,10,650,230,350'
+  wmctrl -r 'Visual Studio Code' -t 0 -e '0,300,650,230,350'
+  wmctrl -r 'Mozilla Firefox' -t 0 -e '0,800,650,230,350'
+  wmctrl -r 'Terminal' -t 0 -e '0,1300,650,230,350'
+  wmctrl -r 'Mailspring' -t 1 -e '0,1300,50,230,350'
+  wmctrl -r 'Slack' -t 1 -e '0,800,50,230,350'
+  wmctrl -r 'Calendar' -t 1 -e '0,10,50,230,350'
 }
 
 function rd {
