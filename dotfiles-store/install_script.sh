@@ -28,7 +28,7 @@ if [[ "$?" -eq 0 ]]; then
                       python3 python3-virtualenv python3-pip \
                       apt-transport-https ca-certificates gnupg-agent \
                       software-properties-common net-tools wmctrl \
-                      htop shellcheck
+                      htop shellcheck xdotool
 fi
 clear
 
