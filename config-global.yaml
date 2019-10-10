@@ -20,3 +20,5 @@ profiles:
     dotfiles:
     - f_etc_docker_daemon.json
     - f_etc_sysctl.d_60-idea.conf
+  homelaptop:
+    dotfiles:

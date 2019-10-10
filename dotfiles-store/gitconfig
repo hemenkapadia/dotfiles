@@ -1,3 +1,6 @@
 [user]
-	name = Hemen Kapadia
-	email = hemen.kapadia@gmail.com
+  name = Hemen Kapadia
+  email = hemen.kapadia@gmail.com
+
+[core]
+  autocrlf = input
