@@ -39,6 +39,9 @@ dotfiles:
   f_ideavimrc:
     src: ideavimrc
     dst: ~/.ideavimrc
+  f_vim_colors_solarized.vim:
+    src: vim/colors/solarized.vim
+    dst: ~/.vim/colors/solarized.vim
 profiles:
   worklaptop:
     dotfiles:
@@ -52,6 +55,7 @@ profiles:
     - f_install_script.sh
     - f_vimrc
     - f_ideavimrc
+    - f_vim_colors_solarized.vim
   homelaptop:
     dotfiles:
     - f_gitconfig
