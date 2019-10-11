@@ -74,6 +74,7 @@ options=(
   26  "Adapta theme" off
   27  "Lazydocker" off
   28  "Gitbatch" off
+  29  "Spotify Client" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -373,6 +374,15 @@ for choice in $choices; do
       popd
       rm -rf /tmp/gitbatch
       echo "Gitbatch installation completed."
+      echo ""
+      ;;
+    29) # Installing Spotify Client 
+      echo ""
+      echo "Installing Spotify Client...."
+      curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add - 
+      echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+      sudo apt-get update && sudo apt install -y spotify-client 
+      echo "Spotify Client installation completed."
       echo ""
       ;;
     *)
