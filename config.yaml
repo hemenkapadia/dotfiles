@@ -55,4 +55,8 @@ profiles:
   homelaptop:
     dotfiles:
     - f_gitconfig
+    - f_profile
+    - f_bash_logout
     - f_install_script.sh
+    - f_vimrc
+    - f_ideavimrc
