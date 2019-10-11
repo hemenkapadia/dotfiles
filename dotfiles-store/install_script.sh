@@ -73,6 +73,7 @@ options=(
   25  "OpenJDK 8" off
   26  "Adapta theme" off
   27  "Lazydocker" off
+  28  "Gitbatch" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -359,6 +360,19 @@ for choice in $choices; do
       echo "Installing Lazydocker ...."
       curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
       echo "Lazydocker installation completed."
+      echo ""
+      ;;
+    28) # Installing Gitbatch 
+      echo ""
+      echo "Installing gitbatch...."
+      mkdir -p /tmp/gitbatch
+      pushd /tmp/gitbatch
+      curl -OL https://github.com/isacikgoz/gitbatch/releases/download/v0.5.0/gitbatch_0.5.0_linux_amd64.tar.gz
+      tar xzf gitbatch_0.5.0_linux_amd64.tar.gz
+      sudo mv gitbatch /usr/local/bin
+      popd
+      rm -rf /tmp/gitbatch
+      echo "Gitbatch installation completed."
       echo ""
       ;;
     *)
