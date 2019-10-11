@@ -55,3 +55,4 @@ profiles:
   homelaptop:
     dotfiles:
     - f_gitconfig
+    - f_install_script.sh
