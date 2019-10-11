@@ -56,6 +56,19 @@ profiles:
     - f_vimrc
     - f_ideavimrc
     - f_vim_colors_solarized.vim
+  workremote:
+    dotfiles:
+    - f_gitconfig
+    - f_bashrc
+    - f_bash_envvars
+    - f_bash_aliases
+    - f_bash_functions
+    - f_profile
+    - f_bash_logout
+    - f_install_script.sh
+    - f_vimrc
+    - f_ideavimrc
+    - f_vim_colors_solarized.vim
   homelaptop:
     dotfiles:
     - f_gitconfig
