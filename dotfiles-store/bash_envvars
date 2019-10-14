@@ -5,7 +5,10 @@ export LS_COLORS="no=00;38:rs=0:di=00;38;5;33:ln=01;38;5;37:mh=00:pi=48;5;230;38
 
 
 # dotdrop variables
-export DOTDROP_PROFILE="worklaptop"
+if [ -f "$HOME/dotfiles/dotdrop_profile" ]; then
+    DOTDROP_PROFILE=$(cat "$HOME/dotfiles/dotdrop_profile")
+    export DOTDROP_PROFILE
+fi
 export DOTDROP_CONFIG="$HOME/dotfiles/config.yaml"
 
 # Added by n-install (see http://git.io/n-install-repo).
