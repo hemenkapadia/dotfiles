@@ -75,6 +75,7 @@ options=(
   27  "Lazydocker" off
   28  "Gitbatch" off
   29  "Spotify Client" off
+  30  "Minetime" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -383,6 +384,18 @@ for choice in $choices; do
       echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
       sudo apt-get update && sudo apt install -y spotify-client 
       echo "Spotify Client installation completed."
+      echo ""
+      ;;
+    30) # Installing Minetime 
+      echo ""
+      echo "Installing Minetime...."
+      mkdir -p /tmp/minetime
+      pushd /tmp/minetime
+      curl -L https://minetime-deploy.herokuapp.com/download/linux_deb_64 --output minetime.deb
+      sudo dpkg -i minetime.deb
+      popd
+      rm -rf /tmp/minetime
+      echo "Minetime installation completed."
       echo ""
       ;;
     *)
