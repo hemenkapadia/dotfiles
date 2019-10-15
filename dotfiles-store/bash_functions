@@ -68,9 +68,9 @@ function devdesk {
     wmctrl -r 'Mozilla Firefox' -e '0,1365,35,1180,808'
     wmctrl -r 'Terminal' -e '0,1365,875,1180,485'
     wmctrl -r 'Mailspring' -e '0,10,35,1350,1310'
-    wmctrl -r 'Slack' -e '0,1365,35,1180,785'
+    wmctrl -r 'Slack' -e '0,1365,35,1180,590'
     # wmctrl -r 'Calendar' -e '0,1328,822,1253,485'
-    wmctrl -r 'Minetime' -e '0,1365,822,1253,485'
+    wmctrl -r 'MineTime' -e '0,1365,660,1180,685'
   elif [[ $display_count -eq 2 ]]; then
     wmctrl -r '/Workspace/' -t 0
     wmctrl -r 'Visual Studio Code' -t 0
