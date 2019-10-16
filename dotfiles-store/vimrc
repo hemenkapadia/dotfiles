@@ -8,10 +8,10 @@ set numberwidth=4
 set ignorecase smartcase
 
 " Set tab settings
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set expandtab
-
+    
 " Navigation Configuration
 " Normal Model navigation keys for ergonomic hand placement
 noremap ; l
@@ -32,3 +32,4 @@ set laststatus=2
 python3 from powerline.vim import setup as powerline_setup
 python3 powerline_setup()
 python3 del powerline_setup
+
