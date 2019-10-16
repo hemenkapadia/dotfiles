@@ -144,9 +144,10 @@ for choice in $choices; do
       echo "Installing Miniconda3 latest...."
       wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -q --show-progress
       chmod u+x Miniconda3-latest-Linux-x86_64.sh
-      bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda
-      echo 'export PATH="$HOME/miniconda/bin:$PATH"' >> ~/.bashrc
-      echo '$PATH updated in .bashrc. Remember to source it . ~/.bashrc'
+      bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3
+      echo 'export PATH="$HOME/miniconda3/bin:$PATH"' >> ~/.bash_envvars
+      echo '$PATH updated in .bash_envvars. Remember to source it . ~/.bash_envvars'
+      $HOME/miniconda3/bin/conda init bash
       echo "Miniconda Installation completed."
       echo ""
       ;;
