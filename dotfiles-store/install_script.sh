@@ -147,7 +147,8 @@ for choice in $choices; do
       bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3
       echo 'export PATH="$HOME/miniconda3/bin:$PATH"' >> ~/.bash_envvars
       echo '$PATH updated in .bash_envvars. Remember to source it . ~/.bash_envvars'
-      $HOME/miniconda3/bin/conda init bash
+      "${HOME}"/miniconda3/bin/conda init bash
+      rm ~/Miniconda3-latest-Linux-x86_64.sh 
       echo "Miniconda Installation completed."
       echo ""
       ;;
