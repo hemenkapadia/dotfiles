@@ -46,7 +46,7 @@ dotfiles:
     src: dotdrop_tester.sh
     dst: ~/dotdrop_tester.sh
 profiles:
-  worklaptop:
+  base:
     dotfiles:
     - f_gitconfig
     - f_bashrc
@@ -60,24 +60,12 @@ profiles:
     - f_ideavimrc
     - f_vim_colors_solarized.vim
     - f_dotdrop_tester.sh
+  worklaptop:
+    include:
+    - base
   workremote:
-    dotfiles:
-    - f_gitconfig
-    - f_bashrc
-    - f_bash_envvars
-    - f_bash_aliases
-    - f_bash_functions
-    - f_profile
-    - f_bash_logout
-    - f_install_script.sh
-    - f_vimrc
-    - f_ideavimrc
-    - f_vim_colors_solarized.vim
+    include:
+    - base
   homelaptop:
-    dotfiles:
-    - f_gitconfig
-    - f_profile
-    - f_bash_logout
-    - f_install_script.sh
-    - f_vimrc
-    - f_ideavimrc
+    include:
+    - base 
