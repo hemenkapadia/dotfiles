@@ -14,10 +14,11 @@ export DOTDROP_CONFIG="$HOME/dotfiles/config.yaml"
 # Added by n-install (see http://git.io/n-install-repo).
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  
 
-
-
-
-
 # PATH environment variable. Keep this the last one in this file
 export PATH="${PATH}:${HOME}/.local/bin"
+{%@@ if profile == "worklaptop" or profile == "workremote" @@%}
 export PATH="$HOME/miniconda3/bin:$PATH"
+{%@@ elif profile == "homelaptop" @@%}
+export PATH="/opt/anaconda3/bin:$PATH"
+{%@@ endif @@%}
+
