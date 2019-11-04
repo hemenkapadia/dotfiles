@@ -197,6 +197,7 @@ function start_audit_db {
   echo '> Started'
 }
 
+
 function start_audit_api {
   cd ${AUDIT_API} && \
   SPRING_JPA_HIBERNATE_DDL_AUTO=update\
@@ -219,6 +220,8 @@ function start_audit_api {
   IDAM_KEY_PATH=file:${AUDIT_API}/etc/idam/idam-dev.pub\
   SERVER_SSL_ENABLED=false\
   SERVER_PORT=8080\
+  DEV_APP_USER_GUID=invalidid\
+  DEV_SKIP_USER_ENGAGEMENT_CHECK=true\
   SERVICE_AUTH_TOKEN=service_token\
   CORS_ORIGINS="http://localhost:4201 http://localhost:4200"\
   JSON_WEB_KEY="{'kty': 'oct','use': 'enc','kid': '1','k': 'ItmHtbB7G0r8H_AuHWzkuOzMUajKmkos-Zhx6OCAzFI','alg': 'HS512'}"\
