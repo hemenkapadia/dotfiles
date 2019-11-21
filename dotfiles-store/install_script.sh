@@ -28,7 +28,7 @@ if [[ "$?" -eq 0 ]]; then
                       python3 python3-virtualenv python3-pip \
                       apt-transport-https ca-certificates gnupg-agent \
                       software-properties-common net-tools wmctrl \
-                      htop shellcheck xdotool
+                      htop shellcheck xdotool libcanberra-gtk0 libcanberra-gtk-module
 fi
 clear
 
@@ -76,6 +76,9 @@ options=(
   28  "Gitbatch" off
   29  "Spotify Client" off
   30  "Minetime" off
+  31  "Gnome Clocks" off
+  32  "Go language" off
+  33  "Apache Directory Studio" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -401,6 +404,39 @@ for choice in $choices; do
       popd
       rm -rf /tmp/minetime
       echo "Minetime installation completed."
+      echo ""
+      ;;
+    31) # Installing Gnome Clocks 
+      echo ""
+      echo "Installing Gnome Clocks...."
+      sudo apt install -y gnome-clocks 
+      echo "Gnome Clocks installation completed."
+      echo ""
+      ;;
+    32) # Installing Go language 
+      echo ""
+      echo "Installing Go language...."
+      mkdir -p /tmp/golang
+      pushd /tmp/golang
+      curl -L https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz --output go.tar.gz 
+      sudo tar zxvf go.tar.gz && sudo mv go /usr/local
+      echo 'export PATH="/usr/local/go/bin:$PATH"' >> "${HOME}"/.bash_envvars
+      popd
+      rm -rf /tmp/golang
+      echo "Go language installation completed. "
+      echo ""
+      ;;
+    33) # Installing Apache Directory Studio 
+      echo ""
+      echo "Installing Apache Directory Studio...."
+      mkdir -p /tmp/ads
+      pushd /tmp/ads
+      curl -L http://mirrors.ocf.berkeley.edu/apache/directory/studio/2.0.0.v20180908-M14/ApacheDirectoryStudio-2.0.0.v20180908-M14-linux.gtk.x86_64.tar.gz --output ads.tar.gz 
+      sudo tar zxvf ads.tar.gz && sudo mv ApacheDirectoryStudio /opt
+      ln -s /opt/ApacheDirectoryStudio/ApacheDirectoryStudio "${HOME}"/bin/ldapbrowser
+      popd
+      rm -rf /tmp/ads
+      echo "Apache Directory Studio installation completed. "
       echo ""
       ;;
     *)
