@@ -178,5 +178,7 @@ function dvpr {
   docker volume prune
 }
  
+{%@@ if profile == "worklaptop" @@%}
 # shellcheck source=/home/hemen/Workspace/Office/Customers/PwC/audit-api/tools/bash_functions_pwc
 source "${HOME}/Workspace/Office/Customers/PwC/audit-api/tools/bash_functions_pwc"
+{%@@ endif @@%}
