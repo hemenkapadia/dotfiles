@@ -79,6 +79,7 @@ options=(
   31  "Gnome Clocks" off
   32  "Go language" off
   33  "Apache Directory Studio" off
+  34  "PDFsam basic" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -437,6 +438,18 @@ for choice in $choices; do
       popd
       rm -rf /tmp/ads
       echo "Apache Directory Studio installation completed. "
+      echo ""
+      ;;
+    34) # Installing PDFsam baisc 
+      echo ""
+      echo "Installing PDFsam basic...."
+      mkdir -p /tmp/pdfsamb
+      pushd /tmp/pdfsamb
+      curl -L  https://github.com/torakiki/pdfsam/releases/download/v4.0.5/pdfsam_4.0.5-1_amd64.deb --output pdfsam.deb 
+      sudo dpkg -i pdfsam.deb 
+      popd
+      rm -rf /tmp/pdfsamb
+      echo "PDFsam installation completed. "
       echo ""
       ;;
     *)
