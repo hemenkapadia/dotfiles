@@ -400,7 +400,7 @@ for choice in $choices; do
       echo "Installing Minetime...."
       mkdir -p /tmp/minetime
       pushd /tmp/minetime
-      curl -L https://minetime-deploy.herokuapp.com/download/linux_deb_64 --output minetime.deb
+      curl -L https://europe-west1-minetime-backend.cloudfunctions.net/download/linux-deb --output minetime.deb
       sudo dpkg -i minetime.deb
       popd
       rm -rf /tmp/minetime
