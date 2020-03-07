@@ -88,6 +88,7 @@ options=(
   32  "Go language" off
   33  "Apache Directory Studio" off
   34  "PDFsam basic" off
+  35  "VLC Media Player" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -130,7 +131,7 @@ for choice in $choices; do
       echo ""
       echo "Installing Tig ...."
       sudo apt-get update
-      sudo apt install tig
+      sudo apt install -y tig
       echo "Tig Installation completed."
       echo ""
       ;;
@@ -139,7 +140,7 @@ for choice in $choices; do
       echo "Installing Lazygit  ...."
       sudo add-apt-repository ppa:lazygit-team/release -y
       sudo apt-get update
-      sudo apt install lazygit
+      sudo apt install -y lazygit
       echo "Lazygit Installation completed."
       echo ""
       ;;
@@ -147,7 +148,7 @@ for choice in $choices; do
       echo ""
       echo "Installing tmux...."
       sudo apt-get update
-      sudo apt install tmux
+      sudo apt install -y tmux
       echo "Lazygit Installation completed."
       echo ""
       ;;
@@ -323,7 +324,7 @@ for choice in $choices; do
     23) # Installing Apple Magic Keyboard config kernel module
       echo ""
       echo "Installing dkms..."
-      sudo apt install dkms
+      sudo apt install -y dkms
       echo "Installing hid_apple patched...."
       mkdir -p /tmp/magickb
       pushd /tmp/magickb
@@ -458,6 +459,14 @@ for choice in $choices; do
       popd
       rm -rf /tmp/pdfsamb
       echo "PDFsam installation completed. "
+      echo ""
+      ;;
+    35) # Install VLC 
+      echo ""
+      echo "Installing VLC ...."
+      sudo apt-get update
+      sudo apt install -y vlc 
+      echo "VLC Installation completed."
       echo ""
       ;;
     *)
