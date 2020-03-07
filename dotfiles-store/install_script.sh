@@ -8,7 +8,15 @@ sudo -v && exit 1 'Sudo access needed to execute this script'
 # Check if dialog is installed. If not, install it.
 dialog -v || sudo apt install -y dialog
 
-# First update
+# First ask to update all keys from ubuntu keyserver 
+dialog --title "Update Keys" \
+  --yesno "Do you want to update apt keys ?" 8 45
+if [[ "$?" -eq 0 ]]; then
+  echo " >>> Updating apt keys ...."
+  sudo apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
+fi
+clear
+
 # Check if update is needed
 dialog --title "Update" \
   --yesno "Do you want to run apt-get update ?" 8 45
