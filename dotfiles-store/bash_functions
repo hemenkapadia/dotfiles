@@ -14,6 +14,10 @@ function enabletouchpad {
   xinput set-prop $touchid "Device Enabled" 1
 }
 
+function enableconda {
+  export PATH="$CONDA_BIN_PATH:$PATH"
+}
+
 # SSH Agent configuration
 # File to store the SSH Agent environment
 SSH_ENV=$HOME/.ssh/environment

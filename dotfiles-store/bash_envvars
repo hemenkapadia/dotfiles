@@ -15,9 +15,9 @@ export DOTDROP_CONFIG="$HOME/dotfiles/config.yaml"
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  
 
 {%@@ if profile == "worklaptop" @@%}
-export PATH="$HOME/miniconda3/bin:$PATH"
+export CONDA_BIN_PATH="$HOME/miniconda3/bin"
 {%@@ elif profile == "homelaptop" @@%}
-export PATH="/opt/anaconda3/bin:$PATH"
+export CONDA_BIN_PATH="/opt/anaconda3/bin"
 {%@@ endif @@%}
 
 # PATH environment variable. Keep this the last one in this file
