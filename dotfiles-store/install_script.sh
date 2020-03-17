@@ -89,6 +89,7 @@ options=(
   33  "Apache Directory Studio" off
   34  "PDFsam basic" off
   35  "VLC Media Player" off
+  36  "Simple Screen Recorder" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -467,6 +468,14 @@ for choice in $choices; do
       sudo apt-get update
       sudo apt install -y vlc 
       echo "VLC Installation completed."
+      echo ""
+      ;;
+    36) # Install Simple Screen Recorded 
+      echo ""
+      echo "Installing Simple Screen Recorder ...."
+      sudo apt-get update
+      sudo apt install -y simplescreenrecorder 
+      echo "SimpleScreenRecorder Installation completed."
       echo ""
       ;;
     *)
