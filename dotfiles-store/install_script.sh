@@ -90,6 +90,8 @@ options=(
   34  "PDFsam basic" off
   35  "VLC Media Player" off
   36  "Simple Screen Recorder" off
+  37  "Rust+Cargo" off
+  38  "mdbook" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -476,6 +478,25 @@ for choice in $choices; do
       sudo apt-get update
       sudo apt install -y simplescreenrecorder 
       echo "SimpleScreenRecorder Installation completed."
+      echo ""
+      ;;
+    37) # Install Rust + Cargo 
+      echo ""
+      echo "Installing Rust and Cargo...."
+      sudo mkdir -p /opt/cargo /opt/rustup
+      sudo chown hemen:hemen /opt/cargo 
+      sudo chown hemen:hemen /opt/rustup 
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | RUSTUP_HOME=/opt/rustup CARGO_HOME=/opt/cargo sh
+      echo "Rust and Cargo install completed."
+      echo 'Update $PATH to inclue /opt/cargo/bin and /opt/rustup/bin.'
+      echo ""
+      ;;
+    38) # Install mdbook
+      echo ""
+      echo "Installing mdbook...."
+      cargo install mdbook
+      cargo install mdbook-toc
+      echo "mdbook Installation completed."
       echo ""
       ;;
     *)

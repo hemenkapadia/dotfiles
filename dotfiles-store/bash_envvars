@@ -20,6 +20,10 @@ export CONDA_BIN_PATH="$HOME/miniconda3/bin"
 export CONDA_BIN_PATH="/opt/anaconda3/bin"
 {%@@ endif @@%}
 
+# Rustup and Cargo home variables. Used by mdbook
+export CARGO_HOME=/opt/cargo
+export RUSTUP_HOME=/opt/rustup
+
 # PATH environment variable. Keep this the last one in this file
-export PATH="/usr/local/go/bin:${HOME}/.local/bin:${PATH}"
+export PATH="/usr/local/go/bin:${HOME}/.local/bin:${CARGO_HOME}/bin:${PATH}"
 
