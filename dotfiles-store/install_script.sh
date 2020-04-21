@@ -92,6 +92,7 @@ options=(
   36  "Simple Screen Recorder" off
   37  "Rust+Cargo" off
   38  "mdbook" off
+  39  "Docker Compose" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -214,9 +215,6 @@ for choice in $choices; do
       sudo apt-get install -y docker-ce docker-ce-cli containerd.io
       sudo usermod -a -G docker
       echo "Docker installation completed."
-      echo "Installing Docker Compose...."
-      sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-      sudo chmod +x /usr/local/bin/docker-compose
       ;;
     12) # Installing NodeJS LTS using n 
       echo ""
@@ -497,6 +495,13 @@ for choice in $choices; do
       cargo install mdbook
       cargo install mdbook-toc
       echo "mdbook Installation completed."
+      echo ""
+      ;;
+    39) # Install docker compose 
+      echo ""
+      echo "Installing Docker Compose...."
+      sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+      sudo chmod +x /usr/local/bin/docker-compose
       echo ""
       ;;
     *)
