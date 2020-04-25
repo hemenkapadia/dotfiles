@@ -2,3 +2,6 @@
 
 # Ignore the dotdrop_profile file
 dotdrop_profile
+
+# Ignore idea IDE folder
+.idea
