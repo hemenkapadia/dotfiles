@@ -8,7 +8,7 @@ sudo -v && exit 1 'Sudo access needed to execute this script'
 # Check if dialog is installed. If not, install it.
 dialog -v || sudo apt install -y dialog
 
-# First ask to update all keys from ubuntu keyserver 
+# First ask to update all keys from ubuntu keyserver
 dialog --title "Update Keys" \
   --yesno "Do you want to update apt keys ?" 8 45
 if [[ "$?" -eq 0 ]]; then
@@ -26,7 +26,7 @@ if [[ "$?" -eq 0 ]]; then
 fi
 clear
 
-# Install Base dependencies 
+# Install Base dependencies
 dialog --title "Install dependencies" \
   --yesno "Do you want to install base dependencies (recommended) ?" 8 55
 if [[ "$?" -eq 0 ]]; then
@@ -93,6 +93,9 @@ options=(
   37  "Rust+Cargo" off
   38  "mdbook" off
   39  "Docker Compose" off
+  40  "Canon MX 490 Printer Drivers" off
+  41  "Canon MX 490 Scanner Drivers" off
+  42  "Xsane Scanning ssoftware" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -131,7 +134,7 @@ for choice in $choices; do
       echo "dotdrop Installation completed."
       echo "Please setup your dordrop repository as explained at https://github.com/deadc0de6/dotdrop/wiki/installation#setup-your-repository"
       ;;
-    04) # Install Tig 
+    04) # Install Tig
       echo ""
       echo "Installing Tig ...."
       sudo apt-get update
@@ -139,7 +142,7 @@ for choice in $choices; do
       echo "Tig Installation completed."
       echo ""
       ;;
-    05) # Install Lazygit 
+    05) # Install Lazygit
       echo ""
       echo "Installing Lazygit  ...."
       sudo add-apt-repository ppa:lazygit-team/release -y
@@ -148,7 +151,7 @@ for choice in $choices; do
       echo "Lazygit Installation completed."
       echo ""
       ;;
-    06) # Install tmux 
+    06) # Install tmux
       echo ""
       echo "Installing tmux...."
       sudo apt-get update
@@ -156,7 +159,7 @@ for choice in $choices; do
       echo "Lazygit Installation completed."
       echo ""
       ;;
-    07) # Install Miniconda latest 
+    07) # Install Miniconda latest
       echo ""
       echo "Installing Miniconda3 latest...."
       wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -q --show-progress
@@ -165,7 +168,7 @@ for choice in $choices; do
       echo 'export PATH="$HOME/miniconda3/bin:$PATH"' >> ~/.bash_envvars
       echo '$PATH updated in .bash_envvars. Remember to source it . ~/.bash_envvars'
       "${HOME}"/miniconda3/bin/conda init bash
-      rm ~/Miniconda3-latest-Linux-x86_64.sh 
+      rm ~/Miniconda3-latest-Linux-x86_64.sh
       echo "Miniconda Installation completed."
       echo ""
       ;;
@@ -189,7 +192,7 @@ for choice in $choices; do
       echo "Vim installed. Make sure to alias vi to vim"
       echo ""
       ;;
-    10) # Installing Virtual Box and Vagrant 
+    10) # Installing Virtual Box and Vagrant
       echo ""
       echo "Installing VirtualBox...."
       wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
@@ -205,7 +208,7 @@ for choice in $choices; do
       sudo apt-get install -y vagrant
       echo "Vagrant installation completed."
       ;;
-    11) # Installing Docker Community Edition 
+    11) # Installing Docker Community Edition
       echo ""
       echo "Installing Docker CE...."
       sudo apt-get remove docker docker-engine docker.io containerd runc
@@ -216,14 +219,14 @@ for choice in $choices; do
       sudo usermod -a -G docker
       echo "Docker installation completed."
       ;;
-    12) # Installing NodeJS LTS using n 
+    12) # Installing NodeJS LTS using n
       echo ""
       echo "Installing n...."
       curl -L https://git.io/n-install | bash
       n lts
       echo "NodeJS installation completed."
       ;;
-    13) # Installing Ubuntu extras 
+    13) # Installing Ubuntu extras
       echo ""
       echo "Installing ubuntu extras...."
       sudo apt install -y ubuntu-restricted-extras
@@ -254,7 +257,7 @@ for choice in $choices; do
       echo "Slack installation completed."
       echo ""
       ;;
-    16) # Installing Mailspring 
+    16) # Installing Mailspring
       echo ""
       echo "Installing Mailspring...."
       mkdir -p /tmp/mailspring
@@ -266,7 +269,7 @@ for choice in $choices; do
       echo "Mailspring installation completed."
       echo ""
       ;;
-    17) # Installing Gnome Calendar 
+    17) # Installing Gnome Calendar
       echo ""
       echo "Installing Gnome Calendar...."
       sudo apt install -y gnome-calendar
@@ -306,7 +309,7 @@ for choice in $choices; do
     21) # Installing Libreoffice
       echo ""
       echo "Installing Libreoffice...."
-      sudo apt install -y libreoffice 
+      sudo apt install -y libreoffice
       echo "Libreoffice installation completed."
       echo ""
       ;;
@@ -363,7 +366,7 @@ for choice in $choices; do
     25) # Installing OpenJDK 8
       echo ""
       echo "Installing OpenJDK 8...."
-      sudo apt install -y openjdk-8-jdk 
+      sudo apt install -y openjdk-8-jdk
       echo "OpenJDK 8 installation completed."
       echo ""
       ;;
@@ -383,7 +386,7 @@ for choice in $choices; do
       echo "Lazydocker installation completed."
       echo ""
       ;;
-    28) # Installing Gitbatch 
+    28) # Installing Gitbatch
       echo ""
       echo "Installing gitbatch...."
       mkdir -p /tmp/gitbatch
@@ -396,16 +399,16 @@ for choice in $choices; do
       echo "Gitbatch installation completed."
       echo ""
       ;;
-    29) # Installing Spotify Client 
+    29) # Installing Spotify Client
       echo ""
       echo "Installing Spotify Client...."
-      curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add - 
+      curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add -
       echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-      sudo apt-get update && sudo apt install -y spotify-client 
+      sudo apt-get update && sudo apt install -y spotify-client
       echo "Spotify Client installation completed."
       echo ""
       ;;
-    30) # Installing Minetime 
+    30) # Installing Minetime
       echo ""
       echo "Installing Minetime...."
       mkdir -p /tmp/minetime
@@ -417,19 +420,19 @@ for choice in $choices; do
       echo "Minetime installation completed."
       echo ""
       ;;
-    31) # Installing Gnome Clocks 
+    31) # Installing Gnome Clocks
       echo ""
       echo "Installing Gnome Clocks...."
-      sudo apt install -y gnome-clocks 
+      sudo apt install -y gnome-clocks
       echo "Gnome Clocks installation completed."
       echo ""
       ;;
-    32) # Installing Go language 
+    32) # Installing Go language
       echo ""
       echo "Installing Go language...."
       mkdir -p /tmp/golang
       pushd /tmp/golang
-      curl -L https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz --output go.tar.gz 
+      curl -L https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz --output go.tar.gz
       sudo tar zxvf go.tar.gz && sudo mv go /usr/local
       echo 'export PATH="/usr/local/go/bin:$PATH"' >> "${HOME}"/.bash_envvars
       popd
@@ -437,12 +440,12 @@ for choice in $choices; do
       echo "Go language installation completed. "
       echo ""
       ;;
-    33) # Installing Apache Directory Studio 
+    33) # Installing Apache Directory Studio
       echo ""
       echo "Installing Apache Directory Studio...."
       mkdir -p /tmp/ads
       pushd /tmp/ads
-      curl -L http://mirrors.ocf.berkeley.edu/apache/directory/studio/2.0.0.v20180908-M14/ApacheDirectoryStudio-2.0.0.v20180908-M14-linux.gtk.x86_64.tar.gz --output ads.tar.gz 
+      curl -L http://mirrors.ocf.berkeley.edu/apache/directory/studio/2.0.0.v20180908-M14/ApacheDirectoryStudio-2.0.0.v20180908-M14-linux.gtk.x86_64.tar.gz --output ads.tar.gz
       sudo tar zxvf ads.tar.gz && sudo mv ApacheDirectoryStudio /opt
       ln -s /opt/ApacheDirectoryStudio/ApacheDirectoryStudio "${HOME}"/bin/ldapbrowser
       popd
@@ -450,40 +453,40 @@ for choice in $choices; do
       echo "Apache Directory Studio installation completed. "
       echo ""
       ;;
-    34) # Installing PDFsam baisc 
+    34) # Installing PDFsam baisc
       echo ""
       echo "Installing PDFsam basic...."
       mkdir -p /tmp/pdfsamb
       pushd /tmp/pdfsamb
-      curl -L  https://github.com/torakiki/pdfsam/releases/download/v4.0.5/pdfsam_4.0.5-1_amd64.deb --output pdfsam.deb 
-      sudo dpkg -i pdfsam.deb 
+      curl -L  https://github.com/torakiki/pdfsam/releases/download/v4.0.5/pdfsam_4.0.5-1_amd64.deb --output pdfsam.deb
+      sudo dpkg -i pdfsam.deb
       popd
       rm -rf /tmp/pdfsamb
       echo "PDFsam installation completed. "
       echo ""
       ;;
-    35) # Install VLC 
+    35) # Install VLC
       echo ""
       echo "Installing VLC ...."
       sudo apt-get update
-      sudo apt install -y vlc 
+      sudo apt install -y vlc
       echo "VLC Installation completed."
       echo ""
       ;;
-    36) # Install Simple Screen Recorded 
+    36) # Install Simple Screen Recorded
       echo ""
       echo "Installing Simple Screen Recorder ...."
       sudo apt-get update
-      sudo apt install -y simplescreenrecorder 
+      sudo apt install -y simplescreenrecorder
       echo "SimpleScreenRecorder Installation completed."
       echo ""
       ;;
-    37) # Install Rust + Cargo 
+    37) # Install Rust + Cargo
       echo ""
       echo "Installing Rust and Cargo...."
       sudo mkdir -p /opt/cargo /opt/rustup
-      sudo chown hemen:hemen /opt/cargo 
-      sudo chown hemen:hemen /opt/rustup 
+      sudo chown hemen:hemen /opt/cargo
+      sudo chown hemen:hemen /opt/rustup
       curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | RUSTUP_HOME=/opt/rustup CARGO_HOME=/opt/cargo sh
       echo "Rust and Cargo install completed."
       echo 'Update $PATH to inclue /opt/cargo/bin and /opt/rustup/bin.'
@@ -497,11 +500,49 @@ for choice in $choices; do
       echo "mdbook Installation completed."
       echo ""
       ;;
-    39) # Install docker compose 
+    39) # Install docker compose
       echo ""
       echo "Installing Docker Compose...."
       sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
       sudo chmod +x /usr/local/bin/docker-compose
+      echo ""
+      ;;
+    40) # Installing Cannon MX490 Printer Drivers
+      echo ""
+      echo "Installing Canon MX490 Printer Drivers...."
+      mkdir -p /tmp/cnondriv
+      pushd /tmp/cnondrv
+      curl -L http://gdlp01.c-wss.com/gds/9/0100006669/01/cnijfilter2-5.10-1-deb.tar.gz --output driver.tar.gz
+      tar -zxvf driver.tar.gz
+      pushd cnijfilter2-5.10-1-deb
+      sudo ./install.sh
+      popd
+      popd
+      rm -rf /tmp/cnondrv
+      echo "Canon MX490 Printer driver installation completed. "
+      echo ""
+      ;;
+    41) # Installing Canon MX490 Scanner Drivers
+      echo ""
+      echo "Installing Canon MX490 Scanner Drivers...."
+      mkdir -p /tmp/cnonscan
+      pushd /tmp/cnonscan
+      curl -L http://gdlp01.c-wss.com/gds/2/0100006672/01/scangearmp2-3.10-1-deb.tar.gz --output driver.tar.gz
+      tar -zxvf driver.tar.gz
+      pushd scangearmp2-3.10-1-deb
+      sudo ./install.sh
+      popd
+      popd
+      rm -rf /tmp/cnonscan
+      echo "Canon MX490 Scanner driver installation completed. "
+      echo ""
+      ;;
+    42) # Install SANE scanning software
+      echo ""
+      echo "Installing xsane scanning software...."
+      sudo apt-get update
+      sudo apt install -y sane sane-utils libsane-extras xsane
+      echo "Xsane Installation completed."
       echo ""
       ;;
     *)
