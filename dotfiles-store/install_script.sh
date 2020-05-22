@@ -96,7 +96,7 @@ options=(
   40  "Canon MX 490 Printer Drivers" off
   41  "Canon MX 490 Scanner Drivers" off
   42  "Xsane Scanning ssoftware" off
-  43  "Papirus icon theme" off
+  43  "Icon themes" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -546,13 +546,20 @@ for choice in $choices; do
       echo "Xsane Installation completed."
       echo ""
       ;;
-    43) # Papirus icon theme 
+    43) # Ubuntu icon themes 
       echo ""
-      echo "Installing papirus icons Theme...."
+      echo "Installing papirus icons theme...."
       sudo add-apt-repository ppa:papirus/papirus -y
       sudo apt-get update
       sudo apt-get install -y papirus-icon-theme
-      echo "papirun icon theme installation completed."
+      echo "papirus icon theme installation completed."
+      echo ""
+      echo ""
+      echo "Installing moka icons theme...."
+      sudo add-apt-repository ppa:snwh/ppa -y
+      sudo apt-get update
+      sudo apt-get install -y moka-icon-theme faba-icon-theme faba-mono-icons 
+      echo "moka icon theme installation completed."
       echo ""
       ;;
     *)
