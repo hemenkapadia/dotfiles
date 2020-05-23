@@ -65,7 +65,7 @@ function devdesk {
   padding=10
   window_width=$[$[display_width-padding*4]/2]
   left_window_height=$[display_height-top_margin-bottom_margin]
-  right_window_height=$[$[left_window_height-padding*2]/2]
+  right_window_height=$[$[left_window_height-padding*3]/2]
   left_anchor_x=$padding
   left_anchor_y=$top_margin
   right_anchor_x=$[left_anchor_x+window_width+padding*2]
