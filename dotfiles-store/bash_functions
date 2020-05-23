@@ -55,26 +55,42 @@ function infodesk {
   wmctrl -l | cut -d ' ' -f 1 | xargs -t -n1 xdotool getwindowgeometry
 }
 
-# wmctrl -e flag takes option in format Gravity, X,Y , Width, Height of the window
+# wmctrl -e flag takes option in format Gravity, X,Y (top left corner) , Width, Height of the window
 function devdesk {
-  display_count=$(xrandr --query | grep '\bconnected\b' | wc -l)
+  display_count=$(xrandr --listactivemonitors | tail -n +2 | wc -l)
+  display_width=$(xrandr --listactivemonitors | tail -n +2 | cut -d ' ' -f 4 | cut -d '/' -f 1)
+  display_height=$(xrandr --listactivemonitors | tail -n +2 | cut -d ' ' -f 4 | cut -d 'x' -f 2 | cut -d '/' -f 1)
+  top_margin=35
+  bottom_margin=90 
+  padding=10
+  window_width=$[$[display_width-padding*4]/2]
+  left_window_height=$[display_height-top_margin-bottom_margin]
+  right_window_height=$[$[left_window_height-padding*2]/2]
+  left_anchor_x=$padding
+  left_anchor_y=$top_margin
+  right_anchor_x=$[left_anchor_x+window_width+padding*2]
+  right_top_anchor_y=$top_margin
+  right_bottom_anchor_y=$[right_top_anchor_y+right_window_height+padding+25]
   if [[ $display_count -eq 1 ]]; then
+    # id display is 1 then mostly home laptop
+    # For COVID, got monotor home, but dual monitor not possible; hence 1 monitor
+    # possible for work laptop profile too
+    {%@@ if profile == "worklaptop" @@%}
+    wmctrl -r 'Mailspring' -t 1
+    wmctrl -r 'Slack' -t 1
+    wmctrl -r 'MineTime' -t 1
+    wmctrl -r 'Mailspring' -e "0,$left_anchor_x,$left_anchor_y,$window_width,$left_window_height"
+    wmctrl -r 'Slack' -e "0,$right_anchor_x,$right_top_anchor_y,$window_width,$right_window_height"
+    wmctrl -r 'MineTime' -e "0,$right_anchor_x,$right_bottom_anchor_y,$window_width,$right_window_height"
+    {%@@ endif @@%}
     wmctrl -r '/Workspace/' -t 0
     wmctrl -r 'Visual Studio Code' -t 0
     wmctrl -r 'Mozilla Firefox' -t 0
     wmctrl -r 'Terminal' -t 0
-    wmctrl -r 'Mailspring' -t 1
-    wmctrl -r 'Slack' -t 1
-    wmctrl -r 'Calendar' -t 1
-    wmctrl -r 'MineTime' -t 1
     wmctrl -r '/Workspace/' -e '0,10,35,1350,1310'
-    wmctrl -r 'Visual Studio Code' -e '0,10,35,1350,1310'
-    wmctrl -r 'Mozilla Firefox' -e '0,1365,35,1180,808'
-    wmctrl -r 'Terminal' -e '0,1365,875,1180,485'
-    wmctrl -r 'Mailspring' -e '0,10,35,1350,1310'
-    wmctrl -r 'Slack' -e '0,1365,35,1180,590'
-    # wmctrl -r 'Calendar' -e '0,1328,822,1253,485'
-    wmctrl -r 'MineTime' -e '0,1365,660,1180,685'
+    wmctrl -r 'Visual Studio Code' -e "0,$left_anchor_x,$left_anchor_y,$window_width,$left_window_height"
+    wmctrl -r 'Mozilla Firefox' -e "0,$right_anchor_x,$right_top_anchor_y,$window_width,$right_window_height"
+    wmctrl -r 'Terminal' -e "0,$right_anchor_x,$right_bottom_anchor_y,$window_width,$right_window_height"
   elif [[ $display_count -eq 2 ]]; then
     wmctrl -r '/Workspace/' -t 0
     wmctrl -r 'Visual Studio Code' -t 0
@@ -82,15 +98,14 @@ function devdesk {
     wmctrl -r 'Terminal' -t 0
     wmctrl -r 'Mailspring' -t 0
     wmctrl -r 'Slack' -t 0
-    wmctrl -r 'Calendar' -t 0
     wmctrl -r 'MineTime' -t 0
+    # TODO: Handle Dual monitor setup using screen size calculations
     wmctrl -r '/Workspace/' -e '0,2570,30,1850,2034'
     wmctrl -r 'Visual Studio Code' -e '0,2570,30,1850,2034'
     wmctrl -r 'Mozilla Firefox' -e '0,4430,30,1960,1290'
     wmctrl -r 'Terminal' -e '0,4430,1360,1960,707'
     wmctrl -r 'Mailspring' -e '0,10,305,1350,1310'
     wmctrl -r 'Slack' -e '0,1365,305,1180,590'
-    # wmctrl -r 'Calendar' -e '0,1328,1090,1253,485'
     wmctrl -r 'MineTime' -e '0,1365,930,1180,685'
   fi  
 }
@@ -102,7 +117,6 @@ function ruindesk {
   wmctrl -r 'Terminal' -t 0 -e '0,1300,650,230,350'
   wmctrl -r 'Mailspring' -t 0 -e '0,1300,50,230,350'
   wmctrl -r 'Slack' -t 0 -e '0,800,50,230,350'
-  # wmctrl -r 'Calendar' -t 0 -e '0,10,50,230,350'
   wmctrl -r 'MineTime' -t 0 -e '0,10,50,230,350'
 }
 
