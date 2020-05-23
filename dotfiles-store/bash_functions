@@ -87,10 +87,10 @@ function devdesk {
     wmctrl -r 'Visual Studio Code' -t 0
     wmctrl -r 'Mozilla Firefox' -t 0
     wmctrl -r 'Terminal' -t 0
-    wmctrl -r '/Workspace/' -e "0,$left_anchor_x,$left_anchor_y,$window_width,$left_window_height"
-    wmctrl -r 'Visual Studio Code' -e "0,$left_anchor_x,$left_anchor_y,$window_width,$left_window_height"
-    wmctrl -r 'Mozilla Firefox' -e "0,$right_anchor_x,$right_top_anchor_y,$window_width,$right_window_height"
-    wmctrl -r 'Terminal' -e "0,$right_anchor_x,$right_bottom_anchor_y,$window_width,$right_window_height"
+    wmctrl -r '/Workspace/' -e "0,$right_anchor_x,$left_anchor_y,$window_width,$left_window_height"
+    wmctrl -r 'Visual Studio Code' -e "0,$right_anchor_x,$left_anchor_y,$window_width,$left_window_height"
+    wmctrl -r 'Mozilla Firefox' -e "0,$left_anchor_x,$right_top_anchor_y,$window_width,$right_window_height"
+    wmctrl -r 'Terminal' -e "0,$left_anchor_x,$right_bottom_anchor_y,$window_width,$right_window_height"
   elif [[ $display_count -eq 2 ]]; then
     wmctrl -r '/Workspace/' -t 0
     wmctrl -r 'Visual Studio Code' -t 0
