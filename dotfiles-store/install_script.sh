@@ -33,10 +33,11 @@ if [[ "$?" -eq 0 ]]; then
   # Install base dependencies
   echo ">>> Installing base dependencies ...."
   sudo apt install -y tree wget curl snapd openssl \
-                      python3 python3-virtualenv python3-pip \
+                      python3 python3-dev python3-virtualenv python3-venv python3-pip \
                       apt-transport-https ca-certificates gnupg-agent \
                       software-properties-common net-tools wmctrl \
-                      htop shellcheck xdotool libcanberra-gtk0 libcanberra-gtk-module
+                      htop shellcheck xdotool libcanberra-gtk0 libcanberra-gtk-module \
+                      build-essential unzip unixodbc unixodbc-dev libmagic-dev 
 fi
 clear
 
@@ -97,6 +98,8 @@ options=(
   41  "Canon MX 490 Scanner Drivers" off
   42  "Xsane Scanning ssoftware" off
   43  "Icon themes" off
+  44  "Clickhouse" off
+  45  "Dive - docker image analyser" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -560,6 +563,28 @@ for choice in $choices; do
       sudo apt-get update
       sudo apt-get install -y moka-icon-theme faba-icon-theme faba-mono-icons 
       echo "moka icon theme installation completed."
+      echo ""
+      ;;
+    44) # Clickhouse installation 
+      echo ""
+      echo "Installing clickhouse...."
+      echo "deb http://repo.yandex.ru/clickhouse/deb/stable/ main/" | sudo tee -a /etc/apt/sources.list.d/clickhouse.list
+      sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
+      sudo apt-get update
+      sudo apt-get install -y clickhouse-server clickhouse-client 
+      echo "Clickhouse installation completed."
+      echo ""
+      ;;
+    45) # Installing Dive - docker image analyser 
+      echo ""
+      echo "Installing Dive - docker image analyser...."
+      mkdir -p /tmp/dive
+      pushd /tmp/dive
+      curl -L https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_amd64.deb --output dive.deb
+      sudo apt install ./dive.deb
+      popd
+      rm -rf /tmp/dive
+      echo "Dive installation completed. "
       echo ""
       ;;
     *)
