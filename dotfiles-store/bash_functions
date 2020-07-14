@@ -18,7 +18,10 @@ function enableconda {
   export PATH="$CONDA_BIN_PATH:$PATH"
 }
 
+
 # SSH Agent configuration
+# Included only for local profiles. Remote profiles will use ssh-agent forwarding
+{%@@ if profile != "workremote" @@%}
 # File to store the SSH Agent environment
 SSH_ENV=$HOME/.ssh/environment
 # start the ssh-agent
@@ -44,6 +47,7 @@ if [ -f "${SSH_ENV}" ]; then
 else
     start_agent;
 fi
+{%@@ endif @@%}
 
 # Window Manager funtions
 function infodesk {
