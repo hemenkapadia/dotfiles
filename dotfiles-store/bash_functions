@@ -178,7 +178,7 @@ function dvpr {
 }
 
 
-{%@@ if profile == "worklaptop" @@%}
+{%@@ if profile in ["worklaptop", "workremote"] @@%}
 # Driverless AI functions
 function builddai {
   cd ~/Workspace/Office/Codebases/h2oai
