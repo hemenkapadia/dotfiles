@@ -100,6 +100,7 @@ options=(
   43  "Icon themes" off
   44  "Clickhouse" off
   45  "Dive - docker image analyser" off
+  46  "Joplin - Notes taking application" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -585,6 +586,13 @@ for choice in $choices; do
       popd
       rm -rf /tmp/dive
       echo "Dive installation completed. "
+      echo ""
+      ;;
+    46) # Installing Joplin 
+      echo ""
+      echo "Installing Joplin - Notes taking application...."
+      wget -O - https://raw.githubusercontent.com/laurent22/joplin/master/Joplin_install_and_update.sh | bash      
+      echo "Joplin installation completed. "
       echo ""
       ;;
     *)
