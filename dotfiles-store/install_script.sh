@@ -37,7 +37,7 @@ if [[ "$?" -eq 0 ]]; then
                       apt-transport-https ca-certificates gnupg-agent \
                       software-properties-common net-tools wmctrl \
                       htop shellcheck xdotool libcanberra-gtk0 libcanberra-gtk-module \
-                      build-essential unzip unixodbc unixodbc-dev libmagic-dev 
+                      build-essential unzip unixodbc unixodbc-dev libmagic-dev colordiff 
 fi
 clear
 
