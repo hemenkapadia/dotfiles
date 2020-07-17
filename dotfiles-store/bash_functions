@@ -1,3 +1,4 @@
+# vim: filetype=sh
 # Bash functions sourced .bashrc
 
 # There could be some aliases and env variables declared here in order to keep them closer
@@ -185,7 +186,25 @@ function builddai {
   cd ~/Workspace/Office/Codebases/h2oai
   . env/bin/activate
   chmod -R a+w /home/hemen/Workspace/Office/Codebases/h2oai/env/lib/python3.6/site-packages
-  make quickfullinstall
+  case $1 in
+    wheel)
+      make centos7_in_docker
+      ;;
+    rpm)
+      make centos7_in_docker centos7_rpm_package_in_docker
+      ;;
+    deb)
+      make centos7_in_docker centos7_deb_package_in_docker
+      ;;
+    image)
+      make centos7_in_docker centos7_cuda10_runtime
+      ;;
+    *)
+      make quickfullinstall
+  esac
+
+
+
 }
 
 function rundai {
