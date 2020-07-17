@@ -22,6 +22,7 @@ noremap j h
 
 " Visual Configuration
 " Download first curl -fLo ~/.vim/colors/solarized.vim --create-dirs https://raw.githubusercontent.com/ericbn/vim-solarized/master/colors/solarized.vim
+set term=screen-256color
 set background=dark
 colorscheme solarized
 syntax on
