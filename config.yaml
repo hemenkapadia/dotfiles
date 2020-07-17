@@ -45,6 +45,9 @@ dotfiles:
   f_dotdrop_tester.sh:
     src: dotdrop_tester.sh
     dst: ~/dotdrop_tester.sh
+  f_tmux.conf:
+    src: tmux.conf
+    dst: ~/.tmux.conf
 profiles:
   base:
     dotfiles:
@@ -60,6 +63,7 @@ profiles:
     - f_ideavimrc
     - f_vim_colors_solarized.vim
     - f_dotdrop_tester.sh
+    - f_tmux.conf
   worklaptop:
     include:
     - base
@@ -68,4 +72,4 @@ profiles:
     - base
   homelaptop:
     include:
-    - base 
+    - base
