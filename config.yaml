@@ -2,7 +2,7 @@ config:
   backup: true
   banner: false
   create: true
-  diff_command: "colordiff -r -y --suppress-common-lines {0} {1}"
+  diff_command: "diff {1} {0}"
   dotpath: dotfiles-store
   keepdot: false
   link_dotfile_default: nolink
