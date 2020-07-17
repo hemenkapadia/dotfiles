@@ -1,3 +1,4 @@
+# vim: filetype=sh
 # Bash Aliases.
 
 # This file is sourced by .bashrc and is used to configure all bash aliases

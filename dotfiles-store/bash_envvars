@@ -1,3 +1,4 @@
+# vim: filetype=sh
 # Environment Variables sourced by .bashrc
 
 # set LC_COLORS to match with solarized theme

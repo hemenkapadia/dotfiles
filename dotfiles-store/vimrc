@@ -3,9 +3,11 @@
 "
 
 " Common Configuration
-set number
-set numberwidth=4
-set ignorecase smartcase
+set number                                " Shows line numbers in left gutter
+set numberwidth=4                         " Gutter width for numbers
+set ignorecase smartcase                  " Case insensetive search; but becomes case sensetive if there is an upper case letter in search term
+set modeline                              " Enable modeline to process # vim: filetype=sh etc.... settings when opening files
+
 
 " Set tab settings
 set tabstop=2
