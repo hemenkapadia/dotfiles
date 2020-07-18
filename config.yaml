@@ -52,6 +52,9 @@ dotfiles:
   f_ssh_rc:
     src: ssh/rc
     dst: ~/.ssh/rc
+  f_ssh_config:
+    src: ssh/config
+    dst: ~/.ssh/config
 profiles:
   base:
     dotfiles:
@@ -71,6 +74,8 @@ profiles:
   worklaptop:
     include:
     - base
+    dotfiles:
+    - f_ssh_config
   workremote:
     include:
     - base
