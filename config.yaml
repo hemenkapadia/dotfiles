@@ -80,6 +80,7 @@ profiles:
     include:
     - base
     dotfiles:
+    - f_ssh_config
     - f_ssh_rc
   homelaptop:
     include:
