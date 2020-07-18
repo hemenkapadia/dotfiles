@@ -3,10 +3,10 @@
 # Refer https://nerderati.com/2011/03/17/simplify-your-life-with-an-ssh-config-file/
 # for cool tips
 
-{%@@ if profile in ["workremote"] @@%}
-Host *
-  IdentityAgent ~/.ssh/ssh_auth_sock
-{%@@ endif @@%}
+#{%@@ if profile in ["workremote"] @@%}
+#Host *
+#  IdentityAgent ~/.ssh/ssh_auth_sock
+#{%@@ endif @@%}
 
 # github  
 Host github.com
