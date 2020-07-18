@@ -37,7 +37,8 @@ if [[ "$?" -eq 0 ]]; then
                       apt-transport-https ca-certificates gnupg-agent \
                       software-properties-common net-tools wmctrl \
                       htop shellcheck xdotool libcanberra-gtk0 libcanberra-gtk-module \
-                      build-essential unzip unixodbc unixodbc-dev libmagic-dev colordiff 
+                      build-essential unzip unixodbc unixodbc-dev libmagic-dev \
+                      colordiff icdiff 
 fi
 clear
 
@@ -617,3 +618,6 @@ if [[ "$?" -eq 0 ]]; then
   echo ">>> Removing unwanted applications ...."
   sudo apt auto-remove -y
 fi
+
+
+# vim: filetype=sh

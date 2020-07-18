@@ -8,6 +8,7 @@
 # Command aliases
 alias vi=vim
 alias tmux="tmux -2"
+alias diff="icdiff -N --no-bold -U 3"
 
 # dotdrop
 alias global-dotdrop="dotdrop --cfg $HOME/dotfiles/config-global.yaml"
