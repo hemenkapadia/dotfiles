@@ -199,12 +199,16 @@ function builddai {
     image)
       make centos7_in_docker centos7_cuda10_runtime
       ;;
+    fullreset)
+      make clean
+      rm -rf deps env
+      exit 0
+      ;;
     *)
       make quickfullinstall
+
   esac
-
-
-
+  deactivate
 }
 
 function rundai {
@@ -213,6 +217,7 @@ function rundai {
   ./redis-server --requirepass PlWUjvEJSiWu9j0aopOyL5KwqnrKtyWVoZHunqxr &
   export DRIVERLESS_AI_MLI_STRICT_VERSION_CHECK=false
   DRIVERLESS_AI_LOG_LEVEL=2 DRIVERLESS_AI_LIST_FILES_WITHOUT_EXTENSIONS=true CUDA_VISIBLE_DEVICES=  python -m h2oai --with_all
+  deactivate
 }
 
 function killdai {
