@@ -55,6 +55,12 @@ dotfiles:
   f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
+  f_material-solarized-dark_custom-ide.xml:
+    src: Material-Solarized-Dark_Custom-IDE.xml
+    dst: ~/Material-Solarized-Dark_Custom-IDE.xml
+  f_material-solarized-dark_custom-editor.icls:
+    src: Material-Solarized-Dark_Custom-Editor.icls
+    dst: ~/Material-Solarized-Dark_Custom-Editor.icls
 profiles:
   base:
     dotfiles:
@@ -71,6 +77,8 @@ profiles:
     - f_vim_colors_solarized.vim
     - f_dotdrop_tester.sh
     - f_tmux.conf
+    - f_material-solarized-dark_custom-ide.xml
+    - f_material-solarized-dark_custom-editor.icls
   worklaptop:
     include:
     - base
