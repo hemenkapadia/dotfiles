@@ -134,21 +134,36 @@ function rd {
 
 # git functions
 # git refresh remote branch list
-function grrbl {
+function g-rrbl {
   git remote update origin --prune
 }
 
 
 # Docker functions
 
+# System
+function d-du {
+  # Docker disk usage detail
+  docker system df -v
+}
+function d-si {
+  # show docker system information
+  d-du
+  docker system info
+}
+function d-sp {
+  d-du
+  docker system prune
+}
+
 # Container
-function dcl {
+function d-cl {
   docker container ls -a
 }
-function dcrm {
+function d-crm {
   docker container rm $(docker container ls -aq)
 }
-function dcs {
+function d-cs {
   count=$(docker container ls | grep -c $1)
   [[ $count -eq 0 ]] && { echo "No docker containers match pattern"; return 1; }
   [[ $count -gt 1 ]] && { echo "More than 1 docker containers match pattern"; return 1; }
@@ -158,15 +173,15 @@ function dcs {
 }
 
 # Image
-function dil {
+function d-il {
   docker image ls $1 
 }
 
 # Volume
-function dvl {
+function d-vl {
   docker volume ls
 }
-function dvi {
+function d-vi {
   count=$(docker volume ls | grep -c $1)
   [[ $count -eq 0 ]] && { echo "No docker volumes match pattern"; return 1; }
   [[ $count -gt 1 ]] && { echo "More than 1 docker volumes match pattern"; return 1; }
@@ -174,7 +189,7 @@ function dvi {
   [[ -z "${vol_label}" ]] && { echo "Volumes pattern matching failed"; return 1; }
   docker volume inspect "${vol_label}"
 }
-function dvpr {
+function d-vpr {
   docker volume prune
 }
 

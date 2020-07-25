@@ -12,6 +12,11 @@ alias diff="icdiff -N --no-bold -U 3"
 
 # dotdrop
 alias global-dotdrop="dotdrop --cfg $HOME/dotfiles/config-global.yaml"
+alias dd-c="dotdrop compare"
+alias dd-add="dotdrop import"
+alias dd-get="dotdrop install"
+alias dd-put="dotdrop update"
+
 
 # Directory aliases
 alias cdo="cd $HOME/Workspace/Office"
