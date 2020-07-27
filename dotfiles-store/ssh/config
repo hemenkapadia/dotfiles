@@ -23,7 +23,7 @@ Host github.pwc.com
 Host p9
     HostName 172.31.249.99
     User hemen
-    IdentityFile ~/.ssh/ibm.id_rsa
+    IdentityFile ~/.ssh/ibm/ibm.id_rsa
     LocalForward 12345 127.0.0.1:12345
     LocalForward 54321 127.0.0.1:54321
     LocalForward  9090 127.0.0.1:9090
@@ -33,7 +33,7 @@ Host p9
 Host p8
     HostName 172.31.219.95
     User hemen
-    IdentityFile ~/.ssh/ibm.id_rsa
+    IdentityFile ~/.ssh/ibm/ibm.id_rsa
     LocalForward 12345 localhost:12345
 
 # IBM Power 9 machine in H2O.ai office server room
