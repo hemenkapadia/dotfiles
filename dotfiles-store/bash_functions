@@ -239,9 +239,5 @@ function killdai {
   pkill --signal 9 -f -u $USER 'procsy|h2o.jar|vis-data-server.jar|h2oai-DriverlessAI|h2oai-worker:stats|redis-server'
 }
 
-{%@@ if profile in ["worklaptop"] @@%}
-# shellcheck source=/home/hemen/Workspace/Office/Customers/PwC/audit-api/tools/bash_functions_pwc
-source "${HOME}/Workspace/Office/Customers/PwC/audit-api/tools/bash_functions_pwc"
-{%@@ endif @@%}
 
 {%@@ endif @@%}
