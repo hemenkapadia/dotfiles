@@ -7,7 +7,28 @@
 
 # github  
 Host github.com
- IdentityFile ~/.ssh/github/id_rsa
+  IdentityFile ~/.ssh/github/id_rsa
+
+{%@@ endif @@%}
+
+{%@@ if profile in ["worklaptop", "homelaptop" ] @@%}
+
+# RaspberryPis 
+Host rpi-main rpi-node1 rpi-node2 rpi-node3
+  IdentityFile ~/.ssh/RPi/id_rsa
+  User hemen
+  ForwardAgent yes
+  Compression yes
+  AddressFamily inet
+  Ciphers aes128-gcm@openssh.com,aes128-ctr
+Host rpi-main  
+  HostName 192.168.33.115 
+Host rpi-node1
+  HostName 192.168.33.116 
+Host rpi-node2
+  HostName 192.168.33.117 
+Host rpi-node3
+  HostName 192.168.33.118 
 
 {%@@ endif @@%}
 
