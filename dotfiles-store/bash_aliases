@@ -6,12 +6,14 @@
 # Mostly functions cannot be implemented in a single code line like alias can
 
 # Command aliases
+# ---------------
 alias vi=vim
 alias tmux="tmux -2"
 alias diff="icdiff -N --no-bold -U 3"
 
 
 # dotdrop
+# -------
 alias global-dotdrop="dotdrop --cfg $HOME/dotfiles/config-global.yaml"
 alias dd-c="dotdrop compare"
 alias dd-add="dotdrop import"
@@ -20,11 +22,15 @@ alias dd-put="dotdrop update"
 
 
 # Directory aliases
+# -----------------
 alias cdo="cd $HOME/Workspace/Office"
 alias cdpwc="cd $HOME/Workspace/Office/Customers/PwC"
 alias cdp="cd $HOME/Workspace/Personal"
 
 # Utility Aliases
+# ---------------
 alias memutil='free -wht --si'
 alias memfree='memutil; sudo tee /proc/sys/vm/drop_caches <<< 1; memutil'
+
 alias du-top='du -sh * | sort -rh | head -n 10'
+alias df-root='df -h /'

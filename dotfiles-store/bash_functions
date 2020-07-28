@@ -4,6 +4,7 @@
 # There could be some aliases and env variables declared here in order to keep them closer
 # to the code using them
 
+{%@@ if profile not in ["workremote","rpiremote"] @@%}
 
 # Generic Utility functions 
 function spdr {
@@ -22,7 +23,6 @@ function enableconda {
 
 # SSH Agent configuration
 # Included only for local profiles. Remote profiles will use ssh-agent forwarding
-{%@@ if profile != "workremote" @@%}
 # File to store the SSH Agent environment
 SSH_ENV=$HOME/.ssh/environment
 # start the ssh-agent
@@ -48,7 +48,6 @@ if [ -f "${SSH_ENV}" ]; then
 else
     start_agent;
 fi
-{%@@ endif @@%}
 
 
 # Window Manager funtions
@@ -130,6 +129,9 @@ function rd {
   ruindesk
   devdesk
 }
+
+
+{%@@ endif @@%}
 
 
 # git functions
