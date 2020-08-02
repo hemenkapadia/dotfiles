@@ -102,6 +102,7 @@ options=(
   44  "Clickhouse" off
   45  "Dive - docker image analyser" off
   46  "Joplin - Notes taking application" off
+  47  "YARN" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -594,6 +595,15 @@ for choice in $choices; do
       echo "Installing Joplin - Notes taking application...."
       wget -O - https://raw.githubusercontent.com/laurent22/joplin/master/Joplin_install_and_update.sh | bash      
       echo "Joplin installation completed. "
+      echo ""
+      ;;
+    47) # Installing YARN 
+      echo ""
+      echo "Installing YARN...."
+      curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+      echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+      sudo apt update && sudo apt install yarn
+      echo "YARN installation completed. "
       echo ""
       ;;
     *)
