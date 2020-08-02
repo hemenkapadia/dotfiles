@@ -14,12 +14,17 @@ alias diff="icdiff -N --no-bold -U 3"
 
 # dotdrop
 # -------
-alias global-dotdrop="dotdrop --cfg $HOME/dotfiles/config-global.yaml"
+alias dd-upgrade="pip3 install --user dotdrop --upgrade"
 alias dd-c="dotdrop compare"
 alias dd-add="dotdrop import"
 alias dd-get="dotdrop install"
 alias dd-put="dotdrop update"
-
+# Global Dotdrop
+alias gdd="sudo dotdrop --cfg $HOME/dotfiles/config-global.yaml"
+alias gdd-c="gdd compare"
+alias gdd-add="gdd import"
+alias gdd-get="gdd install"
+alias gdd-put="gdd update"
 
 # Directory aliases
 # -----------------
