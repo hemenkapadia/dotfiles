@@ -3,5 +3,8 @@
 # Ignore the dotdrop_profile file
 dotdrop_profile
 
+# Ignore the dotdrop_passphrase file
+dotdrop_passphrase
+
 # Ignore idea IDE folder
 .idea

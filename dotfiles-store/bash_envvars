@@ -10,6 +10,10 @@ if [ -f "$HOME/dotfiles/dotdrop_profile" ]; then
     DOTDROP_PROFILE=$(cat "$HOME/dotfiles/dotdrop_profile")
     export DOTDROP_PROFILE
 fi
+if [ -f "$HOME/dotfiles/dotdrop_passphrase" ]; then
+    DOTDROP_PASSPHRASE_FILE="$HOME/dotfiles/dotdrop_passphrase"
+    export DOTDROP_PASSPHRASE_FILE
+fi
 export DOTDROP_CONFIG="$HOME/dotfiles/config.yaml"
 
 # Added by n-install (see http://git.io/n-install-repo).

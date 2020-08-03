@@ -10,6 +10,8 @@ config:
   longkey: true
   showdiff: true
   workdir: ~/.config/dotdrop
+variables:
+  dotdrop_passphrase_file: "{{@@ env['DOTDROP_PASSPHRASE_FILE'] @@}}"
 dotfiles:
   f_gitconfig:
     src: gitconfig
@@ -62,6 +64,16 @@ dotfiles:
   f_material-solarized-dark_custom-editor.icls:
     src: Material-Solarized-Dark_Custom-Editor.icls
     dst: ~/Material-Solarized-Dark_Custom-Editor.icls
+  f_ssh_rpi_id_rsa:
+    src: ssh/RPi/id_rsa
+    dst: ~/.ssh/RPi/id_rsa
+    trans_read: _gpg
+  f_ssh_rpi_id_rsa.pub:
+    src: ssh/RPi/id_rsa.pub
+    dst: ~/.ssh/RPi/id_rsa.pub
+    trans_read: _gpg
+trans_read:
+  _gpg: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}} -q --for-your-eyes-only --no-tty -d {0} > {1} 
 profiles:
   base:
     dotfiles:
@@ -85,6 +97,8 @@ profiles:
     - f_ssh_config
     - f_material-solarized-dark_custom-ide.xml
     - f_material-solarized-dark_custom-editor.icls
+    - f_ssh_rpi_id_rsa
+    - f_ssh_rpi_id_rsa.pub
   workremote:
     include:
     - base
@@ -102,4 +116,6 @@ profiles:
     dotfiles:
     - f_material-solarized-dark_custom-ide.xml
     - f_material-solarized-dark_custom-editor.icls
+    - f_ssh_rpi_id_rsa
+    - f_ssh_rpi_id_rsa.pub
 
