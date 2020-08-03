@@ -26,22 +26,30 @@ if [[ "$?" -eq 0 ]]; then
 fi
 clear
 
-# Install Base dependencies
-dialog --title "Install dependencies" \
+# Install Base dependencies. These should be absolute base, console only dependencies.
+dialog --title "Install Base dependencies" \
   --yesno "Do you want to install base dependencies (recommended) ?" 8 55
 if [[ "$?" -eq 0 ]]; then
   # Install base dependencies
   echo ">>> Installing base dependencies ...."
-  sudo apt install -y tree wget curl snapd openssl \
+  sudo apt install -y tree wget curl htop unzip net-tools wmctrl icdiff\
+                      openssl gnupg-agent apt-transport-https ca-certificates \
                       python3 python3-dev python3-virtualenv python3-venv python3-pip \
-                      apt-transport-https ca-certificates gnupg-agent \
-                      software-properties-common net-tools wmctrl \
-                      htop shellcheck xdotool libcanberra-gtk0 libcanberra-gtk-module \
-                      build-essential unzip unixodbc unixodbc-dev libmagic-dev \
-                      colordiff icdiff 
+                      software-properties-common build-essential 
 fi
 clear
 
+# Install Extended dependencies
+dialog --title "Install Extended dependencies" \
+  --yesno "Do you want to install extended dependencies (recommended) ?" 8 55
+if [[ "$?" -eq 0 ]]; then
+  # Install extended dependencies
+  echo ">>> Installing extended dependencies ...."
+  sudo apt install -y xdotool libcanberra-gtk0 libcanberra-gtk-module \
+                      unixodbc unixodbc-dev libmagic-dev \
+                      shellcheck snapd
+fi
+clear
 
 # Check if upgrade is needed
 dialog --title "Upgrade" \
