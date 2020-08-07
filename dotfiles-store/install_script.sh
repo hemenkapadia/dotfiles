@@ -32,7 +32,7 @@ dialog --title "Install Base dependencies" \
 if [[ "$?" -eq 0 ]]; then
   # Install base dependencies
   echo ">>> Installing base dependencies ...."
-  sudo apt install -y tree wget curl htop unzip net-tools wmctrl icdiff\
+  sudo apt install -y tree wget curl htop unzip net-tools icdiff\
                       openssl gnupg-agent apt-transport-https ca-certificates \
                       python3 python3-dev python3-virtualenv python3-venv python3-pip \
                       software-properties-common build-essential 
@@ -47,7 +47,7 @@ if [[ "$?" -eq 0 ]]; then
   echo ">>> Installing extended dependencies ...."
   sudo apt install -y xdotool libcanberra-gtk0 libcanberra-gtk-module \
                       unixodbc unixodbc-dev libmagic-dev \
-                      shellcheck snapd
+                      shellcheck snapd wmctrl
 fi
 clear
 
