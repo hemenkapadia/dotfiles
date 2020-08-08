@@ -5,13 +5,13 @@
 
 {%@@ if profile in ["worklaptop", "homelaptop" ] @@%}
 
+# bitbucket 
+Host bitbucket.org
+  IdentityFile ~/.ssh/bitbucket/id_rsa
+
 # github  
 Host github.com
   IdentityFile ~/.ssh/github/id_rsa
-
-{%@@ endif @@%}
-
-{%@@ if profile in ["worklaptop", "homelaptop" ] @@%}
 
 # RaspberryPis 
 Host rpi-main rpi-node1 rpi-node2 rpi-node3
