@@ -72,8 +72,12 @@ dotfiles:
     src: ssh/RPi/id_rsa.pub
     dst: ~/.ssh/RPi/id_rsa.pub
     trans_read: _gpg
+  f_config_joplin-desktop_userstyle.css:
+    src: config/joplin-desktop/userstyle.css
+    dst: ~/.config/joplin-desktop/userstyle.css
 trans_read:
-  _gpg: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}} -q --for-your-eyes-only --no-tty -d {0} > {1} 
+  _gpg: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}} -q --for-your-eyes-only
+    --no-tty -d {0} > {1}
 profiles:
   base:
     dotfiles:
@@ -99,6 +103,7 @@ profiles:
     - f_material-solarized-dark_custom-editor.icls
     - f_ssh_rpi_id_rsa
     - f_ssh_rpi_id_rsa.pub
+    - f_config_joplin-desktop_userstyle.css
   workremote:
     include:
     - base
@@ -118,4 +123,5 @@ profiles:
     - f_material-solarized-dark_custom-editor.icls
     - f_ssh_rpi_id_rsa
     - f_ssh_rpi_id_rsa.pub
+    - f_config_joplin-desktop_userstyle.css
 
