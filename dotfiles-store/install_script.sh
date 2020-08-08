@@ -111,6 +111,7 @@ options=(
   45  "Dive - docker image analyser" off
   46  "Joplin - Notes taking application" off
   47  "YARN" off
+  48  "SQLLite DB Browser" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -611,6 +612,13 @@ for choice in $choices; do
       curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
       echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
       sudo apt update && sudo apt install yarn
+      echo "YARN installation completed. "
+      echo ""
+      ;;
+    48) # Installing SQL Lite DB Browser 
+      echo ""
+      echo "Installing SQL Lite DB Browser...."
+      sudo apt update && sudo apt install sqlitebrowser 
       echo "YARN installation completed. "
       echo ""
       ;;
