@@ -3,6 +3,12 @@
 # Refer https://nerderati.com/2011/03/17/simplify-your-life-with-an-ssh-config-file/
 # for cool tips
 
+# Common settings
+Host *
+  # Ensure that specified identities file is passed instead from ssh-agent
+  # Avoids causing too many auth failures when ssh-agent has many keys in it
+  IdentitiesOnly yes
+
 {%@@ if profile in ["worklaptop", "homelaptop" ] @@%}
 
 # bitbucket 
