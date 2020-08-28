@@ -114,6 +114,7 @@ options=(
   48  "SQLLite DB Browser" off
   49  "Open Boradcast Studio" off
   50  "Lightworks Video Studio" off
+  51  "Shotcut Video Editor" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -644,6 +645,21 @@ for choice in $choices; do
       popd
       rm -rf /tmp/lw
       echo "Lightworks installation completed. "
+      echo ""
+      ;;
+    51) # Installing Shotcut vidoe editor 
+      echo ""
+      echo "Installing Shotcut Video Editor...."
+      mkdir -p /tmp/shotcut
+      pushd /tmp/shotcut
+      curl -L https://github.com/mltframework/shotcut/releases/download/v20.07.11/shotcut-linux-x86_64-200711.txz --output shotcut.txz 
+      tar -xf shotcut.txz && sudo mv Shotcut /opt
+      sed -i '/^Exec.*/d' /opt/Shotcut/Shotcut.desktop
+      echo 'Exec=/opt/Shotcut/Shotcut.app/shotcut "%F"' >> /opt/Shotcut/Shotcut.desktop
+      ln -s /opt/Shotcut/Shotcut.desktop "${HOME}"/.local/share/applications
+      popd
+      rm -rf /tmp/shotcut
+      echo "Shotcut completed. "
       echo ""
       ;;
     *)
