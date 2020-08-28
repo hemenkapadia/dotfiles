@@ -112,6 +112,8 @@ options=(
   46  "Joplin - Notes taking application" off
   47  "YARN" off
   48  "SQLLite DB Browser" off
+  49  "Open Boradcast Studio" off
+  50  "Lightworks Video Studio" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
@@ -620,6 +622,28 @@ for choice in $choices; do
       echo "Installing SQL Lite DB Browser...."
       sudo apt update && sudo apt install sqlitebrowser 
       echo "YARN installation completed. "
+      echo ""
+      ;;
+    49) # Installing Open Broadcast Studio 
+      echo ""
+      echo "Installing Open Broadcast Studio...."
+      sudo add-apt-repository ppa:obsproject/obs-studio 
+      sudo apt update
+      sudo apt install -y ffmpeg obs-studio
+      echo "Open Broadcast Studio installation completed. "
+      echo ""
+      ;;
+    50) # Installing lightworks 
+      echo ""
+      echo "Installing lightworks...."
+      mkdir -p /tmp/lw
+      pushd /tmp/lw
+      curl -L https://cdn.lwks.com/releases/lightworks-2020.1-r122068-amd64.deb --output lw.deb
+      sudo apt install ./lw.deb
+      sudo apt install mediainfo-gui
+      popd
+      rm -rf /tmp/lw
+      echo "Lightworks installation completed. "
       echo ""
       ;;
     *)
