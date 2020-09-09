@@ -93,13 +93,13 @@ options=(
   "bas131"  "Docker Compose" off
   "bas132"  "Lazydocker" off
   "bas133"  "Dive - docker image analyser" off
-  "------"  "------------------------------" off 
+  "------"  "------------------------------" off
   "------"  "-----         IDE        -----" off
   "------"  "------------------------------" off
   "ide000"  "vim" off
   "ide005"  "Visual Studio Code" off
   "ide010"  "Jetbrains Toolbox" off
-  "------"  "------------------------------" off 
+  "------"  "------------------------------" off
   "------"  "----- Development Stuff  -----" off
   "------"  "------------------------------" off
   "dev000"  "Miniconda" off
@@ -112,7 +112,7 @@ options=(
   "dev110"  "SQLLite DB Browser" off
   "dev120"  "Clickhouse" off
   "dev130"  "Apache Directory Studio" off
-  "------"  "------------------------------" off 
+  "------"  "------------------------------" off
   "------"  "----- Productivity Stuff -----" off
   "------"  "------------------------------" off
   "prd000"  "mdbook" off
@@ -123,7 +123,7 @@ options=(
   "prd060"  "Zoom Meetings App" off
   "prd070"  "Libreoffice" off
   "prd080"  "PDFsam basic" off
-  "------"  "------------------------------" off 
+  "------"  "------------------------------" off
   "------"  "----- Audio Video Stuff  -----" off
   "------"  "------------------------------" off
   "med000"  "Spotify Client" off
@@ -233,7 +233,7 @@ for choice in $choices; do
       echo "Adapta theme installation completed."
       echo ""
       ;;
-    bas011) # Ubuntu icon themes 
+    bas011) # Ubuntu icon themes
       echo ""
       echo "Installing papirus icons theme...."
       sudo add-apt-repository ppa:papirus/papirus -y

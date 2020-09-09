@@ -81,12 +81,17 @@ function devdesk {
     # For COVID, got monotor home, but dual monitor not possible; hence 1 monitor
     # possible for work laptop profile too
     {%@@ if profile == "worklaptop" @@%}
+    # set workspace 
     wmctrl -r 'Mailspring' -t 1
     wmctrl -r 'Slack' -t 1
     wmctrl -r 'MineTime' -t 1
+    wmctrl -r 'Google Chrome' -t 2
+    wmctrl -r 'Joplin' -t 2
     wmctrl -r 'Mailspring' -e "0,$left_anchor_x,$left_anchor_y,$window_width,$left_window_height"
     wmctrl -r 'Slack' -e "0,$right_anchor_x,$right_top_anchor_y,$window_width,$right_window_height"
     wmctrl -r 'MineTime' -e "0,$right_anchor_x,$right_bottom_anchor_y,$window_width,$right_window_height"
+    wmctrl -r 'Google Chrome' -e "0,$left_anchor_x,$right_top_anchor_y,$window_width,$right_window_height"
+    wmctrl -r 'Joplin' -e "0,$right_anchor_x,$right_top_anchor_y,$window_width,$right_window_height"
     {%@@ endif @@%}
     wmctrl -r '/Workspace/' -t 0
     wmctrl -r 'Visual Studio Code' -t 0
@@ -123,6 +128,9 @@ function ruindesk {
   wmctrl -r 'Mailspring' -t 0 -e '0,1300,50,230,350'
   wmctrl -r 'Slack' -t 0 -e '0,800,50,230,350'
   wmctrl -r 'MineTime' -t 0 -e '0,10,50,230,350'
+  wmctrl -r 'Google Chrome' -t 0 -e '0,12,35,300,260'
+  wmctrl -r 'Joplin' -t 0 -e '0,12,35,300,260'
+
 }
 
 function rd {
