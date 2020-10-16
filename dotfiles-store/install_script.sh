@@ -94,6 +94,7 @@ options=(
   "bas132"  "Lazydocker" off
   "bas133"  "Dive - docker image analyser" off
   "bas134"  "Ansible" off
+  "bas135"  "Google Cloud SDK" off
   "------"  "------------------------------" off
   "------"  "-----         IDE        -----" off
   "------"  "------------------------------" off
@@ -401,6 +402,15 @@ for choice in $choices; do
       sudo apt-get install -y ansible python-argcomplete
       sudo activate-global-python-argcomplete 
       echo "Ansible installation completed."
+      echo ""
+      ;;
+    bas135) # Installing Google Cloud SDK 
+      echo ""
+      echo "Installing Google Cloud SDK...."
+      echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+      curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+      sudo apt-get update && sudo apt-get install -y google-cloud-sdk
+      echo "Google Cloud SDK installation completed."
       echo ""
       ;;
     ide000) # Installing vim
