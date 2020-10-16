@@ -93,6 +93,7 @@ options=(
   "bas131"  "Docker Compose" off
   "bas132"  "Lazydocker" off
   "bas133"  "Dive - docker image analyser" off
+  "bas134"  "Ansible" off
   "------"  "------------------------------" off
   "------"  "-----         IDE        -----" off
   "------"  "------------------------------" off
@@ -390,6 +391,16 @@ for choice in $choices; do
       popd
       rm -rf /tmp/dive
       echo "Dive installation completed. "
+      echo ""
+      ;;
+    bas134) # Installing Ansible 
+      echo ""
+      echo "Installing Ansible...."
+      sudo apt-add-repository --yes --update ppa:ansible/ansible
+      sudo apt-get update
+      sudo apt-get install -y ansible python-argcomplete
+      sudo activate-global-python-argcomplete 
+      echo "Ansible installation completed."
       echo ""
       ;;
     ide000) # Installing vim
