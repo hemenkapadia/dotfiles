@@ -35,7 +35,7 @@ if [[ "$?" -eq 0 ]]; then
   sudo apt install -y tree wget curl htop unzip net-tools icdiff\
                       openssl gnupg-agent apt-transport-https ca-certificates \
                       python3 python3-dev python3-virtualenv python3-venv python3-pip \
-                      software-properties-common build-essential 
+                      software-properties-common build-essential lsb-release 
 fi
 clear
 
@@ -93,8 +93,11 @@ options=(
   "bas131"  "Docker Compose" off
   "bas132"  "Lazydocker" off
   "bas133"  "Dive - docker image analyser" off
-  "bas134"  "Ansible" off
   "bas135"  "Google Cloud SDK" off
+  "bas136"  "AWS CLI SDK" off
+  "bas137"  "Azure CLI SDK" off
+  "bas134"  "Ansible" off
+  "bas138"  "Terraform" off
   "------"  "------------------------------" off
   "------"  "-----         IDE        -----" off
   "------"  "------------------------------" off
@@ -411,6 +414,40 @@ for choice in $choices; do
       curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
       sudo apt-get update && sudo apt-get install -y google-cloud-sdk
       echo "Google Cloud SDK installation completed."
+      echo ""
+      ;;
+    bas136) # Installing AWS CLI 
+      echo ""
+      echo "Installing AWS CLI...."
+      mkdir -p /tmp/awscli
+      pushd /tmp/awscli
+      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      unzip awscliv2.zip
+      sudo ./aws/install
+      popd
+      rm -rf /tmp/awscli
+      echo "AWS CLI installation completed."
+      echo ""
+      ;;
+    bas137) # Installing Azure CLI 
+      echo ""
+      echo "Installing Azure CLI...."
+      curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null 
+      AZ_REPO=$(lsb_release -cs)
+      echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
+      sudo apt-get update && sudo apt-get install -y azure-cli 
+      echo "Azure CLI installation completed."
+      echo ""
+      ;;
+    bas138) # Installing Terraform 
+      echo ""
+      echo "Installing Terraform...."
+      mkdir -p /tmp/terraform
+      pushd /tmp/terraform
+      wget $(curl --silent  https://www.terraform.io/downloads.html | grep '_linux_amd64.zip' | cut -d '"' -f 2) -O terraform.zip
+      unzip terraform.zip
+      mv terraform $HOME/bin
+      echo "Terraform installation completed."
       echo ""
       ;;
     ide000) # Installing vim
