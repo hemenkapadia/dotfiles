@@ -37,5 +37,5 @@ alias cdp="cd $HOME/Workspace/Personal"
 alias memutil='free -wht --si'
 alias memfree='memutil; sudo tee /proc/sys/vm/drop_caches <<< 1; memutil'
 
-alias du-top='du -sh * | sort -rh | head -n 10'
+alias du-top='du -sh * | sort -k 1 -h'
 alias df-root='df -h /'

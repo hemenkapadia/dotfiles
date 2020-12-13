@@ -184,7 +184,7 @@ function d-cs {
 
 # Image
 function d-il {
-  docker image ls $1 
+  docker image ls $1 | sort -k 7 -h 
 }
 
 # Volume
