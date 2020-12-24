@@ -98,6 +98,9 @@ options=(
   "bas137"  "Azure CLI SDK" off
   "bas134"  "Ansible" off
   "bas138"  "Terraform" off
+  "bas139"  "Packer" off
+  "bas140"  "Gnome Screenshot" off
+  "bas141"  "Flameshot Screenshot" off
   "------"  "------------------------------" off
   "------"  "-----         IDE        -----" off
   "------"  "------------------------------" off
@@ -448,6 +451,31 @@ for choice in $choices; do
       unzip terraform.zip
       mv terraform $HOME/bin
       echo "Terraform installation completed."
+      echo ""
+      ;;
+    bas139) # Installing Packer
+      echo ""
+      echo "Installing Packer...."
+      mkdir -p /tmp/packer
+      pushd /tmp/packer
+      wget https://releases.hashicorp.com/packer/1.6.5/packer_1.6.5_linux_amd64.zip -O packer.zip
+      unzip packer.zip
+      mv packer $HOME/bin
+      echo "Packer installation completed."
+      echo ""
+      ;;
+    bas140) # Installing Gnome Screenshot 
+      echo ""
+      echo "Installing Gnome Screenshot...."
+      sudo apt install -y gnome-screenshot 
+      echo "Gnome screenshot installed."
+      echo ""
+      ;;
+    bas141) # Installing Flameshot 
+      echo ""
+      echo "Installing Flameshot...."
+      sudo apt install -y flameshot 
+      echo "Flameshot installed"
       echo ""
       ;;
     ide000) # Installing vim
