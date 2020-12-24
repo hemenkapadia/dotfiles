@@ -7,7 +7,9 @@
 Host *
   # Ensure that specified identities file is passed instead from ssh-agent
   # Avoids causing too many auth failures when ssh-agent has many keys in it
-  IdentitiesOnly yes
+  # Uncommenting this will DISABLE keys from ssh-agent
+  # By DEFAULT, keep commented and use IdentityFile to specify an explicit key below sections
+  # IdentitiesOnly yes
 
 {%@@ if profile in ["worklaptop", "homelaptop" ] @@%}
 
