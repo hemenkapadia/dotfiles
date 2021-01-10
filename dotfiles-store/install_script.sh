@@ -101,7 +101,7 @@ options=(
   "bas134"  "Ansible" off
   "bas138"  "Terraform" off
   "bas139"  "Packer" off
-  "bas150"  "kubectl, k3d, kind" off
+  "bas150"  "Kubernetes Tools" off
   "------"  "------------------------------" off
   "------"  "-----         IDE        -----" off
   "------"  "------------------------------" off
@@ -496,6 +496,21 @@ for choice in $choices; do
       wget "https://github.com/kubernetes-sigs/kind/releases/download/v0.9.0/kind-linux-amd64" -O "${HOME}/bin/kind"
       chmod u+x "${HOME}/bin/kind"
       echo "kind installation completed."
+      echo ""
+      echo "Installing kubectx...."
+      wget "https://github.com/ahmetb/kubectx/releases/download/v0.9.1/kubectx_v0.9.1_linux_x86_64.tar.gz" -O "${HOME}/bin/kubectx"
+      chmod u+x "${HOME}/bin/kubectx"
+      echo "kubectx installation completed."
+      echo ""
+      echo "Installing kubens...."
+      wget "https://github.com/ahmetb/kubectx/releases/download/v0.9.1/kubens_v0.9.1_linux_x86_64.tar.gz" -O "${HOME}/bin/kubens"
+      chmod u+x "${HOME}/bin/kubens"
+      echo "kubens installation completed."
+      echo ""
+      echo "Installing kubebox...."
+      wget "https://github.com/astefanutti/kubebox/releases/download/v0.9.0/kubebox-linux" -O "${HOME}/bin/kubebox"
+      chmod u+x "${HOME}/bin/kubebox"
+      echo "kubebox installation completed."
       echo ""
       ;;
     ide000) # Installing vim
