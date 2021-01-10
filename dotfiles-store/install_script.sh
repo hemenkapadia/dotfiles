@@ -81,6 +81,8 @@ options=(
   "bas011"  "Icon themes" off
   "bas030"  "Gnome Clocks" off
   "bas031"  "Gnome Calendar" off
+  "bas032"  "Gnome Screenshot" off
+  "bas033"  "Flameshot Screenshot" off
   "bas100"  "Git" off
   "bas101"  "Gitbatch" off
   "bas102"  "Tig" off
@@ -99,8 +101,7 @@ options=(
   "bas134"  "Ansible" off
   "bas138"  "Terraform" off
   "bas139"  "Packer" off
-  "bas140"  "Gnome Screenshot" off
-  "bas141"  "Flameshot Screenshot" off
+  "bas150"  "kubectl, k3d, kind" off
   "------"  "------------------------------" off
   "------"  "-----         IDE        -----" off
   "------"  "------------------------------" off
@@ -269,6 +270,20 @@ for choice in $choices; do
       echo "Installing Gnome Calendar...."
       sudo apt install -y gnome-calendar
       echo "Gnome Calendar installation completed."
+      echo ""
+      ;;
+    bas032) # Installing Gnome Screenshot 
+      echo ""
+      echo "Installing Gnome Screenshot...."
+      sudo apt install -y gnome-screenshot 
+      echo "Gnome screenshot installed."
+      echo ""
+      ;;
+    bas033) # Installing Flameshot 
+      echo ""
+      echo "Installing Flameshot...."
+      sudo apt install -y flameshot 
+      echo "Flameshot installed"
       echo ""
       ;;
     bas100) # Install Git
@@ -464,18 +479,23 @@ for choice in $choices; do
       echo "Packer installation completed."
       echo ""
       ;;
-    bas140) # Installing Gnome Screenshot 
+    bas150) # Installing Kubernetes Tools 
       echo ""
-      echo "Installing Gnome Screenshot...."
-      sudo apt install -y gnome-screenshot 
-      echo "Gnome screenshot installed."
+      echo "Installing kubectl...."
+      kubectl_version=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+      wget "https://storage.googleapis.com/kubernetes-release/release/${kubectl_version}/bin/linux/amd64/kubectl" -O "${HOME}/bin/kubectl"
+      chmod u+x "${HOME}/bin/kubectl"
+      echo "kubectl installation completed."
       echo ""
-      ;;
-    bas141) # Installing Flameshot 
+      echo "Installing k3d...."
+      wget "https://github.com/rancher/k3d/releases/download/v3.4.0/k3d-linux-amd64" -O "${HOME}/bin/k3d"
+      chmod u+x "${HOME}/bin/k3d"
+      echo "k3d installation completed."
       echo ""
-      echo "Installing Flameshot...."
-      sudo apt install -y flameshot 
-      echo "Flameshot installed"
+      echo "Installing kind...."
+      wget "https://github.com/kubernetes-sigs/kind/releases/download/v0.9.0/kind-linux-amd64" -O "${HOME}/bin/kind"
+      chmod u+x "${HOME}/bin/kind"
+      echo "kind installation completed."
       echo ""
       ;;
     ide000) # Installing vim
