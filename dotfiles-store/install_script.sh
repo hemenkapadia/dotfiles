@@ -32,7 +32,7 @@ dialog --title "Install Base dependencies" \
 if [[ "$?" -eq 0 ]]; then
   # Install base dependencies
   echo ">>> Installing base dependencies ...."
-  sudo apt install -y tree wget curl htop unzip net-tools icdiff\
+  sudo apt install -y tree wget curl htop unzip net-tools icdiff vim\
                       openssl gnupg-agent apt-transport-https ca-certificates \
                       python3 python3-dev python3-virtualenv python3-venv python3-pip \
                       software-properties-common build-essential lsb-release 
@@ -79,6 +79,7 @@ options=(
   "bas000"  "Ubuntu Restricted Extras" off
   "bas010"  "Adapta theme" off
   "bas011"  "Icon themes" off
+  "bas029"  "Gnome Tweaks, Shell Extensions" off
   "bas030"  "Gnome Clocks" off
   "bas031"  "Gnome Calendar" off
   "bas032"  "Gnome Screenshot" off
@@ -256,6 +257,17 @@ for choice in $choices; do
       sudo apt-get update
       sudo apt-get install -y moka-icon-theme faba-icon-theme faba-mono-icons 
       echo "moka icon theme installation completed."
+      echo ""
+      ;;
+    bas029) # Installing Gnome Shell Extensions 
+      echo ""
+      echo "Installing Gnome Tweaks and Shell Extensions...."
+      sudo apt install -y gnome-tweaks gnome-shell-extensions 
+      echo "Installing native connectory to manage Gnome Extensions using Chrome...."
+      sudo apt install -y chrome-gnome-shell 
+      echo "Installing extensions for dock and multi-monitor support...."
+      sudo apt install -y gnome-shell-extension-dashtodock gnome-shell-extension-multi-monitors
+      echo "Gnome Clocks installation completed."
       echo ""
       ;;
     bas030) # Installing Gnome Clocks
