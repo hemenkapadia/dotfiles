@@ -79,6 +79,7 @@ options=(
   "bas000"  "Ubuntu Restricted Extras" off
   "bas010"  "Adapta theme" off
   "bas011"  "Icon themes" off
+  "bas028"  "Google Chrome" off
   "bas029"  "Gnome Tweaks, Shell Extensions" off
   "bas030"  "Gnome Clocks" off
   "bas031"  "Gnome Calendar" off
@@ -259,6 +260,18 @@ for choice in $choices; do
       echo "moka icon theme installation completed."
       echo ""
       ;;
+    bas028) # Installing Google Chrome 
+      echo ""
+      echo "Installing Google Chrome browser...."
+      mkdir -p /tmp/chrome
+      pushd /tmp/chrome
+      curl -L https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb --output chrome.deb
+      sudo apt install ./chrome.deb
+      popd
+      rm -rf /tmp/chrome
+      echo "Google Chrome installation completed. "
+      echo ""
+      ;;
     bas029) # Installing Gnome Shell Extensions 
       echo ""
       echo "Installing Gnome Tweaks and Shell Extensions...."
@@ -266,7 +279,8 @@ for choice in $choices; do
       echo "Installing native connectory to manage Gnome Extensions using Chrome...."
       sudo apt install -y chrome-gnome-shell 
       echo "Installing extensions for dock and multi-monitor support...."
-      sudo apt install -y gnome-shell-extension-dashtodock gnome-shell-extension-multi-monitors
+      sudo apt install -y gnome-shell-extension-dashtodock \
+                          gnome-shell-extension-multi-monitors
       echo "Gnome Clocks installation completed."
       echo ""
       ;;
