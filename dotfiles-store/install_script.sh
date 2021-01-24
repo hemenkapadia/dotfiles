@@ -79,6 +79,7 @@ options=(
   "bas000"  "Ubuntu Restricted Extras" off
   "bas010"  "Adapta theme" off
   "bas011"  "Icon themes" off
+  "bas012"  "Ubuntu Wallpapers and Source Code fonts" off
   "bas028"  "Google Chrome" off
   "bas029"  "Gnome Tweaks, Shell Extensions" off
   "bas030"  "Gnome Clocks" off
@@ -259,6 +260,27 @@ for choice in $choices; do
       sudo apt-get install -y moka-icon-theme faba-icon-theme faba-mono-icons 
       echo "moka icon theme installation completed."
       echo ""
+      ;;
+    bas012) # Install wallpapers and source code fonts
+      # https://help.gnome.org/admin/system-admin-guide/stable/fonts-user.html.en
+      echo ""
+      echo "Installing Wallpapers and Fonts ...."
+      if [ -f "privatestuff-master.zip" ]; then
+        mv privatestuff-master.zip /tmp
+        pushd /tmp
+        unzip privatestuff-master.zip
+        mv privatestuff-master/wallpapers $HOME/Pictures
+        echo "Wallpaer installation completed."
+        mkdir -p $HOME/.local/share/fonts
+        mv privatestuff-master/fonts/*.{ttf,otf} $HOME/.local/share/fonts
+        fc-cache $HOME/.local/share/fonts
+        echo "Fonts installation completed."
+        rm -rf /tmp/privatestuff-master.zip && rm -rf privatestuff-master
+        popd
+      else
+        echo "Could not locate privatestuff-master.zip."
+        echo "Download the zip from https://github.com/hemenkapadia/privatestuff in your broser and put in the same dir as this file."
+      fi
       ;;
     bas028) # Installing Google Chrome 
       echo ""
