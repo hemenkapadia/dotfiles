@@ -16,51 +16,67 @@ dotfiles:
   f_gitconfig:
     src: gitconfig
     dst: ~/.gitconfig
+    chmod: '644'
   f_bashrc:
     src: bashrc
     dst: ~/.bashrc
+    chmod: '644'
   f_bash_envvars:
     src: bash_envvars
     dst: ~/.bash_envvars
+    chmod: '644'
   f_bash_aliases:
     src: bash_aliases
     dst: ~/.bash_aliases
+    chmod: '644'
   f_bash_functions:
     src: bash_functions
     dst: ~/.bash_functions
+    chmod: '644'
   f_profile:
     src: profile
     dst: ~/.profile
+    chmod: '644'
   f_bash_logout:
     src: bash_logout
     dst: ~/.bash_logout
+    chmod: '644'
   f_install_script.sh:
     src: install_script.sh
     dst: ~/install_script.sh
+    chmod: '755'
   f_vimrc:
     src: vimrc
     dst: ~/.vimrc
+    chmod: '644'
   f_ideavimrc:
     src: ideavimrc
     dst: ~/.ideavimrc
+    chmod: '644'
   f_vim_colors_solarized.vim:
     src: vim/colors/solarized.vim
     dst: ~/.vim/colors/solarized.vim
+    chmod: '644'
   f_tmux.conf:
     src: tmux.conf
     dst: ~/.tmux.conf
+    chmod: '644'
   f_ssh_rc:
     src: ssh/rc
     dst: ~/.ssh/rc
+    chmod: '644'
   f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
+    chmod: '600'
   f_material-solarized-dark_custom-ide.xml:
     src: Material-Solarized-Dark_Custom-IDE.xml
     dst: ~/Material-Solarized-Dark_Custom-IDE.xml
+    chmod: '644'
   f_material-solarized-dark_custom-editor.icls:
     src: Material-Solarized-Dark_Custom-Editor.icls
     dst: ~/Material-Solarized-Dark_Custom-Editor.icls
+    chmod: '644'
   f_ssh_rpi_id_rsa:
     src: ssh/RPi/id_rsa
     dst: ~/.ssh/RPi/id_rsa
@@ -74,6 +90,7 @@ dotfiles:
   f_config_joplin-desktop_userstyle.css:
     src: config/joplin-desktop/userstyle.css
     dst: ~/.config/joplin-desktop/userstyle.css
+    chmod: '644'
   f_dotdrop_tester.sh:
     src: dotdrop_tester.sh
     dst: ~/dotdrop_tester.sh
