@@ -16,13 +16,15 @@ alias diff="icdiff -N --no-bold -U 3"
 # -------
 alias dd-upgrade="pip3 install --user dotdrop --upgrade"
 alias dd-c="dotdrop compare"
-alias dd-add="dotdrop import"
+alias dd-add="dotdrop import -m"
+alias dd-del="dotdrop remove"
 alias dd-get="dotdrop install"
 alias dd-put="dotdrop update"
 # Global Dotdrop
-alias gdd="sudo dotdrop --cfg $HOME/dotfiles/config-global.yaml"
+alias gdd="sudo --preserve-env=DOTDROP_PASSPHRASE_FILE,DOTDROP_PROFILE dotdrop --cfg $HOME/dotfiles/config-global.yaml"
 alias gdd-c="gdd compare"
-alias gdd-add="gdd import"
+alias gdd-add="gdd import -m"
+alias gdd-del="gdd remove"
 alias gdd-get="gdd install"
 alias gdd-put="gdd update"
 
