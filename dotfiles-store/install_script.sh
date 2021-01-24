@@ -98,10 +98,10 @@ options=(
   "bas131"  "Docker Compose" off
   "bas132"  "Lazydocker" off
   "bas133"  "Dive - docker image analyser" off
+  "bas134"  "Ansible" off
   "bas135"  "Google Cloud SDK" off
   "bas136"  "AWS CLI SDK" off
   "bas137"  "Azure CLI SDK" off
-  "bas134"  "Ansible" off
   "bas138"  "Terraform" off
   "bas139"  "Packer" off
   "bas150"  "Kubernetes Tools" off
@@ -517,7 +517,9 @@ for choice in $choices; do
       echo "Installing Terraform...."
       mkdir -p /tmp/terraform
       pushd /tmp/terraform
-      wget $(curl --silent  https://www.terraform.io/downloads.html | grep '_linux_amd64.zip' | cut -d '"' -f 2) -O terraform.zip
+      # Commenting download of latest version as there were some errors experienced. Will use 0.13.6 version for now
+      # wget $(curl --silent  https://www.terraform.io/downloads.html | grep '_linux_amd64.zip' | cut -d '"' -f 2) -O terraform.zip
+      wget  https://releases.hashicorp.com/terraform/0.13.6/terraform_0.13.6_linux_amd64.zip -O terraform.zip
       unzip terraform.zip
       mv terraform $HOME/bin
       echo "Terraform installation completed."
@@ -528,7 +530,7 @@ for choice in $choices; do
       echo "Installing Packer...."
       mkdir -p /tmp/packer
       pushd /tmp/packer
-      wget https://releases.hashicorp.com/packer/1.6.5/packer_1.6.5_linux_amd64.zip -O packer.zip
+      wget https://releases.hashicorp.com/packer/1.6.6/packer_1.6.6_linux_amd64.zip -O packer.zip
       unzip packer.zip
       mv packer $HOME/bin
       echo "Packer installation completed."
