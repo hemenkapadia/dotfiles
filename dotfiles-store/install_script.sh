@@ -521,7 +521,7 @@ for choice in $choices; do
       # wget $(curl --silent  https://www.terraform.io/downloads.html | grep '_linux_amd64.zip' | cut -d '"' -f 2) -O terraform.zip
       wget  https://releases.hashicorp.com/terraform/0.13.6/terraform_0.13.6_linux_amd64.zip -O terraform.zip
       unzip terraform.zip
-      mv terraform $HOME/bin
+      mv terraform $HOME/.local/bin
       echo "Terraform installation completed."
       echo ""
       ;;
@@ -532,7 +532,7 @@ for choice in $choices; do
       pushd /tmp/packer
       wget https://releases.hashicorp.com/packer/1.6.6/packer_1.6.6_linux_amd64.zip -O packer.zip
       unzip packer.zip
-      mv packer $HOME/bin
+      mv packer $HOME/.local/bin
       echo "Packer installation completed."
       echo ""
       ;;
