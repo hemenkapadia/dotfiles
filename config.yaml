@@ -46,9 +46,6 @@ dotfiles:
   f_vim_colors_solarized.vim:
     src: vim/colors/solarized.vim
     dst: ~/.vim/colors/solarized.vim
-  f_dotdrop_tester.sh:
-    src: dotdrop_tester.sh
-    dst: ~/dotdrop_tester.sh
   f_tmux.conf:
     src: tmux.conf
     dst: ~/.tmux.conf
@@ -67,17 +64,23 @@ dotfiles:
   f_ssh_rpi_id_rsa:
     src: ssh/RPi/id_rsa
     dst: ~/.ssh/RPi/id_rsa
-    trans_read: _gpg
+    trans_read: _gpg_priv
+    chmod: '600'
   f_ssh_rpi_id_rsa.pub:
     src: ssh/RPi/id_rsa.pub
     dst: ~/.ssh/RPi/id_rsa.pub
-    trans_read: _gpg
+    trans_read: _gpg_pub
+    chmod: '644'
   f_config_joplin-desktop_userstyle.css:
     src: config/joplin-desktop/userstyle.css
     dst: ~/.config/joplin-desktop/userstyle.css
+  f_dotdrop_tester.sh:
+    src: dotdrop_tester.sh
+    dst: ~/dotdrop_tester.sh
+    chmod: '755'
 trans_read:
-  _gpg: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}} -q --for-your-eyes-only
-    --no-tty -d {0} > {1}
+  _gpg_priv: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}} -q --for-your-eyes-only --no-tty -d {0} > {1} && chmod 600 {1}
+  _gpg_pub: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}} -q --for-your-eyes-only --no-tty -d {0} > {1} && chmod 644 {1}
 profiles:
   base:
     dotfiles:
@@ -92,8 +95,8 @@ profiles:
     - f_vimrc
     - f_ideavimrc
     - f_vim_colors_solarized.vim
-    - f_dotdrop_tester.sh
     - f_tmux.conf
+    - f_dotdrop_tester.sh
   worklaptop:
     include:
     - base
