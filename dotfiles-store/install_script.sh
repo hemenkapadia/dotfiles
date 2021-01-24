@@ -608,7 +608,7 @@ for choice in $choices; do
       echo "Installing Jetbrains Toolbox ...."
       mkdir -p /tmp/jetbrains
       pushd /tmp/jetbrains
-      wget https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.15.5796.tar.gz
+      wget https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.19.7784.tar.gz
       tar -zxvf jetbrains*.tar.gz
       ./jetbrains*/jetbrains-toolbox
       popd
