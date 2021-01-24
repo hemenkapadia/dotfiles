@@ -540,33 +540,39 @@ for choice in $choices; do
       echo ""
       echo "Installing kubectl...."
       kubectl_version=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-      wget "https://storage.googleapis.com/kubernetes-release/release/${kubectl_version}/bin/linux/amd64/kubectl" -O "${HOME}/bin/kubectl"
-      chmod u+x "${HOME}/bin/kubectl"
+      wget "https://storage.googleapis.com/kubernetes-release/release/${kubectl_version}/bin/linux/amd64/kubectl" -O "${HOME}/.local/bin/kubectl"
+      chmod u+x "${HOME}/.local/bin/kubectl"
       echo "kubectl installation completed."
       echo ""
       echo "Installing k3d...."
-      wget "https://github.com/rancher/k3d/releases/download/v3.4.0/k3d-linux-amd64" -O "${HOME}/bin/k3d"
-      chmod u+x "${HOME}/bin/k3d"
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/rancher/k3d/releases/latest | rev | cut -d '/' -f 1 | rev)
+      wget "https://github.com/rancher/k3d/releases/download/${version}/k3d-linux-amd64" -O "${HOME}/.local/bin/k3d"
+      unset version
+      chmod u+x "${HOME}/.local/bin/k3d"
       echo "k3d installation completed."
       echo ""
       echo "Installing kind...."
-      wget "https://github.com/kubernetes-sigs/kind/releases/download/v0.9.0/kind-linux-amd64" -O "${HOME}/bin/kind"
-      chmod u+x "${HOME}/bin/kind"
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/kubernetes-sigs/kind/releases/latest | rev | cut -d '/' -f 1 | rev)
+      wget "https://github.com/kubernetes-sigs/kind/releases/download/${version}/kind-linux-amd64" -O "${HOME}/.local/bin/kind"
+      unset version
+      chmod u+x "${HOME}/.local/bin/kind"
       echo "kind installation completed."
       echo ""
-      echo "Installing kubectx...."
-      wget "https://github.com/ahmetb/kubectx/releases/download/v0.9.1/kubectx_v0.9.1_linux_x86_64.tar.gz" -O "${HOME}/bin/kubectx"
-      chmod u+x "${HOME}/bin/kubectx"
-      echo "kubectx installation completed."
-      echo ""
-      echo "Installing kubens...."
-      wget "https://github.com/ahmetb/kubectx/releases/download/v0.9.1/kubens_v0.9.1_linux_x86_64.tar.gz" -O "${HOME}/bin/kubens"
-      chmod u+x "${HOME}/bin/kubens"
-      echo "kubens installation completed."
+      echo "Installing kubectx and kubens...."
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/ahmetb/kubectx/releases/latest | rev | cut -d '/' -f 1 | rev)
+      wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubectx_${version}_linux_x86_64.tar.gz" -O "${HOME}/.local/bin/kubectx"
+      wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubens_${version}_linux_x86_64.tar.gz" -O "${HOME}/.local/bin/kubens"
+      unset version
+      chmod u+x "${HOME}/.local/bin/kubectx"
+      chmod u+x "${HOME}/.local/bin/kubens"
+      echo "kubectx and kubens installation completed."
       echo ""
       echo "Installing kubebox...."
-      wget "https://github.com/astefanutti/kubebox/releases/download/v0.9.0/kubebox-linux" -O "${HOME}/bin/kubebox"
-      chmod u+x "${HOME}/bin/kubebox"
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/astefanutti/kubebox/releases/latest | rev | cut -d '/' -f 1 | rev)
+      wget "https://github.com/astefanutti/kubebox/releases/download/v0.9.0/kubebox-linux" -O "${HOME}/.local/bin/kubebox"
+      unset version
+      chmod u+x "${HOME}/.local/bin/kubebox"
       echo "kubebox installation completed."
       echo ""
       ;;
