@@ -439,9 +439,13 @@ for choice in $choices; do
       ;;
     bas131) # Install docker compose
       echo ""
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/docker/compose/releases/latest | rev | cut -d '/' -f 1 | rev)
+      version="1.27.4"  # hardcoading as 1.28.0 was giving python library error
       echo "Installing Docker Compose...."
-      sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+      sudo curl -L "https://github.com/docker/compose/releases/download/${version}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
       sudo chmod +x /usr/local/bin/docker-compose
+      unset version
       echo ""
       ;;
     bas132) # Installing Lazydocker
