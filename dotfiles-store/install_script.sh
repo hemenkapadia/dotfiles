@@ -104,6 +104,7 @@ options=(
   "bas137"  "Azure CLI SDK" off
   "bas138"  "Terraform" off
   "bas139"  "Packer" off
+  "bas140"  "s3cmd" off
   "bas150"  "Kubernetes Tools" off
   "------"  "------------------------------" off
   "------"  "-----         IDE        -----" off
@@ -535,6 +536,12 @@ for choice in $choices; do
       mv packer $HOME/.local/bin
       echo "Packer installation completed."
       echo ""
+      ;;
+    bas140) # Install s3cmd 
+      echo ""
+      echo "Installing s3cmd from pypi systemwide ...."
+      sudo pip3 install --system s3cmd 
+      echo "s3cmd Installation completed."
       ;;
     bas150) # Installing Kubernetes Tools 
       echo ""
