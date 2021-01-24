@@ -747,7 +747,7 @@ for choice in $choices; do
       echo "Installing Slack...."
       mkdir -p /tmp/slack
       pushd /tmp/slack
-      wget https://downloads.slack-edge.com/linux_releases/slack-desktop-4.0.2-amd64.deb
+      wget https://downloads.slack-edge.com/linux_releases/slack-desktop-4.12.2-amd64.deb
       sudo dpkg -i slack*.deb
       popd
       rm -rf /tmp/slack
@@ -778,7 +778,7 @@ for choice in $choices; do
       echo "Installing PDFsam basic...."
       mkdir -p /tmp/pdfsamb
       pushd /tmp/pdfsamb
-      curl -L  https://github.com/torakiki/pdfsam/releases/download/v4.0.5/pdfsam_4.0.5-1_amd64.deb --output pdfsam.deb
+      curl -L  https://github.com/torakiki/pdfsam/releases/download/v4.2.1/pdfsam_4.2.1-1_amd64.deb --output pdfsam.deb
       sudo dpkg -i pdfsam.deb
       popd
       rm -rf /tmp/pdfsamb
