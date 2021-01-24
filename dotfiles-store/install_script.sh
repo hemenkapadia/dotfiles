@@ -458,10 +458,13 @@ for choice in $choices; do
     bas133) # Installing Dive - docker image analyser 
       echo ""
       echo "Installing Dive - docker image analyser...."
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/wagoodman/dive/releases/latest | rev | cut -d '/' -f 1 | rev)
       mkdir -p /tmp/dive
       pushd /tmp/dive
-      curl -L https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_amd64.deb --output dive.deb
+      curl -L "https://github.com/wagoodman/dive/releases/download/${version}/dive_${version:1}_linux_amd64.deb" --output dive.deb
       sudo apt install ./dive.deb
+      unset version
       popd
       rm -rf /tmp/dive
       echo "Dive installation completed. "
