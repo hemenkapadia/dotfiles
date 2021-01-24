@@ -390,10 +390,10 @@ for choice in $choices; do
       echo ">>> Adding keys to ssh-agent"
       find ~/.ssh -type f -name *id_rsa -exec /usr/bin/ssh-add {} \;
       ;;
-    bas110) # Install dotdrop using snapd
+    bas110) # Install dotdrop
       echo ""
-      echo "Installing dotdrop from pypi in the normal python environment, not using virtualenv ...."
-      pip3 install --user dotdrop
+      echo "Installing dotdrop from pypi for the system, not using virtualenv ...."
+      sudo pip3 install --system dotdrop
       echo "dotdrop Installation completed."
       echo "Please setup your dordrop repository as explained at https://github.com/deadc0de6/dotdrop/wiki/installation#setup-your-repository"
       ;;
