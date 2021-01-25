@@ -118,7 +118,9 @@ options=(
   "dev000"  "Miniconda" off
   "dev030"  "NodeJS LTS using n-install" off
   "dev031"  "YARN" off
+  "dev040"  "Pipenv and Pipes" off
   "dev050"  "OpenJDK 8" off
+  "dev051"  "OpenJDK 11" off
   "dev060"  "Go language" off
   "dev080"  "Rust+Cargo" off
   "dev100"  "dbeaver Community - Databse Tool" off
@@ -393,7 +395,7 @@ for choice in $choices; do
     bas110) # Install dotdrop
       echo ""
       echo "Installing dotdrop from pypi for the system, not using virtualenv ...."
-      sudo pip3 install --system dotdrop
+      sudo python3 -m pip install --system dotdrop
       echo "dotdrop Installation completed."
       echo "Please setup your dordrop repository as explained at https://github.com/deadc0de6/dotdrop/wiki/installation#setup-your-repository"
       ;;
@@ -537,13 +539,13 @@ for choice in $choices; do
       echo "Packer installation completed."
       echo ""
       ;;
-    bas140) # Install s3cmd 
+    bas140) # Install s3cmd
       echo ""
       echo "Installing s3cmd from pypi systemwide ...."
-      sudo pip3 install --system s3cmd 
+      sudo python3 -m pip install --system s3cmd
       echo "s3cmd Installation completed."
       ;;
-    bas150) # Installing Kubernetes Tools 
+    bas150) # Installing Kubernetes Tools
       echo ""
       echo "Installing kubectl...."
       kubectl_version=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
@@ -636,7 +638,7 @@ for choice in $choices; do
       n lts
       echo "NodeJS installation completed."
       ;;
-    dev031) # Installing YARN 
+    dev031) # Installing YARN
       echo ""
       echo "Installing YARN...."
       curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -645,13 +647,27 @@ for choice in $choices; do
       echo "YARN installation completed. "
       echo ""
       ;;
+    dev040) # Install pipenv
+      echo ""
+      echo "Installing pipenv and pipes from pypi for user onlu...."
+      python3 -m pip install --user pipenv
+      python3 -m pip install --user pipenv-pipes
+      echo "Pipenv and Pipes Installation completed."
+      ;;
     dev050) # Installing OpenJDK 8
       echo ""
       echo "Installing OpenJDK 8...."
       sudo apt install -y openjdk-8-jdk
       echo "OpenJDK 8 installation completed."
       echo ""
-      ;;    
+      ;;
+    dev051) # Installing OpenJDK 11
+      echo ""
+      echo "Installing OpenJDK 11...."
+      sudo apt install -y openjdk-11-jdk
+      echo "OpenJDK 11 installation completed."
+      echo ""
+      ;;
     dev060) # Installing Go language
       echo ""
       echo "Installing Go language...."
