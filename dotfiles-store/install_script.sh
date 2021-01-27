@@ -229,7 +229,7 @@ for choice in $choices; do
     sys015) # Installing VPN and Gnome Network Manager
       echo ""
       echo "Installing VPN...."
-      sudo apt install -y vpnc vpnc-connect network-manager-vpnc-gnome
+      sudo apt install -y vpnc network-manager-vpnc-gnome
       echo "VPN installation completed. You will need to configure VPN connection yourself."
       echo ""
       ;;
