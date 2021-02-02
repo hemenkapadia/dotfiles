@@ -584,6 +584,16 @@ for choice in $choices; do
       chmod u+x "${HOME}/.local/bin/kubebox"
       echo "kubebox installation completed."
       echo ""
+      echo "Installing helm...."
+      mkdir -p /tmp/helm
+      pushd /tmp/helm
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/helm/helm/releases/latest | rev | cut -d '/' -f 1 | rev)
+      wget "https://get.helm.sh/helm-v3.5.1-linux-amd64.tar.gz" -O helm.tar.gz
+      unset version
+      tar -zxvf helm.tar.gz
+      mv linux-amd64/helm "${HOME}/.local/bin"
+      echo "kubebox installation completed."
+      echo ""
       ;;
     ide000) # Installing vim
       echo ""
