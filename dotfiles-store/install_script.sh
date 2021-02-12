@@ -3,7 +3,7 @@
 # Check sudo.
 # If credentials not already cached, ask for password and cache credentials.
 # If already cached, increase sudo timeout by 5 min
-sudo -v && exit 1 'Sudo access needed to execute this script'
+sudo -v || { echo 'Sudo access needed to execute this script'; exit 1; }
 
 # Check if dialog is installed. If not, install it.
 dialog -v || sudo apt install -y dialog
@@ -35,7 +35,7 @@ if [[ "$?" -eq 0 ]]; then
   sudo apt install -y tree wget curl htop unzip net-tools icdiff vim\
                       openssl gnupg-agent apt-transport-https ca-certificates \
                       python3 python3-dev python3-virtualenv python3-venv python3-pip \
-                      software-properties-common build-essential lsb-release 
+                      software-properties-common build-essential lsb-release
 fi
 clear
 
@@ -260,7 +260,7 @@ for choice in $choices; do
       echo "Installing moka icons theme...."
       sudo add-apt-repository ppa:snwh/ppa -y
       sudo apt-get update
-      sudo apt-get install -y moka-icon-theme faba-icon-theme faba-mono-icons 
+      sudo apt-get install -y moka-icon-theme faba-icon-theme faba-mono-icons
       echo "moka icon theme installation completed."
       echo ""
       ;;
@@ -285,7 +285,7 @@ for choice in $choices; do
         echo "Download the zip from https://github.com/hemenkapadia/privatestuff in your broser and put in the same dir as this file."
       fi
       ;;
-    bas028) # Installing Google Chrome 
+    bas028) # Installing Google Chrome
       echo ""
       echo "Installing Google Chrome browser...."
       mkdir -p /tmp/chrome
@@ -297,12 +297,12 @@ for choice in $choices; do
       echo "Google Chrome installation completed. "
       echo ""
       ;;
-    bas029) # Installing Gnome Shell Extensions 
+    bas029) # Installing Gnome Shell Extensions
       echo ""
       echo "Installing Gnome Tweaks and Shell Extensions...."
-      sudo apt install -y gnome-tweaks gnome-shell-extensions 
+      sudo apt install -y gnome-tweaks gnome-shell-extensions
       echo "Installing native connectory to manage Gnome Extensions using Chrome...."
-      sudo apt install -y chrome-gnome-shell 
+      sudo apt install -y chrome-gnome-shell
       echo "Installing extensions for dock and multi-monitor support...."
       sudo apt install -y gnome-shell-extension-dashtodock \
                           gnome-shell-extension-multi-monitors
@@ -323,17 +323,17 @@ for choice in $choices; do
       echo "Gnome Calendar installation completed."
       echo ""
       ;;
-    bas032) # Installing Gnome Screenshot 
+    bas032) # Installing Gnome Screenshot
       echo ""
       echo "Installing Gnome Screenshot...."
-      sudo apt install -y gnome-screenshot 
+      sudo apt install -y gnome-screenshot
       echo "Gnome screenshot installed."
       echo ""
       ;;
-    bas033) # Installing Flameshot 
+    bas033) # Installing Flameshot
       echo ""
       echo "Installing Flameshot...."
-      sudo apt install -y flameshot 
+      sudo apt install -y flameshot
       echo "Flameshot installed"
       echo ""
       ;;
@@ -458,7 +458,7 @@ for choice in $choices; do
       echo "Lazydocker installation completed."
       echo ""
       ;;
-    bas133) # Installing Dive - docker image analyser 
+    bas133) # Installing Dive - docker image analyser
       echo ""
       echo "Installing Dive - docker image analyser...."
       # Get latest github release tag or version but printing the redirection url for the latest relese
@@ -473,17 +473,17 @@ for choice in $choices; do
       echo "Dive installation completed. "
       echo ""
       ;;
-    bas134) # Installing Ansible 
+    bas134) # Installing Ansible
       echo ""
       echo "Installing Ansible...."
       sudo apt-add-repository --yes --update ppa:ansible/ansible
       sudo apt-get update
       sudo apt-get install -y ansible python-argcomplete
-      sudo activate-global-python-argcomplete 
+      sudo activate-global-python-argcomplete
       echo "Ansible installation completed."
       echo ""
       ;;
-    bas135) # Installing Google Cloud SDK 
+    bas135) # Installing Google Cloud SDK
       echo ""
       echo "Installing Google Cloud SDK...."
       echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
@@ -492,7 +492,7 @@ for choice in $choices; do
       echo "Google Cloud SDK installation completed."
       echo ""
       ;;
-    bas136) # Installing AWS CLI 
+    bas136) # Installing AWS CLI
       echo ""
       echo "Installing AWS CLI...."
       mkdir -p /tmp/awscli
@@ -505,17 +505,17 @@ for choice in $choices; do
       echo "AWS CLI installation completed."
       echo ""
       ;;
-    bas137) # Installing Azure CLI 
+    bas137) # Installing Azure CLI
       echo ""
       echo "Installing Azure CLI...."
-      curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null 
+      curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
       AZ_REPO=$(lsb_release -cs)
       echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
-      sudo apt-get update && sudo apt-get install -y azure-cli 
+      sudo apt-get update && sudo apt-get install -y azure-cli
       echo "Azure CLI installation completed."
       echo ""
       ;;
-    bas138) # Installing Terraform 
+    bas138) # Installing Terraform
       echo ""
       echo "Installing Terraform...."
       mkdir -p /tmp/terraform
@@ -525,6 +525,7 @@ for choice in $choices; do
       wget  https://releases.hashicorp.com/terraform/0.13.6/terraform_0.13.6_linux_amd64.zip -O terraform.zip
       unzip terraform.zip
       mv terraform $HOME/.local/bin
+      popd
       echo "Terraform installation completed."
       echo ""
       ;;
@@ -536,6 +537,7 @@ for choice in $choices; do
       wget https://releases.hashicorp.com/packer/1.6.6/packer_1.6.6_linux_amd64.zip -O packer.zip
       unzip packer.zip
       mv packer $HOME/.local/bin
+      popd
       echo "Packer installation completed."
       echo ""
       ;;
@@ -546,54 +548,106 @@ for choice in $choices; do
       echo "s3cmd Installation completed."
       ;;
     bas150) # Installing Kubernetes Tools
-      echo ""
-      echo "Installing kubectl...."
-      kubectl_version=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-      wget "https://storage.googleapis.com/kubernetes-release/release/${kubectl_version}/bin/linux/amd64/kubectl" -O "${HOME}/.local/bin/kubectl"
-      chmod u+x "${HOME}/.local/bin/kubectl"
-      echo "kubectl installation completed."
-      echo ""
-      echo "Installing k3d...."
-      # Get latest github release tag or version but printing the redirection url for the latest relese
-      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/rancher/k3d/releases/latest | rev | cut -d '/' -f 1 | rev)
-      wget "https://github.com/rancher/k3d/releases/download/${version}/k3d-linux-amd64" -O "${HOME}/.local/bin/k3d"
-      unset version
-      chmod u+x "${HOME}/.local/bin/k3d"
-      echo "k3d installation completed."
-      echo ""
-      echo "Installing kind...."
-      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/kubernetes-sigs/kind/releases/latest | rev | cut -d '/' -f 1 | rev)
-      wget "https://github.com/kubernetes-sigs/kind/releases/download/${version}/kind-linux-amd64" -O "${HOME}/.local/bin/kind"
-      unset version
-      chmod u+x "${HOME}/.local/bin/kind"
-      echo "kind installation completed."
-      echo ""
-      echo "Installing kubectx and kubens...."
-      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/ahmetb/kubectx/releases/latest | rev | cut -d '/' -f 1 | rev)
-      wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubectx_${version}_linux_x86_64.tar.gz" -O "${HOME}/.local/bin/kubectx"
-      wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubens_${version}_linux_x86_64.tar.gz" -O "${HOME}/.local/bin/kubens"
-      unset version
-      chmod u+x "${HOME}/.local/bin/kubectx"
-      chmod u+x "${HOME}/.local/bin/kubens"
-      echo "kubectx and kubens installation completed."
-      echo ""
-      echo "Installing kubebox...."
-      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/astefanutti/kubebox/releases/latest | rev | cut -d '/' -f 1 | rev)
-      wget "https://github.com/astefanutti/kubebox/releases/download/v0.9.0/kubebox-linux" -O "${HOME}/.local/bin/kubebox"
-      unset version
-      chmod u+x "${HOME}/.local/bin/kubebox"
-      echo "kubebox installation completed."
-      echo ""
-      echo "Installing helm...."
-      mkdir -p /tmp/helm
-      pushd /tmp/helm
-      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/helm/helm/releases/latest | rev | cut -d '/' -f 1 | rev)
-      wget "https://get.helm.sh/helm-v3.5.1-linux-amd64.tar.gz" -O helm.tar.gz
-      unset version
-      tar -zxvf helm.tar.gz
-      mv linux-amd64/helm "${HOME}/.local/bin"
-      echo "kubebox installation completed."
-      echo ""
+      # Show k8s tool dialog
+      kcmd=(dialog --separate-output --checklist "Select k8s tools to install:" 22 76 16)
+      koptions=(
+        "------"  "--------- k8s flavors --------" off
+        "k000"  "k3d - local k8s cluster using docker" off
+        "k001"  "kind - k3d alternative, local k8s using docker" off
+        "------"  "------- k8s cli tools  -------" off
+        "k010"  "kubectl - the main k8s controller cli" off
+        "k011"  "kubectx (context) and kubens (namespace) switchers" off
+        "k020"  "k9s - terminal gui based k8s cli" off
+        "------"  "--------  cli monitor  -------" off
+        "k040"  "kubebox - Terminal and Web console for K8S" off
+        "------"  "-------  package mgrs  -------" off
+        "k200"  "Helm" off
+      )
+      kchoices=$("${kcmd[@]}" "${koptions[@]}" 2>&1 >/dev/tty)
+      clear
+
+      for kchoice in $kchoices; do
+        case $kchoice in
+          k000)
+            echo "Installing k3d...."
+            # Get latest github release tag or version but printing the redirection url for the latest relese
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/rancher/k3d/releases/latest | rev | cut -d '/' -f 1 | rev)
+            wget "https://github.com/rancher/k3d/releases/download/${version}/k3d-linux-amd64" -O "${HOME}/.local/bin/k3d"
+            unset version
+            chmod u+x "${HOME}/.local/bin/k3d"
+            echo "k3d installation completed."
+            echo ""
+            ;;
+          k001)
+            echo "Installing kind...."
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/kubernetes-sigs/kind/releases/latest | rev | cut -d '/' -f 1 | rev)
+            wget "https://github.com/kubernetes-sigs/kind/releases/download/${version}/kind-linux-amd64" -O "${HOME}/.local/bin/kind"
+            unset version
+            chmod u+x "${HOME}/.local/bin/kind"
+            echo "kind installation completed."
+            echo ""
+            ;;
+          k010)
+            echo ""
+            echo "Installing kubectl...."
+            kubectl_version=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+            wget "https://storage.googleapis.com/kubernetes-release/release/${kubectl_version}/bin/linux/amd64/kubectl" -O "${HOME}/.local/bin/kubectl"
+            chmod u+x "${HOME}/.local/bin/kubectl"
+            echo "kubectl installation completed."
+            echo ""
+            ;;
+          k011)
+            echo "Installing kubectx and kubens...."
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/ahmetb/kubectx/releases/latest | rev | cut -d '/' -f 1 | rev)
+            wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubectx_${version}_linux_x86_64.tar.gz" -O "${HOME}/.local/bin/kubectx"
+            wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubens_${version}_linux_x86_64.tar.gz" -O "${HOME}/.local/bin/kubens"
+            unset version
+            chmod u+x "${HOME}/.local/bin/kubectx"
+            chmod u+x "${HOME}/.local/bin/kubens"
+            echo "kubectx and kubens installation completed."
+            echo ""
+            ;;
+          k020)
+            echo "Installing k9s...."
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/derailed/k9s/releases/latest | rev | cut -d '/' -f 1 | rev)
+            mkdir -p /tmp/k9s
+            pushd /tmp/k9s
+            wget "https://github.com/derailed/k9s/releases/download/${version}/k9s_Linux_x86_64.tar.gz" -O k9s.tar.gz
+            unset version
+            tar -zxvf k9s.tar.gz
+            chmod u+x k9s
+            mv k9s "${HOME}/.local/bin/k9s"
+            popd
+            echo "k9s installation completed."
+            echo ""
+            ;;
+          k040)
+            echo "Installing kubebox...."
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/astefanutti/kubebox/releases/latest | rev | cut -d '/' -f 1 | rev)
+            wget "https://github.com/astefanutti/kubebox/releases/download/v0.9.0/kubebox-linux" -O "${HOME}/.local/bin/kubebox"
+            unset version
+            chmod u+x "${HOME}/.local/bin/kubebox"
+            echo "kubebox installation completed."
+            echo ""
+            ;;
+          k200)
+            echo "Installing helm...."
+            mkdir -p /tmp/helm
+            pushd /tmp/helm
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/helm/helm/releases/latest | rev | cut -d '/' -f 1 | rev)
+            wget "https://get.helm.sh/helm-v3.5.1-linux-amd64.tar.gz" -O helm.tar.gz
+            unset version
+            tar -zxvf helm.tar.gz
+            mv linux-amd64/helm "${HOME}/.local/bin"
+            popd
+            echo "kubebox installation completed."
+            echo ""
+            ;;
+          *)
+              # Default Option
+            ;;
+        esac
+      done
       ;;
     ide000) # Installing vim
       echo ""
@@ -714,20 +768,20 @@ for choice in $choices; do
       echo "DBeaver installation completed."
       echo ""
       ;;
-    dev110) # Installing SQL Lite DB Browser 
+    dev110) # Installing SQL Lite DB Browser
       echo ""
       echo "Installing SQL Lite DB Browser...."
-      sudo apt update && sudo apt install sqlitebrowser 
+      sudo apt update && sudo apt install sqlitebrowser
       echo "YARN installation completed. "
       echo ""
       ;;
-    dev120) # Clickhouse installation 
+    dev120) # Clickhouse installation
       echo ""
       echo "Installing clickhouse...."
       echo "deb http://repo.yandex.ru/clickhouse/deb/stable/ main/" | sudo tee -a /etc/apt/sources.list.d/clickhouse.list
       sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
       sudo apt-get update
-      sudo apt-get install -y clickhouse-server clickhouse-client 
+      sudo apt-get install -y clickhouse-server clickhouse-client
       echo "Clickhouse installation completed."
       echo ""
       ;;
@@ -752,10 +806,10 @@ for choice in $choices; do
       echo "mdbook Installation completed."
       echo ""
       ;;
-    prd001) # Installing Joplin 
+    prd001) # Installing Joplin
       echo ""
       echo "Installing Joplin - Notes taking application...."
-      wget -O - https://raw.githubusercontent.com/laurent22/joplin/master/Joplin_install_and_update.sh | bash      
+      wget -O - https://raw.githubusercontent.com/laurent22/joplin/master/Joplin_install_and_update.sh | bash
       echo "Joplin installation completed. "
       echo ""
       ;;
@@ -851,16 +905,16 @@ for choice in $choices; do
       echo "SimpleScreenRecorder Installation completed."
       echo ""
       ;;
-    med030) # Installing Open Broadcast Studio 
+    med030) # Installing Open Broadcast Studio
       echo ""
       echo "Installing Open Broadcast Studio...."
-      sudo add-apt-repository ppa:obsproject/obs-studio 
+      sudo add-apt-repository ppa:obsproject/obs-studio
       sudo apt update
       sudo apt install -y ffmpeg obs-studio
       echo "Open Broadcast Studio installation completed. "
       echo ""
       ;;
-    med040) # Installing lightworks 
+    med040) # Installing lightworks
       echo ""
       echo "Installing lightworks...."
       mkdir -p /tmp/lw
@@ -873,12 +927,12 @@ for choice in $choices; do
       echo "Lightworks installation completed. "
       echo ""
       ;;
-    med050) # Installing Shotcut vidoe editor 
+    med050) # Installing Shotcut vidoe editor
       echo ""
       echo "Installing Shotcut Video Editor...."
       mkdir -p /tmp/shotcut
       pushd /tmp/shotcut
-      curl -L https://github.com/mltframework/shotcut/releases/download/v20.07.11/shotcut-linux-x86_64-200711.txz --output shotcut.txz 
+      curl -L https://github.com/mltframework/shotcut/releases/download/v20.07.11/shotcut-linux-x86_64-200711.txz --output shotcut.txz
       tar -xf shotcut.txz && sudo mv Shotcut /opt
       sed -i '/^Exec.*/d' /opt/Shotcut/Shotcut.desktop
       echo 'Exec=/opt/Shotcut/Shotcut.app/shotcut "%F"' >> /opt/Shotcut/Shotcut.desktop
