@@ -499,7 +499,11 @@ for choice in $choices; do
       pushd /tmp/awscli
       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       unzip awscliv2.zip
-      sudo ./aws/install
+      if which aws; then
+        sudo ./aws/install -i /usr/local/aws-cli -b /usr/local/bin --update
+      else
+        sudo ./aws/install -i /usr/local/aws-cli -b /usr/local/bin
+      fi
       popd
       rm -rf /tmp/awscli
       echo "AWS CLI installation completed."
