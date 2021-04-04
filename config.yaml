@@ -95,9 +95,15 @@ dotfiles:
     src: dotdrop_tester.sh
     dst: ~/dotdrop_tester.sh
     chmod: '755'
+  f_ssh_readme:
+    src: ssh/README
+    dst: ~/.ssh/README
+    chmod: '644'
 trans_read:
-  _gpg_priv: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}} -q --for-your-eyes-only --no-tty -d {0} > {1} && chmod 600 {1}
-  _gpg_pub: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}} -q --for-your-eyes-only --no-tty -d {0} > {1} && chmod 644 {1}
+  _gpg_priv: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}}
+    -q --for-your-eyes-only --no-tty -d {0} > {1} && chmod 600 {1}
+  _gpg_pub: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}}
+    -q --for-your-eyes-only --no-tty -d {0} > {1} && chmod 644 {1}
 profiles:
   base:
     dotfiles:
@@ -124,6 +130,7 @@ profiles:
     - f_ssh_rpi_id_rsa
     - f_ssh_rpi_id_rsa.pub
     - f_config_joplin-desktop_userstyle.css
+    - f_ssh_readme
   workremote:
     include:
     - base
