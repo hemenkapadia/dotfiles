@@ -116,7 +116,6 @@ profiles:
     - f_bash_logout
     - f_install_script.sh
     - f_vimrc
-    - f_ideavimrc
     - f_vim_colors_solarized.vim
     - f_tmux.conf
     - f_dotdrop_tester.sh
@@ -124,6 +123,7 @@ profiles:
     include:
     - base
     dotfiles:
+    - f_ideavimrc
     - f_ssh_config
     - f_material-solarized-dark_custom-ide.xml
     - f_material-solarized-dark_custom-editor.icls
@@ -137,8 +137,6 @@ profiles:
     dotfiles:
     - f_ssh_config
     - f_ssh_rc
-    - f_material-solarized-dark_custom-ide.xml
-    - f_material-solarized-dark_custom-editor.icls
   rpiremote:
     include:
     - base
@@ -146,6 +144,7 @@ profiles:
     include:
     - base
     dotfiles:
+    - f_ideavimrc
     - f_material-solarized-dark_custom-ide.xml
     - f_material-solarized-dark_custom-editor.icls
     - f_ssh_rpi_id_rsa
