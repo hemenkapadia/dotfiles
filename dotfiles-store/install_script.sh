@@ -32,10 +32,19 @@ dialog --title "Install Base dependencies" \
 if [[ "$?" -eq 0 ]]; then
   # Install base dependencies
   echo ">>> Installing base dependencies ...."
-  sudo apt install -y tree wget curl htop unzip net-tools icdiff vim\
-                      openssl gnupg-agent apt-transport-https ca-certificates \
-                      python3 python3-dev python3-virtualenv python3-venv python3-pip \
-                      software-properties-common build-essential lsb-release
+  sudo apt install tree wget curl htop unzip net-tools icdiff vim\
+                   openssl gnupg-agent apt-transport-https ca-certificates \
+                   software-properties-common build-essential lsb-release
+fi
+clear
+
+# Install Python 3 dependencies
+dialog --title "Install Python3 dependencies" \
+  --yesno "Do you want to install Python3 (recommended) ?" 8 55
+if [[ "$?" -eq 0 ]]; then
+  # Install Python 3 dependencies
+  echo ">>> Installing Python 3 dependencies ...."
+  sudo apt install python3 python3-dev python3-virtualenv python3-venv python3-pip
 fi
 clear
 
@@ -45,9 +54,9 @@ dialog --title "Install Extended dependencies" \
 if [[ "$?" -eq 0 ]]; then
   # Install extended dependencies
   echo ">>> Installing extended dependencies ...."
-  sudo apt install -y xdotool libcanberra-gtk0 libcanberra-gtk-module \
-                      unixodbc unixodbc-dev libmagic-dev \
-                      shellcheck snapd wmctrl
+  sudo apt install xdotool libcanberra-gtk0 libcanberra-gtk-module \
+                   unixodbc unixodbc-dev libmagic-dev \
+                   shellcheck snapd wmctrl
 fi
 clear
 
