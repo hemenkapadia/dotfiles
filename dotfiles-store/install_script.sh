@@ -44,7 +44,8 @@ dialog --title "Install Python3 dependencies" \
 if [[ "$?" -eq 0 ]]; then
   # Install Python 3 dependencies
   echo ">>> Installing Python 3 dependencies ...."
-  sudo apt install python3 python3-dev python3-virtualenv python3-venv python3-pip
+  sudo apt install python3 python3-dev
+  sudo apt install python3-virtualenv python3-venv python3-pip
 fi
 clear
 
