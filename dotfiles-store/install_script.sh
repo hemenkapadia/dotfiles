@@ -675,7 +675,7 @@ for choice in $choices; do
       echo "Installing Visual Studio Code ...."
       mkdir -p /tmp/vscode
       pushd /tmp/vscode
-      curl -L https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64 --output vscode.deb
+      curl -L 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' --output vscode.deb
       sudo dpkg -i vscode.deb
       popd
       rm -rf /tmp/vscode
