@@ -6,18 +6,38 @@
 # Mostly functions cannot be implemented in a single code line like alias can
 
 # Command aliases
+# ---------------
 alias vi=vim
 alias tmux="tmux -2"
+alias diff="icdiff -N --no-bold -U 3"
+
 
 # dotdrop
-alias global-dotdrop="dotdrop --cfg $HOME/dotfiles/config-global.yaml"
+# -------
+alias dd-upgrade="pip3 install --user dotdrop --upgrade"
+alias dd-c="dotdrop compare"
+alias dd-add="dotdrop import -m"
+alias dd-del="dotdrop remove"
+alias dd-get="dotdrop install"
+alias dd-put="dotdrop update"
+# Global Dotdrop
+alias gdd="sudo --preserve-env=DOTDROP_PASSPHRASE_FILE,DOTDROP_PROFILE dotdrop --cfg $HOME/dotfiles/config-global.yaml"
+alias gdd-c="gdd compare"
+alias gdd-add="gdd import -m"
+alias gdd-del="gdd remove"
+alias gdd-get="gdd install"
+alias gdd-put="gdd update"
 
 # Directory aliases
+# -----------------
 alias cdo="cd $HOME/Workspace/Office"
 alias cdpwc="cd $HOME/Workspace/Office/Customers/PwC"
 alias cdp="cd $HOME/Workspace/Personal"
 
 # Utility Aliases
+# ---------------
 alias memutil='free -wht --si'
 alias memfree='memutil; sudo tee /proc/sys/vm/drop_caches <<< 1; memutil'
 
+alias du-top='du -sh * | sort -k 1 -h'
+alias df-root='df -h /'

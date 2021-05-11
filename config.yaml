@@ -2,59 +2,108 @@ config:
   backup: true
   banner: false
   create: true
-  diff_command: colordiff {1} {0}
+  diff_command: icdiff -N --no-bold -U 3 {1} {0}
   dotpath: dotfiles-store
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
   longkey: true
+  showdiff: true
   workdir: ~/.config/dotdrop
+variables:
+  dotdrop_passphrase_file: "{{@@ env['DOTDROP_PASSPHRASE_FILE'] @@}}"
 dotfiles:
   f_gitconfig:
     src: gitconfig
     dst: ~/.gitconfig
+    chmod: '644'
   f_bashrc:
     src: bashrc
     dst: ~/.bashrc
+    chmod: '644'
   f_bash_envvars:
     src: bash_envvars
     dst: ~/.bash_envvars
+    chmod: '644'
   f_bash_aliases:
     src: bash_aliases
     dst: ~/.bash_aliases
+    chmod: '644'
   f_bash_functions:
     src: bash_functions
     dst: ~/.bash_functions
+    chmod: '644'
   f_profile:
     src: profile
     dst: ~/.profile
+    chmod: '644'
   f_bash_logout:
     src: bash_logout
     dst: ~/.bash_logout
+    chmod: '644'
   f_install_script.sh:
     src: install_script.sh
     dst: ~/install_script.sh
+    chmod: '755'
   f_vimrc:
     src: vimrc
     dst: ~/.vimrc
+    chmod: '644'
   f_ideavimrc:
     src: ideavimrc
     dst: ~/.ideavimrc
+    chmod: '644'
   f_vim_colors_solarized.vim:
     src: vim/colors/solarized.vim
     dst: ~/.vim/colors/solarized.vim
-  f_dotdrop_tester.sh:
-    src: dotdrop_tester.sh
-    dst: ~/dotdrop_tester.sh
+    chmod: '644'
   f_tmux.conf:
     src: tmux.conf
     dst: ~/.tmux.conf
+    chmod: '644'
   f_ssh_rc:
     src: ssh/rc
     dst: ~/.ssh/rc
+    chmod: '644'
   f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
+    chmod: '600'
+  f_material-solarized-dark_custom-ide.xml:
+    src: Material-Solarized-Dark_Custom-IDE.xml
+    dst: ~/Material-Solarized-Dark_Custom-IDE.xml
+    chmod: '644'
+  f_material-solarized-dark_custom-editor.icls:
+    src: Material-Solarized-Dark_Custom-Editor.icls
+    dst: ~/Material-Solarized-Dark_Custom-Editor.icls
+    chmod: '644'
+  f_ssh_rpi_id_rsa:
+    src: ssh/RPi/id_rsa
+    dst: ~/.ssh/RPi/id_rsa
+    trans_read: _gpg_priv
+    chmod: '600'
+  f_ssh_rpi_id_rsa.pub:
+    src: ssh/RPi/id_rsa.pub
+    dst: ~/.ssh/RPi/id_rsa.pub
+    trans_read: _gpg_pub
+    chmod: '644'
+  f_config_joplin-desktop_userstyle.css:
+    src: config/joplin-desktop/userstyle.css
+    dst: ~/.config/joplin-desktop/userstyle.css
+    chmod: '644'
+  f_dotdrop_tester.sh:
+    src: dotdrop_tester.sh
+    dst: ~/dotdrop_tester.sh
+    chmod: '755'
+  f_ssh_readme:
+    src: ssh/README
+    dst: ~/.ssh/README
+    chmod: '644'
+trans_read:
+  _gpg_priv: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}}
+    -q --for-your-eyes-only --no-tty -d {0} > {1} && chmod 600 {1}
+  _gpg_pub: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}}
+    -q --for-your-eyes-only --no-tty -d {0} > {1} && chmod 644 {1}
 profiles:
   base:
     dotfiles:
@@ -67,21 +116,38 @@ profiles:
     - f_bash_logout
     - f_install_script.sh
     - f_vimrc
-    - f_ideavimrc
     - f_vim_colors_solarized.vim
-    - f_dotdrop_tester.sh
     - f_tmux.conf
+    - f_dotdrop_tester.sh
   worklaptop:
     include:
     - base
     dotfiles:
+    - f_ideavimrc
     - f_ssh_config
+    - f_material-solarized-dark_custom-ide.xml
+    - f_material-solarized-dark_custom-editor.icls
+    - f_ssh_rpi_id_rsa
+    - f_ssh_rpi_id_rsa.pub
+    - f_config_joplin-desktop_userstyle.css
+    - f_ssh_readme
   workremote:
     include:
     - base
     dotfiles:
     - f_ssh_config
     - f_ssh_rc
+  rpiremote:
+    include:
+    - base
   homelaptop:
     include:
     - base
+    dotfiles:
+    - f_ideavimrc
+    - f_material-solarized-dark_custom-ide.xml
+    - f_material-solarized-dark_custom-editor.icls
+    - f_ssh_rpi_id_rsa
+    - f_ssh_rpi_id_rsa.pub
+    - f_config_joplin-desktop_userstyle.css
+

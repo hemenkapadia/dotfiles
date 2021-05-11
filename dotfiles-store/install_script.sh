@@ -3,7 +3,7 @@
 # Check sudo.
 # If credentials not already cached, ask for password and cache credentials.
 # If already cached, increase sudo timeout by 5 min
-sudo -v && exit 1 'Sudo access needed to execute this script'
+sudo -v || { echo 'Sudo access needed to execute this script'; exit 1; }
 
 # Check if dialog is installed. If not, install it.
 dialog -v || sudo apt install -y dialog
@@ -26,21 +26,40 @@ if [[ "$?" -eq 0 ]]; then
 fi
 clear
 
-# Install Base dependencies
-dialog --title "Install dependencies" \
+# Install Base dependencies. These should be absolute base, console only dependencies.
+dialog --title "Install Base dependencies" \
   --yesno "Do you want to install base dependencies (recommended) ?" 8 55
 if [[ "$?" -eq 0 ]]; then
   # Install base dependencies
   echo ">>> Installing base dependencies ...."
-  sudo apt install -y tree wget curl snapd openssl \
-                      python3 python3-dev python3-virtualenv python3-venv python3-pip \
-                      apt-transport-https ca-certificates gnupg-agent \
-                      software-properties-common net-tools wmctrl \
-                      htop shellcheck xdotool libcanberra-gtk0 libcanberra-gtk-module \
-                      build-essential unzip unixodbc unixodbc-dev libmagic-dev colordiff 
+  sudo apt install tree wget curl htop unzip net-tools icdiff vim\
+                   openssl gnupg-agent apt-transport-https ca-certificates \
+                   software-properties-common build-essential lsb-release
 fi
 clear
 
+# Install Python 3 dependencies
+dialog --title "Install Python3 dependencies" \
+  --yesno "Do you want to install Python3 (recommended) ?" 8 55
+if [[ "$?" -eq 0 ]]; then
+  # Install Python 3 dependencies
+  echo ">>> Installing Python 3 dependencies ...."
+  sudo apt install python3 python3-dev
+  sudo apt install python3-virtualenv python3-venv python3-pip
+fi
+clear
+
+# Install Extended dependencies
+dialog --title "Install Extended dependencies" \
+  --yesno "Do you want to install extended dependencies (recommended) ?" 8 55
+if [[ "$?" -eq 0 ]]; then
+  # Install extended dependencies
+  echo ">>> Installing extended dependencies ...."
+  sudo apt install xdotool libcanberra-gtk0 libcanberra-gtk-module \
+                   unixodbc unixodbc-dev libmagic-dev \
+                   shellcheck snapd wmctrl
+fi
+clear
 
 # Check if upgrade is needed
 dialog --title "Upgrade" \
@@ -55,282 +74,96 @@ clear
 # Offer list of applications to select for installation
 cmd=(dialog --separate-output --checklist "Please Select Software you want to install:" 22 76 16)
 options=(
-  01  "Git" off
-  02  "Git SSH keys" off
-  03  "dotdrop" off
-  04  "Tig" off
-  05  "Lazygit" off
-  06  "tmux" off
-  07  "Miniconda" off
-  08  "Visual Studio Code" off
-  09  "vim" off
-  10  "VirtualBox and Vagrant" off
-  11  "Docker CE" off
-  12  "NodeJS LTS using n-install" off
-  13  "Ubuntu Restricted Extras" off
-  14  "Jetbrains Toolbox" off
-  15  "Slack" off
-  16  "Mailspring" off
-  17  "Gnome Calendar" off
-  18  "VPN and Gnome Network Manager" off
-  19  "Touchpad Indicator" off
-  20  "Tmux, powerline" off
-  21  "Libreoffice" off
-  22  "dbeaver Community - Databse Tool" off
-  23  "hid_apple patch for magic keyboard" off
-  24  "Zoom Meetings App" off
-  25  "OpenJDK 8" off
-  26  "Adapta theme" off
-  27  "Lazydocker" off
-  28  "Gitbatch" off
-  29  "Spotify Client" off
-  30  "Minetime" off
-  31  "Gnome Clocks" off
-  32  "Go language" off
-  33  "Apache Directory Studio" off
-  34  "PDFsam basic" off
-  35  "VLC Media Player" off
-  36  "Simple Screen Recorder" off
-  37  "Rust+Cargo" off
-  38  "mdbook" off
-  39  "Docker Compose" off
-  40  "Canon MX 490 Printer Drivers" off
-  41  "Canon MX 490 Scanner Drivers" off
-  42  "Xsane Scanning ssoftware" off
-  43  "Icon themes" off
-  44  "Clickhouse" off
-  45  "Dive - docker image analyser" off
-  46  "Joplin - Notes taking application" off
+  "------"  "------------------------------" off
+  "------"  "-----  System Utilities  -----" off
+  "------"  "------------------------------" off
+  "sys000"  "hid_apple patch for magic keyboard" off
+  "sys005"  "Touchpad Indicator" off
+  "sys010"  "Canon MX 490 Printer Drivers" off
+  "sys011"  "Canon MX 490 Scanner Drivers" off
+  "sys012"  "Xsane Scanning ssoftware" off
+  "sys015"  "VPN and Gnome Network Manager" off
+  "------"  "------------------------------" off
+  "------"  "-----   Base Utilities   -----" off
+  "------"  "------------------------------" off
+  "bas000"  "Ubuntu Restricted Extras" off
+  "bas010"  "Adapta theme" off
+  "bas011"  "Icon themes" off
+  "bas012"  "Ubuntu Wallpapers and Source Code fonts" off
+  "bas028"  "Google Chrome" off
+  "bas029"  "Gnome Tweaks, Shell Extensions" off
+  "bas030"  "Gnome Clocks" off
+  "bas031"  "Gnome Calendar" off
+  "bas032"  "Gnome Screenshot" off
+  "bas033"  "Flameshot Screenshot" off
+  "bas100"  "Git" off
+  "bas101"  "Gitbatch" off
+  "bas102"  "Tig" off
+  "bas103"  "Lazygit" off
+  "bas105"  "Git SSH keys" off
+  "bas110"  "dotdrop" off
+  "bas115"  "Tmux, powerline" off
+  "bas120"  "VirtualBox and Vagrant" off
+  "bas130"  "Docker CE" off
+  "bas131"  "Docker Compose" off
+  "bas132"  "Lazydocker" off
+  "bas133"  "Dive - docker image analyser" off
+  "bas134"  "Ansible" off
+  "bas135"  "Google Cloud SDK" off
+  "bas136"  "AWS CLI SDK" off
+  "bas137"  "Azure CLI SDK" off
+  "bas138"  "Terraform" off
+  "bas139"  "Packer" off
+  "bas140"  "s3cmd" off
+  "bas150"  "Kubernetes Tools" off
+  "------"  "------------------------------" off
+  "------"  "-----         IDE        -----" off
+  "------"  "------------------------------" off
+  "ide000"  "vim" off
+  "ide005"  "Visual Studio Code" off
+  "ide010"  "Jetbrains Toolbox" off
+  "------"  "------------------------------" off
+  "------"  "----- Development Stuff  -----" off
+  "------"  "------------------------------" off
+  "dev000"  "Miniconda" off
+  "dev030"  "NodeJS LTS using n-install" off
+  "dev031"  "YARN" off
+  "dev040"  "Pipenv and Pipes" off
+  "dev050"  "OpenJDK 8" off
+  "dev051"  "OpenJDK 11" off
+  "dev060"  "Go language" off
+  "dev080"  "Rust+Cargo" off
+  "dev100"  "dbeaver Community - Databse Tool" off
+  "dev110"  "SQLLite DB Browser" off
+  "dev120"  "Clickhouse" off
+  "dev130"  "Apache Directory Studio" off
+  "------"  "------------------------------" off
+  "------"  "----- Productivity Stuff -----" off
+  "------"  "------------------------------" off
+  "prd000"  "mdbook" off
+  "prd001"  "Joplin - Notes taking application" off
+  "prd050"  "Mailspring" off
+  "prd051"  "Minetime" off
+  "prd052"  "Slack" off
+  "prd060"  "Zoom Meetings App" off
+  "prd070"  "Libreoffice" off
+  "prd080"  "PDFsam basic" off
+  "------"  "------------------------------" off
+  "------"  "----- Audio Video Stuff  -----" off
+  "------"  "------------------------------" off
+  "med000"  "Spotify Client" off
+  "med010"  "VLC Media Player" off
+  "med020"  "Simple Screen Recorder" off
+  "med030"  "Open Boradcast Studio" off
+  "med040"  "Lightworks Video Studio" off
+  "med050"  "Shotcut Video Editor" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 clear
 
 for choice in $choices; do
   case $choice in
-    01) # Install Git
-      echo ""
-      echo ">>> Installing Git ...."
-      sudo add-apt-repository ppa:git-core/ppa -y
-      sudo apt-get update
-      sudo apt install -y git
-      echo ">>> Git Installation completed."
-      echo ">>> Configuring Git user.name and user.email...."
-      read -p "Enter Git configuration user.name: " username
-      read -p "Enter Git configuration user.email: " useremail
-      git config --global user.name "${username}"
-      git config --global user.email "${useremail}"
-      ;;
-    02) # Install Git SSH Keys only if file encrypted-ssh-keys.tar.gz is present in this directory.
-      # It is created using the command below - https://www.tecmint.com/encrypt-decrypt-files-tar-openssl-linux/
-      # tar --exclude='.ssh/environment' --exclude='.ssh/known_hosts' -czvf - .ssh | openssl enc -e -aes256 -out encrypted-ssh-keys.tar.gz
-      echo ""
-      echo ">>> Installing Git SSH only if encrypted ssh key file is present ...."
-      if [ -f "encrypted-ssh-keys.tar.gz" ]; then
-        openssl enc -d -aes256 -in encrypted-ssh-keys.tar.gz | tar zxv
-        echo ">>> Git keys extraction completed."
-      fi
-      echo ">>> Adding keys to ssh-agent"
-      find ~/.ssh -type f -name *id_rsa -exec /usr/bin/ssh-add {} \;
-      ;;
-    03) # Install dotdrop using snapd
-      echo ""
-      echo "Installing dotdrop from pypi in the normal python environment, not using virtualenv ...."
-      pip3 install --user dotdrop
-      echo "dotdrop Installation completed."
-      echo "Please setup your dordrop repository as explained at https://github.com/deadc0de6/dotdrop/wiki/installation#setup-your-repository"
-      ;;
-    04) # Install Tig
-      echo ""
-      echo "Installing Tig ...."
-      sudo apt-get update
-      sudo apt install -y tig
-      echo "Tig Installation completed."
-      echo ""
-      ;;
-    05) # Install Lazygit
-      echo ""
-      echo "Installing Lazygit  ...."
-      sudo add-apt-repository ppa:lazygit-team/release -y
-      sudo apt-get update
-      sudo apt install -y lazygit
-      echo "Lazygit Installation completed."
-      echo ""
-      ;;
-    06) # Install tmux
-      echo ""
-      echo "Installing tmux...."
-      sudo apt-get update
-      sudo apt install -y tmux
-      echo "Lazygit Installation completed."
-      echo ""
-      ;;
-    07) # Install Miniconda latest
-      echo ""
-      echo "Installing Miniconda3 latest...."
-      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -q --show-progress
-      chmod u+x Miniconda3-latest-Linux-x86_64.sh
-      bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3
-      echo 'export PATH="$HOME/miniconda3/bin:$PATH"' >> ~/.bash_envvars
-      echo '$PATH updated in .bash_envvars. Remember to source it . ~/.bash_envvars'
-      "${HOME}"/miniconda3/bin/conda init bash
-      rm ~/Miniconda3-latest-Linux-x86_64.sh
-      echo "Miniconda Installation completed."
-      echo ""
-      ;;
-    08) # Installing Visual Studio CodeP
-      echo ""
-      echo "Installing Visual Studio Code ...."
-      mkdir -p /tmp/vscode
-      pushd /tmp/vscode
-      curl -L https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable --output vscode.deb
-      sudo dpkg -i vscode.deb
-      popd
-      rm -rf /tmp/vscode
-      echo "Visual Studio Code installation completed."
-      echo "Install Settings Sync extenstion and setup the same."
-      echo ""
-      ;;
-    09) # Installing vim
-      echo ""
-      echo "Installing vim...."
-      sudo apt install -y vim
-      echo "Vim installed. Make sure to alias vi to vim"
-      echo ""
-      ;;
-    10) # Installing Virtual Box and Vagrant
-      echo ""
-      echo "Installing VirtualBox...."
-      wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-      wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
-      sudo add-apt-repository "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" -y
-      sudo apt-get update
-      sudo apt-get install -y virtualbox-6.0
-      echo "VirtualBox installation completed."
-      echo ""
-      echo "Installing Vagrant ...."
-      sudo add-apt-repository ppa:tiagohillebrandt/vagrant -y
-      sudo apt-get update
-      sudo apt-get install -y vagrant
-      echo "Vagrant installation completed."
-      ;;
-    11) # Installing Docker Community Edition
-      echo ""
-      echo "Installing Docker CE...."
-      sudo apt-get remove docker docker-engine docker.io containerd runc
-      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
-      sudo apt-get update
-      sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-      sudo usermod -a -G docker
-      echo "Docker installation completed."
-      ;;
-    12) # Installing NodeJS LTS using n
-      echo ""
-      echo "Installing n...."
-      curl -L https://git.io/n-install | bash
-      n lts
-      echo "NodeJS installation completed."
-      ;;
-    13) # Installing Ubuntu extras
-      echo ""
-      echo "Installing ubuntu extras...."
-      sudo apt install -y ubuntu-restricted-extras
-      echo "Ubuntu extras installation completed."
-      ;;
-    14) # Installing Jetbrains Toolbox
-      echo ""
-      echo "Installing Jetbrains Toolbox ...."
-      mkdir -p /tmp/jetbrains
-      pushd /tmp/jetbrains
-      wget https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.15.5796.tar.gz
-      tar -zxvf jetbrains*.tar.gz
-      ./jetbrains*/jetbrains-toolbox
-      popd
-      rm -rf /tmp/jetbrains
-      echo "Jetbrains installation completed."
-      echo ""
-      ;;
-    15) # Installing Slack
-      echo ""
-      echo "Installing Slack...."
-      mkdir -p /tmp/slack
-      pushd /tmp/slack
-      wget https://downloads.slack-edge.com/linux_releases/slack-desktop-4.0.2-amd64.deb
-      sudo dpkg -i slack*.deb
-      popd
-      rm -rf /tmp/slack
-      echo "Slack installation completed."
-      echo ""
-      ;;
-    16) # Installing Mailspring
-      echo ""
-      echo "Installing Mailspring...."
-      mkdir -p /tmp/mailspring
-      pushd /tmp/mailspring
-      curl -L https://updates.getmailspring.com/download?platform=linuxDeb --output mailspring.deb
-      sudo dpkg -i mailspring.deb
-      popd
-      rm -rf /tmp/mailspring
-      echo "Mailspring installation completed."
-      echo ""
-      ;;
-    17) # Installing Gnome Calendar
-      echo ""
-      echo "Installing Gnome Calendar...."
-      sudo apt install -y gnome-calendar
-      echo "Gnome Calendar installation completed."
-      echo ""
-      ;;
-    18) # Installing VPN and Gnome Network Manager
-      echo ""
-      echo "Installing VPN...."
-      sudo apt install -y vpnc vpnc-connect network-manager-vpnc-gnome
-      echo "VPN installation completed. You will need to configure VPN connection yourself."
-      echo ""
-      ;;
-    19) # Installing Touchpad Indicator
-      echo ""
-      echo "Installing Touchpad Indicator...."
-      sudo add-apt-repository ppa:atareao/atareao -y
-      sudo apt-get update
-      sudo apt install -y touchpad-indicator
-      echo "Touchpad indicator installation completed."
-      echo ""
-      ;;
-    20) # Installing Tmux and Powerline
-      echo ""
-      echo "Installing Tmux and Powerline...."
-      sudo apt install -y tmux fonts-powerline powerline python3-powerline
-      git clone https://github.com/adidenko/powerline ~/.config/powerline
-      echo "Configuring Powerline for vim...."
-      echo "set laststatus=2" >> ~/.vimrc
-      echo -e "python3 from powerline.vim import setup as powerline_setup" >> ~/.vimrc
-      echo -e "python3 powerline_setup()\npython3 del powerline_setup" >> ~/.vimrc
-      echo "Configuring Powerline for terminal...."
-      echo ". /usr/share/powerline/bindings/bash/powerline.sh" >> ~/.bashrc
-      echo "Tmux and Powerline installation completed."
-      echo ""
-      ;;
-    21) # Installing Libreoffice
-      echo ""
-      echo "Installing Libreoffice...."
-      sudo apt install -y libreoffice
-      echo "Libreoffice installation completed."
-      echo ""
-      ;;
-    22) # Installing DBeaver
-      echo ""
-      echo "Installing dbeaver...."
-      mkdir -p /tmp/dbeaver
-      pushd /tmp/dbeaver
-      curl -L https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb --output dbeaver.deb
-      sudo dpkg -i dbeaver.deb
-      popd
-      rm -rf /tmp/dbeaver
-      echo "DBeaver installation completed."
-      echo ""
-      ;;
-    23) # Installing Apple Magic Keyboard config kernel module
+    sys000) # Installing Apple Magic Keyboard config kernel module
       echo ""
       echo "Installing dkms..."
       sudo apt install -y dkms
@@ -356,163 +189,16 @@ for choice in $choices; do
       echo "Please reboot your machine."
       echo ""
       ;;
-    24) # Installing Zoom Meeting
+    sys005) # Installing Touchpad Indicator
       echo ""
-      echo "Installing zoom meeting app...."
-      mkdir -p /tmp/zoom
-      pushd /tmp/zoom
-      curl -L https://zoom.us/client/latest/zoom_amd64.deb --output zoom.deb
-      sudo apt install ./zoom.deb
-      popd
-      rm -rf /tmp/zoom
-      echo "Zoom installation completed."
-      echo ""
-      ;;
-    25) # Installing OpenJDK 8
-      echo ""
-      echo "Installing OpenJDK 8...."
-      sudo apt install -y openjdk-8-jdk
-      echo "OpenJDK 8 installation completed."
-      echo ""
-      ;;
-    26) # Installing Adapta Theme
-      echo ""
-      echo "Installing Adapta Theme...."
-      sudo apt-add-repository ppa:tista/adapta -y
+      echo "Installing Touchpad Indicator...."
+      sudo add-apt-repository ppa:atareao/atareao -y
       sudo apt-get update
-      sudo apt install -y adapta-gtk-theme
-      echo "Adapta theme installation completed."
+      sudo apt install -y touchpad-indicator
+      echo "Touchpad indicator installation completed."
       echo ""
       ;;
-    27) # Installing Lazydocker
-      echo ""
-      echo "Installing Lazydocker ...."
-      curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
-      echo "Lazydocker installation completed."
-      echo ""
-      ;;
-    28) # Installing Gitbatch
-      echo ""
-      echo "Installing gitbatch...."
-      mkdir -p /tmp/gitbatch
-      pushd /tmp/gitbatch
-      curl -OL https://github.com/isacikgoz/gitbatch/releases/download/v0.5.0/gitbatch_0.5.0_linux_amd64.tar.gz
-      tar xzf gitbatch_0.5.0_linux_amd64.tar.gz
-      sudo mv gitbatch /usr/local/bin
-      popd
-      rm -rf /tmp/gitbatch
-      echo "Gitbatch installation completed."
-      echo ""
-      ;;
-    29) # Installing Spotify Client
-      echo ""
-      echo "Installing Spotify Client...."
-      curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add -
-      echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-      sudo apt-get update && sudo apt install -y spotify-client
-      echo "Spotify Client installation completed."
-      echo ""
-      ;;
-    30) # Installing Minetime
-      echo ""
-      echo "Installing Minetime...."
-      mkdir -p /tmp/minetime
-      pushd /tmp/minetime
-      curl -L https://europe-west1-minetime-backend.cloudfunctions.net/download/linux-deb --output minetime.deb
-      sudo dpkg -i minetime.deb
-      popd
-      rm -rf /tmp/minetime
-      echo "Minetime installation completed."
-      echo ""
-      ;;
-    31) # Installing Gnome Clocks
-      echo ""
-      echo "Installing Gnome Clocks...."
-      sudo apt install -y gnome-clocks
-      echo "Gnome Clocks installation completed."
-      echo ""
-      ;;
-    32) # Installing Go language
-      echo ""
-      echo "Installing Go language...."
-      mkdir -p /tmp/golang
-      pushd /tmp/golang
-      curl -L https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz --output go.tar.gz
-      sudo tar zxvf go.tar.gz && sudo mv go /usr/local
-      echo 'export PATH="/usr/local/go/bin:$PATH"' >> "${HOME}"/.bash_envvars
-      popd
-      rm -rf /tmp/golang
-      echo "Go language installation completed. "
-      echo ""
-      ;;
-    33) # Installing Apache Directory Studio
-      echo ""
-      echo "Installing Apache Directory Studio...."
-      mkdir -p /tmp/ads
-      pushd /tmp/ads
-      curl -L http://mirrors.ocf.berkeley.edu/apache/directory/studio/2.0.0.v20180908-M14/ApacheDirectoryStudio-2.0.0.v20180908-M14-linux.gtk.x86_64.tar.gz --output ads.tar.gz
-      sudo tar zxvf ads.tar.gz && sudo mv ApacheDirectoryStudio /opt
-      ln -s /opt/ApacheDirectoryStudio/ApacheDirectoryStudio "${HOME}"/bin/ldapbrowser
-      popd
-      rm -rf /tmp/ads
-      echo "Apache Directory Studio installation completed. "
-      echo ""
-      ;;
-    34) # Installing PDFsam baisc
-      echo ""
-      echo "Installing PDFsam basic...."
-      mkdir -p /tmp/pdfsamb
-      pushd /tmp/pdfsamb
-      curl -L  https://github.com/torakiki/pdfsam/releases/download/v4.0.5/pdfsam_4.0.5-1_amd64.deb --output pdfsam.deb
-      sudo dpkg -i pdfsam.deb
-      popd
-      rm -rf /tmp/pdfsamb
-      echo "PDFsam installation completed. "
-      echo ""
-      ;;
-    35) # Install VLC
-      echo ""
-      echo "Installing VLC ...."
-      sudo apt-get update
-      sudo apt install -y vlc
-      echo "VLC Installation completed."
-      echo ""
-      ;;
-    36) # Install Simple Screen Recorded
-      echo ""
-      echo "Installing Simple Screen Recorder ...."
-      sudo apt-get update
-      sudo apt install -y simplescreenrecorder
-      echo "SimpleScreenRecorder Installation completed."
-      echo ""
-      ;;
-    37) # Install Rust + Cargo
-      echo ""
-      echo "Installing Rust and Cargo...."
-      sudo mkdir -p /opt/cargo /opt/rustup
-      sudo chown hemen:hemen /opt/cargo
-      sudo chown hemen:hemen /opt/rustup
-      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | RUSTUP_HOME=/opt/rustup CARGO_HOME=/opt/cargo sh
-      echo "Rust and Cargo install completed."
-      echo 'Update $PATH to inclue /opt/cargo/bin and /opt/rustup/bin.'
-      echo ""
-      ;;
-    38) # Install mdbook
-      echo ""
-      echo "Installing mdbook...."
-      cargo install mdbook
-      cargo install mdbook-toc
-      echo "mdbook Installation completed."
-      echo ""
-      ;;
-    39) # Install docker compose
-      echo ""
-      echo "Installing Docker Compose...."
-      sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-      sudo chmod +x /usr/local/bin/docker-compose
-      echo ""
-      ;;
-    40) # Installing Cannon MX490 Printer Drivers
+    sys010) # Installing Cannon MX490 Printer Drivers
       echo ""
       echo "Installing Canon MX490 Printer Drivers...."
       mkdir -p /tmp/cnondriv
@@ -527,7 +213,7 @@ for choice in $choices; do
       echo "Canon MX490 Printer driver installation completed. "
       echo ""
       ;;
-    41) # Installing Canon MX490 Scanner Drivers
+    sys011) # Installing Canon MX490 Scanner Drivers
       echo ""
       echo "Installing Canon MX490 Scanner Drivers...."
       mkdir -p /tmp/cnonscan
@@ -542,7 +228,7 @@ for choice in $choices; do
       echo "Canon MX490 Scanner driver installation completed. "
       echo ""
       ;;
-    42) # Install SANE scanning software
+    sys012) # Install SANE scanning software
       echo ""
       echo "Installing xsane scanning software...."
       sudo apt-get update
@@ -550,7 +236,29 @@ for choice in $choices; do
       echo "Xsane Installation completed."
       echo ""
       ;;
-    43) # Ubuntu icon themes 
+    sys015) # Installing VPN and Gnome Network Manager
+      echo ""
+      echo "Installing VPN...."
+      sudo apt install -y vpnc network-manager-vpnc-gnome
+      echo "VPN installation completed. You will need to configure VPN connection yourself."
+      echo ""
+      ;;
+    bas000) # Installing Ubuntu extras
+      echo ""
+      echo "Installing ubuntu extras...."
+      sudo apt install -y ubuntu-restricted-extras
+      echo "Ubuntu extras installation completed."
+      ;;
+    bas010) # Installing Adapta Theme
+      echo ""
+      echo "Installing Adapta Theme...."
+      sudo apt-add-repository ppa:tista/adapta -y
+      sudo apt-get update
+      sudo apt install -y adapta-gtk-theme
+      echo "Adapta theme installation completed."
+      echo ""
+      ;;
+    bas011) # Ubuntu icon themes
       echo ""
       echo "Installing papirus icons theme...."
       sudo add-apt-repository ppa:papirus/papirus -y
@@ -562,42 +270,694 @@ for choice in $choices; do
       echo "Installing moka icons theme...."
       sudo add-apt-repository ppa:snwh/ppa -y
       sudo apt-get update
-      sudo apt-get install -y moka-icon-theme faba-icon-theme faba-mono-icons 
+      sudo apt-get install -y moka-icon-theme faba-icon-theme faba-mono-icons
       echo "moka icon theme installation completed."
       echo ""
       ;;
-    44) # Clickhouse installation 
+    bas012) # Install wallpapers and source code fonts
+      # https://help.gnome.org/admin/system-admin-guide/stable/fonts-user.html.en
       echo ""
-      echo "Installing clickhouse...."
-      echo "deb http://repo.yandex.ru/clickhouse/deb/stable/ main/" | sudo tee -a /etc/apt/sources.list.d/clickhouse.list
-      sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
-      sudo apt-get update
-      sudo apt-get install -y clickhouse-server clickhouse-client 
-      echo "Clickhouse installation completed."
+      echo "Installing Wallpapers and Fonts ...."
+      if [ -f "privatestuff-master.zip" ]; then
+        mv privatestuff-master.zip /tmp
+        pushd /tmp
+        unzip privatestuff-master.zip
+        mv privatestuff-master/wallpapers $HOME/Pictures
+        echo "Wallpaer installation completed."
+        mkdir -p $HOME/.local/share/fonts
+        mv privatestuff-master/fonts/*.{ttf,otf} $HOME/.local/share/fonts
+        fc-cache $HOME/.local/share/fonts
+        echo "Fonts installation completed."
+        rm -rf /tmp/privatestuff-master.zip && rm -rf privatestuff-master
+        popd
+      else
+        echo "Could not locate privatestuff-master.zip."
+        echo "Download the zip from https://github.com/hemenkapadia/privatestuff in your broser and put in the same dir as this file."
+      fi
+      ;;
+    bas028) # Installing Google Chrome
+      echo ""
+      echo "Installing Google Chrome browser...."
+      mkdir -p /tmp/chrome
+      pushd /tmp/chrome
+      curl -L https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb --output chrome.deb
+      sudo apt install ./chrome.deb
+      popd
+      rm -rf /tmp/chrome
+      echo "Google Chrome installation completed. "
       echo ""
       ;;
-    45) # Installing Dive - docker image analyser 
+    bas029) # Installing Gnome Shell Extensions
+      echo ""
+      echo "Installing Gnome Tweaks and Shell Extensions...."
+      sudo apt install -y gnome-tweaks gnome-shell-extensions
+      echo "Installing native connectory to manage Gnome Extensions using Chrome...."
+      sudo apt install -y chrome-gnome-shell
+      echo "Installing extensions for dock and multi-monitor support...."
+      sudo apt install -y gnome-shell-extension-dashtodock \
+                          gnome-shell-extension-multi-monitors
+      echo "Gnome Clocks installation completed."
+      echo ""
+      ;;
+    bas030) # Installing Gnome Clocks
+      echo ""
+      echo "Installing Gnome Clocks...."
+      sudo apt install -y gnome-clocks
+      echo "Gnome Clocks installation completed."
+      echo ""
+      ;;
+    bas031) # Installing Gnome Calendar
+      echo ""
+      echo "Installing Gnome Calendar...."
+      sudo apt install -y gnome-calendar
+      echo "Gnome Calendar installation completed."
+      echo ""
+      ;;
+    bas032) # Installing Gnome Screenshot
+      echo ""
+      echo "Installing Gnome Screenshot...."
+      sudo apt install -y gnome-screenshot
+      echo "Gnome screenshot installed."
+      echo ""
+      ;;
+    bas033) # Installing Flameshot
+      echo ""
+      echo "Installing Flameshot...."
+      sudo apt install -y flameshot
+      echo "Flameshot installed"
+      echo ""
+      ;;
+    bas100) # Install Git
+      echo ""
+      echo ">>> Installing Git ...."
+      sudo add-apt-repository ppa:git-core/ppa -y
+      sudo apt-get update
+      sudo apt install -y git
+      echo ">>> Git Installation completed."
+      echo ">>> Configuring Git user.name and user.email...."
+      read -p "Enter Git configuration user.name: " username
+      read -p "Enter Git configuration user.email: " useremail
+      git config --global user.name "${username}"
+      git config --global user.email "${useremail}"
+      ;;
+    bas101) # Installing Gitbatch
+      echo ""
+      echo "Installing gitbatch...."
+      mkdir -p /tmp/gitbatch
+      pushd /tmp/gitbatch
+      curl -OL https://github.com/isacikgoz/gitbatch/releases/download/v0.5.0/gitbatch_0.5.0_linux_amd64.tar.gz
+      tar xzf gitbatch_0.5.0_linux_amd64.tar.gz
+      sudo mv gitbatch /usr/local/bin
+      popd
+      rm -rf /tmp/gitbatch
+      echo "Gitbatch installation completed."
+      echo ""
+      ;;
+    bas102) # Install Tig
+      echo ""
+      echo "Installing Tig ...."
+      sudo apt-get update
+      sudo apt install -y tig
+      echo "Tig Installation completed."
+      echo ""
+      ;;
+    bas103) # Install Lazygit
+      echo ""
+      echo "Installing Lazygit  ...."
+      sudo add-apt-repository ppa:lazygit-team/release -y
+      sudo apt-get update
+      sudo apt install -y lazygit
+      echo "Lazygit Installation completed."
+      echo ""
+      ;;
+    bas105) # Install Git SSH Keys only if file encrypted-ssh-keys.tar.gz is present in this directory.
+      # It is created using the command below - https://www.tecmint.com/encrypt-decrypt-files-tar-openssl-linux/
+      # tar --exclude='.ssh/environment' --exclude='.ssh/known_hosts' -czvf - .ssh | openssl enc -e -aes256 -out encrypted-ssh-keys.tar.gz
+      echo ""
+      echo ">>> Installing Git SSH only if encrypted ssh key file is present ...."
+      if [ -f "encrypted-ssh-keys.tar.gz" ]; then
+        openssl enc -d -aes256 -in encrypted-ssh-keys.tar.gz | tar zxv
+        echo ">>> Git keys extraction completed."
+      fi
+      echo ">>> Adding keys to ssh-agent"
+      find ~/.ssh -type f -name *id_rsa -exec /usr/bin/ssh-add {} \;
+      ;;
+    bas110) # Install dotdrop
+      echo ""
+      echo "Installing dotdrop from pypi for the user, not using virtualenv ...."
+      python3 -m pip install --user dotdrop
+      echo "dotdrop Installation completed."
+      echo "Please setup your dordrop repository as explained at https://github.com/deadc0de6/dotdrop/wiki/installation#setup-your-repository"
+      ;;
+    bas115) # Installing Tmux and Powerline
+      echo ""
+      echo "Installing Tmux and Powerline...."
+      sudo apt install -y tmux fonts-powerline powerline python3-powerline
+      git clone https://github.com/adidenko/powerline ~/.config/powerline
+      echo "Configuring Powerline for vim...."
+      echo "set laststatus=2" >> ~/.vimrc
+      echo -e "python3 from powerline.vim import setup as powerline_setup" >> ~/.vimrc
+      echo -e "python3 powerline_setup()\npython3 del powerline_setup" >> ~/.vimrc
+      echo "Configuring Powerline for terminal...."
+      echo ". /usr/share/powerline/bindings/bash/powerline.sh" >> ~/.bashrc
+      echo "Tmux and Powerline installation completed."
+      echo ""
+      ;;
+    bas120) # Installing Virtual Box and Vagrant
+      echo ""
+      echo "Installing VirtualBox...."
+      wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+      wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+      sudo add-apt-repository "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" -y
+      sudo apt-get update
+      sudo apt-get install -y virtualbox-6.0
+      echo "VirtualBox installation completed."
+      echo ""
+      echo "Installing Vagrant ...."
+      sudo add-apt-repository ppa:tiagohillebrandt/vagrant -y
+      sudo apt-get update
+      sudo apt-get install -y vagrant
+      echo "Vagrant installation completed."
+      ;;
+    bas130) # Installing Docker Community Edition
+      echo ""
+      echo "Installing Docker CE...."
+      sudo apt-get remove docker docker-engine docker.io containerd runc
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
+      sudo apt-get update
+      sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+      sudo usermod -a -G docker $USER
+      echo "Docker installation completed."
+      ;;
+    bas131) # Install docker compose
+      echo ""
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/docker/compose/releases/latest | rev | cut -d '/' -f 1 | rev)
+      version="1.27.4"  # hardcoading as 1.28.0 was giving python library error
+      echo "Installing Docker Compose...."
+      sudo curl -L "https://github.com/docker/compose/releases/download/${version}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+      sudo chmod +x /usr/local/bin/docker-compose
+      unset version
+      echo ""
+      ;;
+    bas132) # Installing Lazydocker
+      echo ""
+      echo "Installing Lazydocker ...."
+      curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+      echo "Lazydocker installation completed."
+      echo ""
+      ;;
+    bas133) # Installing Dive - docker image analyser
       echo ""
       echo "Installing Dive - docker image analyser...."
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/wagoodman/dive/releases/latest | rev | cut -d '/' -f 1 | rev)
       mkdir -p /tmp/dive
       pushd /tmp/dive
-      curl -L https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_amd64.deb --output dive.deb
+      curl -L "https://github.com/wagoodman/dive/releases/download/${version}/dive_${version:1}_linux_amd64.deb" --output dive.deb
       sudo apt install ./dive.deb
+      unset version
       popd
       rm -rf /tmp/dive
       echo "Dive installation completed. "
       echo ""
       ;;
-    46) # Installing Joplin 
+    bas134) # Installing Ansible
+      echo ""
+      echo "Installing Ansible...."
+      sudo apt-add-repository --yes --update ppa:ansible/ansible
+      sudo apt-get update
+      sudo apt-get install -y ansible python-argcomplete
+      sudo activate-global-python-argcomplete
+      echo "Ansible installation completed."
+      echo ""
+      ;;
+    bas135) # Installing Google Cloud SDK
+      echo ""
+      echo "Installing Google Cloud SDK...."
+      echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+      curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+      sudo apt-get update && sudo apt-get install -y google-cloud-sdk
+      echo "Google Cloud SDK installation completed."
+      echo ""
+      ;;
+    bas136) # Installing AWS CLI
+      echo ""
+      echo "Installing AWS CLI...."
+      mkdir -p /tmp/awscli
+      pushd /tmp/awscli
+      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      unzip awscliv2.zip
+      if which aws; then
+        sudo ./aws/install -i /usr/local/aws-cli -b /usr/local/bin --update
+      else
+        sudo ./aws/install -i /usr/local/aws-cli -b /usr/local/bin
+      fi
+      popd
+      rm -rf /tmp/awscli
+      echo "AWS CLI installation completed."
+      echo ""
+      ;;
+    bas137) # Installing Azure CLI
+      echo ""
+      echo "Installing Azure CLI...."
+      curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
+      AZ_REPO=$(lsb_release -cs)
+      echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
+      sudo apt-get update && sudo apt-get install -y azure-cli
+      echo "Azure CLI installation completed."
+      echo ""
+      ;;
+    bas138) # Installing Terraform
+      echo ""
+      echo "Installing Terraform...."
+      mkdir -p /tmp/terraform
+      pushd /tmp/terraform
+      # Commenting download of latest version as there were some errors experienced. Will use 0.13.6 version for now
+      # wget $(curl --silent  https://www.terraform.io/downloads.html | grep '_linux_amd64.zip' | cut -d '"' -f 2) -O terraform.zip
+      wget  https://releases.hashicorp.com/terraform/0.13.6/terraform_0.13.6_linux_amd64.zip -O terraform.zip
+      unzip terraform.zip
+      mv terraform $HOME/.local/bin
+      popd
+      echo "Terraform installation completed."
+      echo ""
+      ;;
+    bas139) # Installing Packer
+      echo ""
+      echo "Installing Packer...."
+      mkdir -p /tmp/packer
+      pushd /tmp/packer
+      wget https://releases.hashicorp.com/packer/1.6.6/packer_1.6.6_linux_amd64.zip -O packer.zip
+      unzip packer.zip
+      mv packer $HOME/.local/bin
+      popd
+      echo "Packer installation completed."
+      echo ""
+      ;;
+    bas140) # Install s3cmd
+      echo ""
+      echo "Installing s3cmd from pypi systemwide ...."
+      sudo python3 -m pip install --system s3cmd
+      echo "s3cmd Installation completed."
+      ;;
+    bas150) # Installing Kubernetes Tools
+      # Show k8s tool dialog
+      kcmd=(dialog --separate-output --checklist "Select k8s tools to install:" 22 76 16)
+      koptions=(
+        "------"  "--------- k8s flavors --------" off
+        "k000"  "k3d - local k8s cluster using docker" off
+        "k001"  "kind - k3d alternative, local k8s using docker" off
+        "------"  "------- k8s cli tools  -------" off
+        "k010"  "kubectl - the main k8s controller cli" off
+        "k011"  "kubectx (context) and kubens (namespace) switchers" off
+        "k020"  "k9s - terminal gui based k8s cli" off
+        "------"  "--------  cli monitor  -------" off
+        "k040"  "kubebox - Terminal and Web console for K8S" off
+        "------"  "-------  package mgrs  -------" off
+        "k200"  "Helm" off
+      )
+      kchoices=$("${kcmd[@]}" "${koptions[@]}" 2>&1 >/dev/tty)
+      clear
+
+      for kchoice in $kchoices; do
+        case $kchoice in
+          k000)
+            echo "Installing k3d...."
+            # Get latest github release tag or version but printing the redirection url for the latest relese
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/rancher/k3d/releases/latest | rev | cut -d '/' -f 1 | rev)
+            wget "https://github.com/rancher/k3d/releases/download/${version}/k3d-linux-amd64" -O "${HOME}/.local/bin/k3d"
+            unset version
+            chmod u+x "${HOME}/.local/bin/k3d"
+            echo "k3d installation completed."
+            echo ""
+            ;;
+          k001)
+            echo "Installing kind...."
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/kubernetes-sigs/kind/releases/latest | rev | cut -d '/' -f 1 | rev)
+            wget "https://github.com/kubernetes-sigs/kind/releases/download/${version}/kind-linux-amd64" -O "${HOME}/.local/bin/kind"
+            unset version
+            chmod u+x "${HOME}/.local/bin/kind"
+            echo "kind installation completed."
+            echo ""
+            ;;
+          k010)
+            echo ""
+            echo "Installing kubectl...."
+            kubectl_version=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+            wget "https://storage.googleapis.com/kubernetes-release/release/${kubectl_version}/bin/linux/amd64/kubectl" -O "${HOME}/.local/bin/kubectl"
+            chmod u+x "${HOME}/.local/bin/kubectl"
+            echo "kubectl installation completed."
+            echo ""
+            ;;
+          k011)
+            echo "Installing kubectx and kubens...."
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/ahmetb/kubectx/releases/latest | rev | cut -d '/' -f 1 | rev)
+            wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubectx_${version}_linux_x86_64.tar.gz" -O "${HOME}/.local/bin/kubectx"
+            wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubens_${version}_linux_x86_64.tar.gz" -O "${HOME}/.local/bin/kubens"
+            unset version
+            chmod u+x "${HOME}/.local/bin/kubectx"
+            chmod u+x "${HOME}/.local/bin/kubens"
+            echo "kubectx and kubens installation completed."
+            echo ""
+            ;;
+          k020)
+            echo "Installing k9s...."
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/derailed/k9s/releases/latest | rev | cut -d '/' -f 1 | rev)
+            mkdir -p /tmp/k9s
+            pushd /tmp/k9s
+            wget "https://github.com/derailed/k9s/releases/download/${version}/k9s_Linux_x86_64.tar.gz" -O k9s.tar.gz
+            unset version
+            tar -zxvf k9s.tar.gz
+            chmod u+x k9s
+            mv k9s "${HOME}/.local/bin/k9s"
+            popd
+            echo "k9s installation completed."
+            echo ""
+            ;;
+          k040)
+            echo "Installing kubebox...."
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/astefanutti/kubebox/releases/latest | rev | cut -d '/' -f 1 | rev)
+            wget "https://github.com/astefanutti/kubebox/releases/download/v0.9.0/kubebox-linux" -O "${HOME}/.local/bin/kubebox"
+            unset version
+            chmod u+x "${HOME}/.local/bin/kubebox"
+            echo "kubebox installation completed."
+            echo ""
+            ;;
+          k200)
+            echo "Installing helm...."
+            mkdir -p /tmp/helm
+            pushd /tmp/helm
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/helm/helm/releases/latest | rev | cut -d '/' -f 1 | rev)
+            wget "https://get.helm.sh/helm-v3.5.1-linux-amd64.tar.gz" -O helm.tar.gz
+            unset version
+            tar -zxvf helm.tar.gz
+            mv linux-amd64/helm "${HOME}/.local/bin"
+            popd
+            echo "kubebox installation completed."
+            echo ""
+            ;;
+          *)
+              # Default Option
+            ;;
+        esac
+      done
+      ;;
+    ide000) # Installing vim
+      echo ""
+      echo "Installing vim...."
+      sudo apt install -y vim
+      echo "Vim installed. Make sure to alias vi to vim"
+      echo ""
+      ;;
+    ide005) # Installing Visual Studio CodeP
+      echo ""
+      echo "Installing Visual Studio Code ...."
+      mkdir -p /tmp/vscode
+      pushd /tmp/vscode
+      curl -L 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' --output vscode.deb
+      sudo dpkg -i vscode.deb
+      popd
+      rm -rf /tmp/vscode
+      echo "Visual Studio Code installation completed."
+      echo "Install Settings Sync extenstion and setup the same."
+      echo ""
+      ;;
+    ide010) # Installing Jetbrains Toolbox
+      echo ""
+      echo "Installing Jetbrains Toolbox ...."
+      mkdir -p /tmp/jetbrains
+      pushd /tmp/jetbrains
+      wget https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.19.7784.tar.gz
+      tar -zxvf jetbrains*.tar.gz
+      ./jetbrains*/jetbrains-toolbox
+      popd
+      rm -rf /tmp/jetbrains
+      echo "Jetbrains installation completed."
+      echo ""
+      ;;
+    dev000) # Install Miniconda latest
+      echo ""
+      echo "Installing Miniconda3 latest...."
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -q --show-progress
+      chmod u+x Miniconda3-latest-Linux-x86_64.sh
+      bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3
+      echo 'export PATH="$HOME/miniconda3/bin:$PATH"' >> ~/.bash_envvars
+      echo '$PATH updated in .bash_envvars. Remember to source it . ~/.bash_envvars'
+      "${HOME}"/miniconda3/bin/conda init bash
+      rm ~/Miniconda3-latest-Linux-x86_64.sh
+      echo "Miniconda Installation completed."
+      echo ""
+      ;;
+    dev030) # Installing NodeJS LTS using n
+      echo ""
+      echo "Installing n...."
+      curl -L https://git.io/n-install | bash
+      n lts
+      echo "NodeJS installation completed."
+      ;;
+    dev031) # Installing YARN
+      echo ""
+      echo "Installing YARN...."
+      curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+      echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+      sudo apt update && sudo apt install yarn
+      echo "YARN installation completed. "
+      echo ""
+      ;;
+    dev040) # Install pipenv
+      echo ""
+      echo "Installing pipenv and pipes from pypi for user onlu...."
+      python3 -m pip install --user pipenv
+      python3 -m pip install --user pipenv-pipes
+      echo "Pipenv and Pipes Installation completed."
+      ;;
+    dev050) # Installing OpenJDK 8
+      echo ""
+      echo "Installing OpenJDK 8...."
+      sudo apt install -y openjdk-8-jdk
+      echo "OpenJDK 8 installation completed."
+      echo ""
+      ;;
+    dev051) # Installing OpenJDK 11
+      echo ""
+      echo "Installing OpenJDK 11...."
+      sudo apt install -y openjdk-11-jdk
+      echo "OpenJDK 11 installation completed."
+      echo ""
+      ;;
+    dev060) # Installing Go language
+      echo ""
+      echo "Installing Go language...."
+      mkdir -p /tmp/golang
+      pushd /tmp/golang
+      curl -L https://dl.google.com/go/go1.15.7.linux-amd64.tar.gz --output go.tar.gz
+      sudo tar zxvf go.tar.gz && sudo mv go /usr/local
+      echo 'export PATH="/usr/local/go/bin:$PATH"' >> "${HOME}"/.bash_envvars
+      popd
+      rm -rf /tmp/golang
+      echo "Go language installation completed. "
+      echo ""
+      ;;
+    dev080) # Install Rust + Cargo
+      echo ""
+      echo "Installing Rust and Cargo...."
+      sudo mkdir -p /opt/cargo /opt/rustup
+      sudo chown hemen:hemen /opt/cargo
+      sudo chown hemen:hemen /opt/rustup
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | RUSTUP_HOME=/opt/rustup CARGO_HOME=/opt/cargo sh
+      echo "Rust and Cargo install completed."
+      echo 'Update $PATH to inclue /opt/cargo/bin and /opt/rustup/bin.'
+      echo ""
+      ;;
+    dev100) # Installing DBeaver
+      echo ""
+      echo "Installing dbeaver...."
+      mkdir -p /tmp/dbeaver
+      pushd /tmp/dbeaver
+      curl -L https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb --output dbeaver.deb
+      sudo dpkg -i dbeaver.deb
+      popd
+      rm -rf /tmp/dbeaver
+      echo "DBeaver installation completed."
+      echo ""
+      ;;
+    dev110) # Installing SQL Lite DB Browser
+      echo ""
+      echo "Installing SQL Lite DB Browser...."
+      sudo apt update && sudo apt install sqlitebrowser
+      echo "YARN installation completed. "
+      echo ""
+      ;;
+    dev120) # Clickhouse installation
+      echo ""
+      echo "Installing clickhouse...."
+      echo "deb http://repo.yandex.ru/clickhouse/deb/stable/ main/" | sudo tee -a /etc/apt/sources.list.d/clickhouse.list
+      sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
+      sudo apt-get update
+      sudo apt-get install -y clickhouse-server clickhouse-client
+      echo "Clickhouse installation completed."
+      echo ""
+      ;;
+    dev130) # Installing Apache Directory Studio
+      echo ""
+      echo "Installing Apache Directory Studio...."
+      mkdir -p /tmp/ads
+      pushd /tmp/ads
+      curl -L http://mirrors.ocf.berkeley.edu/apache/directory/studio/2.0.0.v20180908-M14/ApacheDirectoryStudio-2.0.0.v20180908-M14-linux.gtk.x86_64.tar.gz --output ads.tar.gz
+      sudo tar zxvf ads.tar.gz && sudo mv ApacheDirectoryStudio /opt
+      ln -s /opt/ApacheDirectoryStudio/ApacheDirectoryStudio "${HOME}"/bin/ldapbrowser
+      popd
+      rm -rf /tmp/ads
+      echo "Apache Directory Studio installation completed. "
+      echo ""
+      ;;
+    prd000) # Install mdbook
+      echo ""
+      echo "Installing mdbook...."
+      cargo install mdbook
+      cargo install mdbook-toc
+      echo "mdbook Installation completed."
+      echo ""
+      ;;
+    prd001) # Installing Joplin
       echo ""
       echo "Installing Joplin - Notes taking application...."
-      wget -O - https://raw.githubusercontent.com/laurent22/joplin/master/Joplin_install_and_update.sh | bash      
+      wget -O - https://raw.githubusercontent.com/laurent22/joplin/master/Joplin_install_and_update.sh | bash
       echo "Joplin installation completed. "
+      echo ""
+      ;;
+    prd050) # Installing Mailspring
+      echo ""
+      echo "Installing Mailspring...."
+      mkdir -p /tmp/mailspring
+      pushd /tmp/mailspring
+      curl -L https://updates.getmailspring.com/download?platform=linuxDeb --output mailspring.deb
+      sudo dpkg -i mailspring.deb
+      popd
+      rm -rf /tmp/mailspring
+      echo "Mailspring installation completed."
+      echo ""
+      ;;
+    prd051) # Installing Minetime
+      echo ""
+      echo "Installing Minetime...."
+      mkdir -p /tmp/minetime
+      pushd /tmp/minetime
+      curl -L https://europe-west1-minetime-backend.cloudfunctions.net/download/linux-deb --output minetime.deb
+      sudo dpkg -i minetime.deb
+      popd
+      rm -rf /tmp/minetime
+      echo "Minetime installation completed."
+      echo ""
+      ;;
+    prd052) # Installing Slack
+      echo ""
+      echo "Installing Slack...."
+      mkdir -p /tmp/slack
+      pushd /tmp/slack
+      wget https://downloads.slack-edge.com/linux_releases/slack-desktop-4.12.2-amd64.deb
+      sudo dpkg -i slack*.deb
+      popd
+      rm -rf /tmp/slack
+      echo "Slack installation completed."
+      echo ""
+      ;;
+    prd060) # Installing Zoom Meeting
+      echo ""
+      echo "Installing zoom meeting app...."
+      mkdir -p /tmp/zoom
+      pushd /tmp/zoom
+      curl -L https://zoom.us/client/latest/zoom_amd64.deb --output zoom.deb
+      sudo apt install ./zoom.deb
+      popd
+      rm -rf /tmp/zoom
+      echo "Zoom installation completed."
+      echo ""
+      ;;
+    prd070) # Installing Libreoffice
+      echo ""
+      echo "Installing Libreoffice...."
+      sudo apt install -y libreoffice
+      echo "Libreoffice installation completed."
+      echo ""
+      ;;
+    prd080) # Installing PDFsam baisc
+      echo ""
+      echo "Installing PDFsam basic...."
+      mkdir -p /tmp/pdfsamb
+      pushd /tmp/pdfsamb
+      curl -L  https://github.com/torakiki/pdfsam/releases/download/v4.2.1/pdfsam_4.2.1-1_amd64.deb --output pdfsam.deb
+      sudo dpkg -i pdfsam.deb
+      popd
+      rm -rf /tmp/pdfsamb
+      echo "PDFsam installation completed. "
+      echo ""
+      ;;
+    med000) # Installing Spotify Client
+      echo ""
+      echo "Installing Spotify Client...."
+      curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add -
+      echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+      sudo apt-get update && sudo apt install -y spotify-client
+      echo "Spotify Client installation completed."
+      echo ""
+      ;;
+    med010) # Install VLC
+      echo ""
+      echo "Installing VLC ...."
+      sudo apt-get update
+      sudo apt install -y vlc
+      echo "VLC Installation completed."
+      echo ""
+      ;;
+    med020) # Install Simple Screen Recorded
+      echo ""
+      echo "Installing Simple Screen Recorder ...."
+      sudo apt-get update
+      sudo apt install -y simplescreenrecorder
+      echo "SimpleScreenRecorder Installation completed."
+      echo ""
+      ;;
+    med030) # Installing Open Broadcast Studio
+      echo ""
+      echo "Installing Open Broadcast Studio...."
+      sudo add-apt-repository ppa:obsproject/obs-studio
+      sudo apt update
+      sudo apt install -y ffmpeg obs-studio
+      echo "Open Broadcast Studio installation completed. "
+      echo ""
+      ;;
+    med040) # Installing lightworks
+      echo ""
+      echo "Installing lightworks...."
+      mkdir -p /tmp/lw
+      pushd /tmp/lw
+      curl -L https://cdn.lwks.com/releases/lightworks-2020.1-r122068-amd64.deb --output lw.deb
+      sudo apt install ./lw.deb
+      sudo apt install mediainfo-gui
+      popd
+      rm -rf /tmp/lw
+      echo "Lightworks installation completed. "
+      echo ""
+      ;;
+    med050) # Installing Shotcut vidoe editor
+      echo ""
+      echo "Installing Shotcut Video Editor...."
+      mkdir -p /tmp/shotcut
+      pushd /tmp/shotcut
+      curl -L https://github.com/mltframework/shotcut/releases/download/v20.07.11/shotcut-linux-x86_64-200711.txz --output shotcut.txz
+      tar -xf shotcut.txz && sudo mv Shotcut /opt
+      sed -i '/^Exec.*/d' /opt/Shotcut/Shotcut.desktop
+      echo 'Exec=/opt/Shotcut/Shotcut.app/shotcut "%F"' >> /opt/Shotcut/Shotcut.desktop
+      ln -s /opt/Shotcut/Shotcut.desktop "${HOME}"/.local/share/applications
+      popd
+      rm -rf /tmp/shotcut
+      echo "Shotcut completed. "
       echo ""
       ;;
     *)
       # Default Option
-      echo "Hmm ... nothing to do here"
       ;;
   esac
 done
@@ -617,3 +977,6 @@ if [[ "$?" -eq 0 ]]; then
   echo ">>> Removing unwanted applications ...."
   sudo apt auto-remove -y
 fi
+
+
+# vim: filetype=sh

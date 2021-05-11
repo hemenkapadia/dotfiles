@@ -1,8 +1,20 @@
 #! /usr/bin/env bash
 
+# Added to allow ssh-agent forward keys from local agent 
+# to remote work in remote tmux
+
 # if SSH_AUTH_SOCK environment variable is present
+# then link it.
 if test "${SSH_AUTH_SOCK}" ; then
   ln -sf "${SSH_AUTH_SOCK}" ~/.ssh/ssh_auth_sock
 fi
+
+{%@@ if profile in ["workremote"] @@%}
+# This is possibly needed to make x11 forward work too
+# http://xpt.sourceforge.net/techdocs/nix/conn/ssh/ssh05-SshServerConfiguration/ar01s03.html
+if read proto cookie; then
+  echo add $DISPLAY $proto $cookie | xauth -q -
+fi
+{%@@ endif @@%}
 
 # vim: filetype=sh

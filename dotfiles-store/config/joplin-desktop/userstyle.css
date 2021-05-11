@@ -1,0 +1,14 @@
+/* For styling the rendered Markdown */
+
+/* Styles for Markdown Code and Rendered Markdown layout */
+#rendered-md {
+  font-family: 'MonacoBSemi', 'Arial', 'sans-serif';
+  font-size: 10px;
+  line-height: 1.4em;
+}
+#rendered-md > h2 {
+  margin-top: 2.5em;
+}
+#rendered-md > h1 {
+  margin-top: 3.5em;
+}

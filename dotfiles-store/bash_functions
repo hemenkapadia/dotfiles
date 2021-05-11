@@ -4,6 +4,7 @@
 # There could be some aliases and env variables declared here in order to keep them closer
 # to the code using them
 
+{%@@ if profile not in ["workremote","rpiremote"] @@%}
 
 # Generic Utility functions 
 function spdr {
@@ -22,7 +23,6 @@ function enableconda {
 
 # SSH Agent configuration
 # Included only for local profiles. Remote profiles will use ssh-agent forwarding
-{%@@ if profile != "workremote" @@%}
 # File to store the SSH Agent environment
 SSH_ENV=$HOME/.ssh/environment
 # start the ssh-agent
@@ -48,7 +48,6 @@ if [ -f "${SSH_ENV}" ]; then
 else
     start_agent;
 fi
-{%@@ endif @@%}
 
 
 # Window Manager funtions
@@ -82,12 +81,17 @@ function devdesk {
     # For COVID, got monotor home, but dual monitor not possible; hence 1 monitor
     # possible for work laptop profile too
     {%@@ if profile == "worklaptop" @@%}
+    # set workspace 
     wmctrl -r 'Mailspring' -t 1
     wmctrl -r 'Slack' -t 1
     wmctrl -r 'MineTime' -t 1
+    wmctrl -r 'Google Chrome' -t 2
+    wmctrl -r 'Joplin' -t 2
     wmctrl -r 'Mailspring' -e "0,$left_anchor_x,$left_anchor_y,$window_width,$left_window_height"
     wmctrl -r 'Slack' -e "0,$right_anchor_x,$right_top_anchor_y,$window_width,$right_window_height"
     wmctrl -r 'MineTime' -e "0,$right_anchor_x,$right_bottom_anchor_y,$window_width,$right_window_height"
+    wmctrl -r 'Google Chrome' -e "0,$left_anchor_x,$right_top_anchor_y,$window_width,$right_window_height"
+    wmctrl -r 'Joplin' -e "0,$right_anchor_x,$right_top_anchor_y,$window_width,$right_window_height"
     {%@@ endif @@%}
     wmctrl -r '/Workspace/' -t 0
     wmctrl -r 'Visual Studio Code' -t 0
@@ -124,6 +128,9 @@ function ruindesk {
   wmctrl -r 'Mailspring' -t 0 -e '0,1300,50,230,350'
   wmctrl -r 'Slack' -t 0 -e '0,800,50,230,350'
   wmctrl -r 'MineTime' -t 0 -e '0,10,50,230,350'
+  wmctrl -r 'Google Chrome' -t 0 -e '0,12,35,300,260'
+  wmctrl -r 'Joplin' -t 0 -e '0,12,35,300,260'
+
 }
 
 function rd {
@@ -132,23 +139,41 @@ function rd {
 }
 
 
+{%@@ endif @@%}
+
+
 # git functions
 # git refresh remote branch list
-function grrbl {
+function g-rrbl {
   git remote update origin --prune
 }
 
 
 # Docker functions
 
+# System
+function d-du {
+  # Docker disk usage detail
+  docker system df -v
+}
+function d-si {
+  # show docker system information
+  d-du
+  docker system info
+}
+function d-sp {
+  d-du
+  docker system prune
+}
+
 # Container
-function dcl {
+function d-cl {
   docker container ls -a
 }
-function dcrm {
+function d-crm {
   docker container rm $(docker container ls -aq)
 }
-function dcs {
+function d-cs {
   count=$(docker container ls | grep -c $1)
   [[ $count -eq 0 ]] && { echo "No docker containers match pattern"; return 1; }
   [[ $count -gt 1 ]] && { echo "More than 1 docker containers match pattern"; return 1; }
@@ -158,15 +183,15 @@ function dcs {
 }
 
 # Image
-function dil {
-  docker image ls $1 
+function d-il {
+  docker image ls $1 | sort -k 7 -h 
 }
 
 # Volume
-function dvl {
+function d-vl {
   docker volume ls
 }
-function dvi {
+function d-vi {
   count=$(docker volume ls | grep -c $1)
   [[ $count -eq 0 ]] && { echo "No docker volumes match pattern"; return 1; }
   [[ $count -gt 1 ]] && { echo "More than 1 docker volumes match pattern"; return 1; }
@@ -174,7 +199,7 @@ function dvi {
   [[ -z "${vol_label}" ]] && { echo "Volumes pattern matching failed"; return 1; }
   docker volume inspect "${vol_label}"
 }
-function dvpr {
+function d-vpr {
   docker volume prune
 }
 
@@ -199,12 +224,16 @@ function builddai {
     image)
       make centos7_in_docker centos7_cuda10_runtime
       ;;
+    fullreset)
+      make clean
+      rm -rf deps env
+      exit 0
+      ;;
     *)
       make quickfullinstall
+
   esac
-
-
-
+  deactivate
 }
 
 function rundai {
@@ -213,15 +242,12 @@ function rundai {
   ./redis-server --requirepass PlWUjvEJSiWu9j0aopOyL5KwqnrKtyWVoZHunqxr &
   export DRIVERLESS_AI_MLI_STRICT_VERSION_CHECK=false
   DRIVERLESS_AI_LOG_LEVEL=2 DRIVERLESS_AI_LIST_FILES_WITHOUT_EXTENSIONS=true CUDA_VISIBLE_DEVICES=  python -m h2oai --with_all
+  deactivate
 }
 
 function killdai {
   pkill --signal 9 -f -u $USER 'procsy|h2o.jar|vis-data-server.jar|h2oai-DriverlessAI|h2oai-worker:stats|redis-server'
 }
 
-{%@@ if profile in ["worklaptop"] @@%}
-# shellcheck source=/home/hemen/Workspace/Office/Customers/PwC/audit-api/tools/bash_functions_pwc
-source "${HOME}/Workspace/Office/Customers/PwC/audit-api/tools/bash_functions_pwc"
-{%@@ endif @@%}
 
 {%@@ endif @@%}

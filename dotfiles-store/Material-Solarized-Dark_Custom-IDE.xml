@@ -1,0 +1,25 @@
+<mtTheme>
+  <id>Material-Solarized-Dark_Custom-IDE</id>
+  <editorColorsScheme>Material-Solarized-Dark_Custom-IDE</editorColorsScheme>
+  <dark>true</dark>
+  <name>Material-Solarized-Dark_Custom-IDE</name>
+  <colors>
+    <color id="background" value="002b36ff"/>
+    <color id="foreground" value="c4d4d6ff"/>
+    <color id="text" value="4f666dff"/>
+    <color id="highlight" value="005a6fff"/>
+    <color id="selectionBackground" value="2e4c52ff"/>
+    <color id="selectionForeground" value="ffffffff"/>
+    <color id="button" value="073642ff"/>
+    <color id="secondaryBackground" value="00252eff"/>
+    <color id="disabled" value="2e5861ff"/>
+    <color id="contrast" value="00252eff"/>
+    <color id="tableSelected" value="003946ff"/>
+    <color id="secondBorder" value="0d3640ff"/>
+    <color id="treeSelection" value="2e4c5280"/>
+    <color id="notifications" value="2e4c52ff"/>
+    <color id="accent" value="d33682ff"/>
+    <color id="excluded" value="083f4dff"/>
+  </colors>
+  <themeId>Material-Solarized-Dark_Custom-IDE</themeId>
+</mtTheme>

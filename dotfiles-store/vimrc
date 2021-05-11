@@ -9,11 +9,13 @@ set ignorecase smartcase                  " Case insensetive search; but becomes
 set modeline                              " Enable modeline to process # vim: filetype=sh etc.... settings when opening files
 
 
-" Set tab settings
+" Set whitespace and tab settings
 set tabstop=2
 set shiftwidth=2
 set expandtab
-    
+set list listchars=tab:→\ ,trail:·
+
+
 " Navigation Configuration
 " Normal Model navigation keys for ergonomic hand placement
 noremap ; l
@@ -29,6 +31,7 @@ set background=dark
 colorscheme solarized
 syntax on
 syntax enable
+
 
 " Powerline setup
 set laststatus=2
