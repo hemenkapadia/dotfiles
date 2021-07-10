@@ -99,6 +99,10 @@ dotfiles:
     src: ssh/README
     dst: ~/.ssh/README
     chmod: '644'
+  f_config_lazygit_config.yml:
+    src: config/lazygit/config.yml
+    dst: ~/.config/lazygit/config.yml
+    chmod: '644'
 trans_read:
   _gpg_priv: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}}
     -q --for-your-eyes-only --no-tty -d {0} > {1} && chmod 600 {1}
@@ -119,6 +123,7 @@ profiles:
     - f_vim_colors_solarized.vim
     - f_tmux.conf
     - f_dotdrop_tester.sh
+    - f_config_lazygit_config.yml
   worklaptop:
     include:
     - base

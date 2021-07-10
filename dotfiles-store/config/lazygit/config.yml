@@ -1,0 +1,11 @@
+gui:
+  theme:
+    lightTheme: false
+    activeBorderColor:
+      - magenta
+      - bold
+    inactiveBorderColor:
+      - white 
+    selectedLineBgColor:
+      - reverse
+      - bold
