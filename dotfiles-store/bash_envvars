@@ -31,5 +31,5 @@ export CARGO_HOME=/opt/cargo
 export RUSTUP_HOME=/opt/rustup
 
 # PATH environment variable. Keep this the last one in this file
-export PATH="/usr/local/go/bin:${HOME}/.local/bin:${CARGO_HOME}/bin:${PATH}"
+export PATH="/usr/local/go/bin:${HOME}/.local/bin:${CARGO_HOME}/bin:${HOME}/.pyenv/bin:${PATH}"
 

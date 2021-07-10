@@ -34,7 +34,7 @@ if [[ "$?" -eq 0 ]]; then
   echo ">>> Installing base dependencies ...."
   sudo apt install tree wget curl htop unzip net-tools icdiff vim\
                    openssl gnupg-agent apt-transport-https ca-certificates \
-                   software-properties-common build-essential lsb-release
+                   software-properties-common make build-essential lsb-release
 fi
 clear
 
@@ -57,7 +57,9 @@ if [[ "$?" -eq 0 ]]; then
   echo ">>> Installing extended dependencies ...."
   sudo apt install xdotool libcanberra-gtk0 libcanberra-gtk-module \
                    unixodbc unixodbc-dev libmagic-dev \
-                   shellcheck snapd wmctrl
+                   shellcheck snapd wmctrl \
+                   libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm \
+                   libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 fi
 clear
 
@@ -128,7 +130,8 @@ options=(
   "dev000"  "Miniconda" off
   "dev030"  "NodeJS LTS using n-install" off
   "dev031"  "YARN" off
-  "dev040"  "Pipenv and Pipes" off
+  "dev040"  "pyenv" off
+  "dev041"  "Pipenv and Pipes" off
   "dev050"  "OpenJDK 8" off
   "dev051"  "OpenJDK 11" off
   "dev060"  "Go language" off
@@ -725,9 +728,15 @@ for choice in $choices; do
       echo "YARN installation completed. "
       echo ""
       ;;
-    dev040) # Install pipenv
+    dev040) #Install pyenv
       echo ""
-      echo "Installing pipenv and pipes from pypi for user onlu...."
+      echo "Installing pyenv"
+      curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+      echo "pyenv installation completed."
+      ;;
+    dev041) # Install pipenv
+      echo ""
+      echo "Installing pipenv and pipes from pypi for user only...."
       python3 -m pip install --user pipenv
       python3 -m pip install --user pipenv-pipes
       echo "Pipenv and Pipes Installation completed."
