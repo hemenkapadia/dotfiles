@@ -10,7 +10,7 @@
 alias vi=vim
 alias tmux="tmux -2"
 alias diff="icdiff -N --no-bold -U 3"
-
+alias bfg="java -jar ~/Downloads/bfg-1.14.0.jar"
 
 # dotdrop
 # -------
