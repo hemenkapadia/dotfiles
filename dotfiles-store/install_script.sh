@@ -140,6 +140,8 @@ options=(
   "dev110"  "SQLLite DB Browser" off
   "dev120"  "Clickhouse" off
   "dev130"  "Apache Directory Studio" off
+  "dev140"  "Ran - Static Http server" off
+  "dev141"  "cfssl tools" off
   "------"  "------------------------------" off
   "------"  "----- Productivity Stuff -----" off
   "------"  "------------------------------" off
@@ -819,6 +821,35 @@ for choice in $choices; do
       popd
       rm -rf /tmp/ads
       echo "Apache Directory Studio installation completed. "
+      echo ""
+      ;;
+    dev140) # Installing Ran - Static Http Web server
+      echo ""
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/m3ng9i/ran/releases/latest | rev | cut -d '/' -f 1 | rev)
+      echo "Installing Ran - Static Http Web Server...."
+      mkdir -p /tmp/ran
+      pushd /tmp/ran
+      sudo curl -L "https://github.com/m3ng9i/ran/releases/download/${version}/ran_linux_amd64.zip" -o ran.zip
+      unzip ran.zip
+      mv ran_linux_amd64 "${HOME}/.local/bin/http-server"
+      popd
+      rm -rf /tmp/ran
+      echo "Ran http-server installation completed."
+      echo ""
+      ;;
+    dev141) # Installing cfssl tools
+      echo ""
+      echo "Installing cfssl tools...."
+      cfssl_version="${cfssl_version:-1.6.0}"
+      cfssl_arch="${cfssl_arch:-linux_amd64}"
+      cfssl_binaries=(cfssl-bundle cfssl-certinfo cfssl-newkey cfssl-scan cfssljson cfssl mkbundle multirootca)
+      for cfssl_binary in "${cfssl_binaries[@]}"; do
+        curl -L "https://github.com/cloudflare/cfssl/releases/download/v${cfssl_version}/${cfssl_binary}_${cfssl_version}_${cfssl_arch}" \
+          -o "${HOME}/.local/bin/${cfssl_binary}"
+        chmod +x "${HOME}/.local/bin/${cfssl_binary}"
+        echo "${cfssl_binary} installation completed."
+      done
       echo ""
       ;;
     prd000) # Install mdbook
