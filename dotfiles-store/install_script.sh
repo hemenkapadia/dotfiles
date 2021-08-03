@@ -142,6 +142,7 @@ options=(
   "dev130"  "Apache Directory Studio" off
   "dev140"  "Ran - Static Http server" off
   "dev141"  "cfssl tools" off
+  "dev142"  "Insomnia REST client" off
   "------"  "------------------------------" off
   "------"  "----- Productivity Stuff -----" off
   "------"  "------------------------------" off
@@ -850,6 +851,20 @@ for choice in $choices; do
         chmod +x "${HOME}/.local/bin/${cfssl_binary}"
         echo "${cfssl_binary} installation completed."
       done
+      echo ""
+      ;;
+    dev142) # Installing Insomnia REST client
+      echo ""
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/Kong/insomnia/releases/latest | rev | cut -d '@' -f 1 | rev)
+      echo "Installing Insomnia REST API client..."
+      mkdir -p /tmp/insomnia
+      pushd /tmp/insomnia
+      curl -L "https://github.com/Kong/insomnia/releases/download/core@${version}/Insomnia.Core-${version}.deb" -o insomnia.deb
+      sudo dpkg -i insomnia.deb
+      popd
+      rm -rf /tmp/insomnia
+      echo "Insomnia installation completed."
       echo ""
       ;;
     prd000) # Install mdbook
