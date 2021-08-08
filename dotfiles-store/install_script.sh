@@ -59,7 +59,8 @@ if [[ "$?" -eq 0 ]]; then
                    unixodbc unixodbc-dev libmagic-dev \
                    shellcheck snapd wmctrl \
                    libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm \
-                   libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+                   libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev \
+                   python3-gpg
 fi
 clear
 
