@@ -144,6 +144,7 @@ options=(
   "dev140"  "Ran - Static Http server" off
   "dev141"  "cfssl tools" off
   "dev142"  "Insomnia REST client" off
+  "dev143"  "Android Tools - adb and fastboot" off
   "------"  "------------------------------" off
   "------"  "----- Productivity Stuff -----" off
   "------"  "------------------------------" off
@@ -866,6 +867,20 @@ for choice in $choices; do
       popd
       rm -rf /tmp/insomnia
       echo "Insomnia installation completed."
+      echo ""
+      ;;
+    dev143) # Installing Android tools - adb and fastboot
+      echo ""
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      echo "Installing adb and fastboot ..."
+      mkdir -p /tmp/adb
+      pushd /tmp/adb
+      curl -L "https://dl.google.com/android/repository/platform-tools-latest-linux.zip" -o adb-tools.zip
+      unzip adb-tools.zip
+      mv platform-tools ~/bin/android-tools
+      popd
+      rm -rf /tmp/adb
+      echo "adb and fastboot installation completed."
       echo ""
       ;;
     prd000) # Install mdbook
