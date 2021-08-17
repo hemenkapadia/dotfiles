@@ -817,7 +817,7 @@ for choice in $choices; do
       echo "Installing Apache Directory Studio...."
       mkdir -p /tmp/ads
       pushd /tmp/ads
-      curl -L http://mirrors.ocf.berkeley.edu/apache/directory/studio/2.0.0.v20180908-M14/ApacheDirectoryStudio-2.0.0.v20180908-M14-linux.gtk.x86_64.tar.gz --output ads.tar.gz
+      curl -L https://downloads.apache.org/directory/studio/2.0.0.v20210717-M17/ApacheDirectoryStudio-2.0.0.v20210717-M17-linux.gtk.x86_64.tar.gz --output ads.tar.gz
       sudo tar zxvf ads.tar.gz && sudo mv ApacheDirectoryStudio /opt
       ln -s /opt/ApacheDirectoryStudio/ApacheDirectoryStudio "${HOME}"/bin/ldapbrowser
       popd
