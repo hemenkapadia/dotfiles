@@ -820,7 +820,7 @@ for choice in $choices; do
       pushd /tmp/ads
       curl -L https://downloads.apache.org/directory/studio/2.0.0.v20210717-M17/ApacheDirectoryStudio-2.0.0.v20210717-M17-linux.gtk.x86_64.tar.gz --output ads.tar.gz
       sudo tar zxvf ads.tar.gz && sudo mv ApacheDirectoryStudio /opt
-      ln -s /opt/ApacheDirectoryStudio/ApacheDirectoryStudio "${HOME}"/bin/ldapbrowser
+      ln -s /opt/ApacheDirectoryStudio/ApacheDirectoryStudio "${HOME}"/.local/bin/ldapbrowser
       popd
       rm -rf /tmp/ads
       echo "Apache Directory Studio installation completed. "
