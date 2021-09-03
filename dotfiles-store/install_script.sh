@@ -742,8 +742,11 @@ for choice in $choices; do
     dev041) # Install pipenv
       echo ""
       echo "Installing pipenv and pipes from pypi for user only...."
-      python3 -m pip install --user pipenv
-      python3 -m pip install --user pipenv-pipes
+      # Use below line for install
+      # python3 -m pip install --user pipenv
+      # python3 -m pip install --user pipenv-pipes
+      python3 -m pip install --upgrade --user pipenv
+      python3 -m pip install --upgrade --user pipenv-pipes
       echo "Pipenv and Pipes Installation completed."
       ;;
     dev050) # Installing OpenJDK 8
