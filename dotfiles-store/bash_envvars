@@ -32,4 +32,4 @@ export RUSTUP_HOME=/opt/rustup
 
 # PATH environment variable. Keep this the last one in this file
 export PATH="/usr/local/go/bin:${HOME}/.local/bin:${CARGO_HOME}/bin:${HOME}/.pyenv/bin:${HOME}/bin/android-tools:${PATH}"
-
+export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
