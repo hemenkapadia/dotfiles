@@ -566,7 +566,7 @@ for choice in $choices; do
     bas140) # Install s3cmd
       echo ""
       echo "Installing s3cmd from pypi systemwide ...."
-      sudo python3 -m pip install --system s3cmd
+      python3 -m pip install --user --upgrade s3cmd
       echo "s3cmd Installation completed."
       ;;
     bas150) # Installing Kubernetes Tools
