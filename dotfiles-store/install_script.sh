@@ -97,8 +97,6 @@ options=(
   "bas029"  "Gnome Tweaks, Shell Extensions" off
   "bas030"  "Gnome Clocks" off
   "bas031"  "Gnome Calendar" off
-  "bas032"  "Gnome Screenshot" off
-  "bas033"  "Flameshot Screenshot" off
   "bas100"  "Git" off
   "bas101"  "Gitbatch" off
   "bas102"  "Tig" off
@@ -156,6 +154,13 @@ options=(
   "prd060"  "Zoom Meetings App" off
   "prd070"  "Libreoffice" off
   "prd080"  "PDFsam basic" off
+  "------"  "------------------------------" off
+  "------"  "-------- Image Stuff  --------" off
+  "------"  "------------------------------" off
+  "img000"  "Gnome Paint" off
+  "img001"  "mtPaint" off
+  "img010"  "Gnome Screenshot" off
+  "img011"  "Flameshot Screenshot" off
   "------"  "------------------------------" off
   "------"  "----- Audio Video Stuff  -----" off
   "------"  "------------------------------" off
@@ -339,20 +344,6 @@ for choice in $choices; do
       echo "Installing Gnome Calendar...."
       sudo apt install -y gnome-calendar
       echo "Gnome Calendar installation completed."
-      echo ""
-      ;;
-    bas032) # Installing Gnome Screenshot
-      echo ""
-      echo "Installing Gnome Screenshot...."
-      sudo apt install -y gnome-screenshot
-      echo "Gnome screenshot installed."
-      echo ""
-      ;;
-    bas033) # Installing Flameshot
-      echo ""
-      echo "Installing Flameshot...."
-      sudo apt install -y flameshot
-      echo "Flameshot installed"
       echo ""
       ;;
     bas100) # Install Git
@@ -915,14 +906,14 @@ for choice in $choices; do
       ;;
     prd051) # Installing Minetime
       echo ""
-      echo "Installing Minetime...."
+      echo "Installing Minetime/Morgen...."
       mkdir -p /tmp/minetime
       pushd /tmp/minetime
-      curl -L https://europe-west1-minetime-backend.cloudfunctions.net/download/linux-deb --output minetime.deb
+      curl -L https://dl.todesktop.com/210203cqcj00tw1/linux/deb/x64 --output minetime.deb
       sudo dpkg -i minetime.deb
       popd
       rm -rf /tmp/minetime
-      echo "Minetime installation completed."
+      echo "Minetime/Morgen installation completed."
       echo ""
       ;;
     prd052) # Installing Slack
@@ -966,6 +957,34 @@ for choice in $choices; do
       popd
       rm -rf /tmp/pdfsamb
       echo "PDFsam installation completed. "
+      echo ""
+      ;;
+    img000) # Installing Gnome Paint
+      echo ""
+      echo "Installing Gnome Paint...."
+      sudo apt install -y gnome-paint
+      echo "Gnome Paint installation completed. "
+      echo ""
+      ;;
+    img001) # Installing mtPaint
+      echo ""
+      echo "Installing mtPaint...."
+      sudo apt install -y mtpaint
+      echo "mtPaint installation completed. "
+      echo ""
+      ;;
+    img010) # Installing Gnome Screenshot
+      echo ""
+      echo "Installing Gnome Screenshot...."
+      sudo apt install -y gnome-screenshot
+      echo "Gnome screenshot installed."
+      echo ""
+      ;;
+    img011) # Installing Flameshot
+      echo ""
+      echo "Installing Flameshot...."
+      sudo apt install -y flameshot
+      echo "Flameshot installed"
       echo ""
       ;;
     med000) # Installing Spotify Client
