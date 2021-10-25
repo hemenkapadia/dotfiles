@@ -6,7 +6,7 @@
 
 {%@@ if profile not in ["workremote","rpiremote"] @@%}
 
-# Generic Utility functions 
+# Generic Utility functions
 function spdr {
   source activate base; spyder &
 }
@@ -30,15 +30,15 @@ function start_agent {
     echo "Initializing new SSH agent..."
     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
     echo "Agent started...."
-    
+
     # Source environment, which sets SSH_AGENT_PID in the current environment
     chmod 600 "${SSH_ENV}"
     . "${SSH_ENV}" > /dev/null
-    
+
     # Adding keys to ssh agent
     find ~/.ssh -type f -name *id_rsa -exec /usr/bin/ssh-add {} \;
 }
-# Do not start SSH Agent if SSH agent is still running as the same PID 
+# Do not start SSH Agent if SSH agent is still running as the same PID
 # as the one stored in the environment
 if [ -f "${SSH_ENV}" ]; then
      . "${SSH_ENV}" > /dev/null
@@ -66,7 +66,7 @@ function devdesk {
   display_width=$(xrandr --listactivemonitors | tail -n +2 | cut -d ' ' -f 4 | cut -d '/' -f 1)
   display_height=$(xrandr --listactivemonitors | tail -n +2 | cut -d ' ' -f 4 | cut -d 'x' -f 2 | cut -d '/' -f 1)
   top_margin=35
-  bottom_margin=90 
+  bottom_margin=90
   padding=10
   window_width=$[$[display_width-padding*4]/2]
   left_window_height=$[display_height-top_margin-bottom_margin]
@@ -81,15 +81,15 @@ function devdesk {
     # For COVID, got monotor home, but dual monitor not possible; hence 1 monitor
     # possible for work laptop profile too
     {%@@ if profile == "worklaptop" @@%}
-    # set workspace 
+    # set workspace
     wmctrl -r 'Mailspring' -t 1
     wmctrl -r 'Slack' -t 1
-    wmctrl -r 'MineTime' -t 1
+    wmctrl -r 'Morgen' -t 1
     wmctrl -r 'Google Chrome' -t 2
     wmctrl -r 'Joplin' -t 2
     wmctrl -r 'Mailspring' -e "0,$left_anchor_x,$left_anchor_y,$window_width,$left_window_height"
     wmctrl -r 'Slack' -e "0,$right_anchor_x,$right_top_anchor_y,$window_width,$right_window_height"
-    wmctrl -r 'MineTime' -e "0,$right_anchor_x,$right_bottom_anchor_y,$window_width,$right_window_height"
+    wmctrl -r 'Morgen' -e "0,$right_anchor_x,$right_bottom_anchor_y,$window_width,$right_window_height"
     wmctrl -r 'Google Chrome' -e "0,$left_anchor_x,$right_top_anchor_y,$window_width,$right_window_height"
     wmctrl -r 'Joplin' -e "0,$right_anchor_x,$right_top_anchor_y,$window_width,$right_window_height"
     {%@@ endif @@%}
@@ -108,7 +108,7 @@ function devdesk {
     wmctrl -r 'Terminal' -t 0
     wmctrl -r 'Mailspring' -t 0
     wmctrl -r 'Slack' -t 0
-    wmctrl -r 'MineTime' -t 0
+    wmctrl -r 'Morgen' -t 0
     # TODO: Handle Dual monitor setup using screen size calculations
     wmctrl -r '/Workspace/' -e '0,2570,30,1850,2034'
     wmctrl -r 'Visual Studio Code' -e '0,2570,30,1850,2034'
@@ -116,8 +116,8 @@ function devdesk {
     wmctrl -r 'Terminal' -e '0,4430,1360,1960,707'
     wmctrl -r 'Mailspring' -e '0,10,305,1350,1310'
     wmctrl -r 'Slack' -e '0,1365,305,1180,590'
-    wmctrl -r 'MineTime' -e '0,1365,930,1180,685'
-  fi  
+    wmctrl -r 'Morgen' -e '0,1365,930,1180,685'
+  fi
 }
 
 function ruindesk {
@@ -127,7 +127,7 @@ function ruindesk {
   wmctrl -r 'Terminal' -t 0 -e '0,1300,650,230,350'
   wmctrl -r 'Mailspring' -t 0 -e '0,1300,50,230,350'
   wmctrl -r 'Slack' -t 0 -e '0,800,50,230,350'
-  wmctrl -r 'MineTime' -t 0 -e '0,10,50,230,350'
+  wmctrl -r 'Morgen' -t 0 -e '0,10,50,230,350'
   wmctrl -r 'Google Chrome' -t 0 -e '0,12,35,300,260'
   wmctrl -r 'Joplin' -t 0 -e '0,12,35,300,260'
 
@@ -184,7 +184,7 @@ function d-cs {
 
 # Image
 function d-il {
-  docker image ls $1 | sort -k 7 -h 
+  docker image ls $1 | sort -k 7 -h
 }
 
 # Volume
