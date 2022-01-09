@@ -152,6 +152,7 @@ profiles:
     - f_ideavimrc
     - f_material-solarized-dark_custom-ide.xml
     - f_material-solarized-dark_custom-editor.icls
+    - f_ssh_config
     - f_ssh_rpi_id_rsa
     - f_ssh_rpi_id_rsa.pub
     - f_config_joplin-desktop_userstyle.css
