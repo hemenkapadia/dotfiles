@@ -152,6 +152,7 @@ options=(
   "prd051"  "Minetime" off
   "prd052"  "Slack" off
   "prd060"  "Zoom Meetings App" off
+  "prd061"  "Microsoft Teams" off
   "prd070"  "Libreoffice" off
   "prd080"  "PDFsam basic" off
   "------"  "------------------------------" off
@@ -938,6 +939,18 @@ for choice in $choices; do
       popd
       rm -rf /tmp/zoom
       echo "Zoom installation completed."
+      echo ""
+      ;;
+    prd061) # Installing Microsoft Teams
+      echo ""
+      echo "Installing MS Teams...."
+      mkdir -p /tmp/msteams
+      pushd /tmp/msteams
+      wget -O teams.deb https://go.microsoft.com/fwlink/p/?LinkID=2112886&clcid=0x409&culture=en-us&country=US
+      sudo apt install ./teams.deb
+      popd
+      rm -rf /tmp/msteams
+      echo "MS Teams installation completed."
       echo ""
       ;;
     prd070) # Installing Libreoffice
