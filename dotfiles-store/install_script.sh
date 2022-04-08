@@ -102,6 +102,7 @@ options=(
   "bas102"  "Tig" off
   "bas103"  "Lazygit" off
   "bas105"  "Git SSH keys" off
+  "bas106"  "Authy 2FA Authenticator" off
   "bas110"  "dotdrop" off
   "bas115"  "Tmux, powerline" off
   "bas120"  "VirtualBox and Vagrant" off
@@ -148,6 +149,7 @@ options=(
   "------"  "------------------------------" off
   "prd000"  "mdbook" off
   "prd001"  "Joplin - Notes taking application" off
+  "prd002"  "Draw.io - charting software" off
   "prd050"  "Mailspring" off
   "prd051"  "Minetime" off
   "prd052"  "Slack" off
@@ -401,6 +403,12 @@ for choice in $choices; do
       fi
       echo ">>> Adding keys to ssh-agent"
       find ~/.ssh -type f -name *id_rsa -exec /usr/bin/ssh-add {} \;
+      ;;
+    bas106) # Install authy
+      echo ""
+      echo "Installing authy ...."
+      sudo snap install authy
+      echo "Authy installation completed"
       ;;
     bas110) # Install dotdrop
       echo ""
@@ -891,6 +899,20 @@ for choice in $choices; do
       echo "Installing Joplin - Notes taking application...."
       wget -O - https://raw.githubusercontent.com/laurent22/joplin/master/Joplin_install_and_update.sh | bash
       echo "Joplin installation completed. "
+      echo ""
+      ;;
+    prd002) # Installing draw.io
+      echo ""
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/jgraph/drawio-desktop/releases/latest | rev | cut -d '/' -f 1 | rev | sed 's/v//')
+      echo "Installing Drawio desktop client..."
+      mkdir -p /tmp/drawio
+      pushd /tmp/drawio
+      curl -L "https://github.com/jgraph/drawio-desktop/releases/download/v${version}/drawio-amd64-${version}.deb" -o drawio.deb
+      sudo dpkg -i drawio.deb
+      popd
+      rm -rf /tmp/drawio
+      echo "Drawio desktop client installation completed."
       echo ""
       ;;
     prd050) # Installing Mailspring
