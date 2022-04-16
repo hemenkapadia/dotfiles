@@ -23,6 +23,7 @@ dialog --title "Update" \
 if [[ "$?" -eq 0 ]]; then
   echo " >>> Updating apt list ...."
   sudo apt-get update
+  read -s -p 'Press any key to continue ..'
 fi
 clear
 
@@ -35,6 +36,7 @@ if [[ "$?" -eq 0 ]]; then
   sudo apt install tree wget curl htop unzip net-tools icdiff vim\
                    openssl gnupg-agent apt-transport-https ca-certificates \
                    software-properties-common make build-essential lsb-release
+  read -s -p 'Press any key to continue ..'
 fi
 clear
 
@@ -46,6 +48,7 @@ if [[ "$?" -eq 0 ]]; then
   echo ">>> Installing Python 3 dependencies ...."
   sudo apt install python3 python3-dev
   sudo apt install python3-virtualenv python3-venv python3-pip
+  read -s -p 'Press any key to continue ..'
 fi
 clear
 
@@ -61,6 +64,7 @@ if [[ "$?" -eq 0 ]]; then
                    libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm \
                    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev \
                    python3-gpg
+  read -s -p 'Press any key to continue ..'
 fi
 clear
 
@@ -70,6 +74,7 @@ dialog --title "Upgrade" \
 if [[ "$?" -eq 0 ]]; then
   echo ">>> Upgrading system ...."
   sudo apt-get upgrade -y
+  read -s -p 'Press any key to continue ..'
 fi
 clear
 
@@ -1090,12 +1095,16 @@ for choice in $choices; do
   esac
 done
 
+# Allow to review the changes before dialog
+read -s -p 'Press any key to continue ..'
+
 # Run fixbroken install?
 dialog --title "Fix Broken? " \
   --yesno "Do you want to run apt --fix-broken install ?" 8 45
 if [[ "$?" -eq 0 ]]; then
   echo ">>> Fixing broken install applications ...."
   sudo apt --fix-broken -y install
+  read -s -p 'Press any key to continue ..'
 fi
 
 # Check if autoremove is needed
@@ -1104,7 +1113,10 @@ dialog --title "Auto Remove? " \
 if [[ "$?" -eq 0 ]]; then
   echo ">>> Removing unwanted applications ...."
   sudo apt auto-remove -y
+  read -s -p 'Press any key to continue ..'
 fi
 
+# finally clear everything
+clear
 
 # vim: filetype=sh
