@@ -391,9 +391,18 @@ for choice in $choices; do
     bas103) # Install Lazygit
       echo ""
       echo "Installing Lazygit  ...."
-      sudo add-apt-repository ppa:lazygit-team/release -y
-      sudo apt-get update
-      sudo apt install -y lazygit
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/jesseduffield/lazygit/releases/latest | rev | cut -d '/' -f 1 | rev)
+      mkdir -p /tmp/lazygit
+      pushd /tmp/lazygit
+      https://github.com/jesseduffield/lazygit/releases/download/v0.34/lazygit_0.34_Linux_x86_64.tar.gz
+      curl -L "https://github.com/jesseduffield/lazygit/releases/download/${version}/lazygit_${version:1}_Linux_x86_64.tar.gz" --output lazygit.tar.gz
+      tar -zxvf lazygit.tar.gz
+      chmod u+x lazygit
+      mv lazygit "${HOME}/.local/bin"
+      unset version
+      popd
+      rm -rf /tmp/lazygit
       echo "Lazygit Installation completed."
       echo ""
       ;;
