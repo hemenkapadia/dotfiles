@@ -108,7 +108,7 @@ options=(
   "bas103"  "Lazygit" off
   "bas105"  "Git SSH keys" off
   "bas106"  "Authy 2FA Authenticator" off
-  "bas110"  "dotdrop" off
+  "bas110"  "dotdrop" on
   "bas115"  "Tmux, powerline" off
   "bas120"  "VirtualBox and Vagrant" off
   "bas130"  "Docker CE" off
@@ -427,7 +427,7 @@ for choice in $choices; do
     bas110) # Install dotdrop
       echo ""
       echo "Installing dotdrop from pypi for the user, not using virtualenv ...."
-      python3 -m pip install --user dotdrop
+      python3 -m pip install --user --upgrade dotdrop
       echo "dotdrop Installation completed."
       echo "Please setup your dordrop repository as explained at https://github.com/deadc0de6/dotdrop/wiki/installation#setup-your-repository"
       ;;
