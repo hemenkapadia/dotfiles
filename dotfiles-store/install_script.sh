@@ -973,6 +973,10 @@ for choice in $choices; do
       echo ""
       ;;
     prd060) # Installing Zoom Meeting
+      # To download older versions of zoom
+      # Get the full version number from https://support.zoom.us/hc/en-us/articles/205759689-New-Updates-For-Linux
+      # version="5.9.6.2225" 5.10 has a bug on linux, video does not work
+      # curl -L "https://zoom.us/client/${version}/zoom_amd64.deb" --output "zoom_${version}.deb"
       echo ""
       echo "Installing zoom meeting app...."
       mkdir -p /tmp/zoom
