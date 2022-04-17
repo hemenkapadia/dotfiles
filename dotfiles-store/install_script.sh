@@ -48,6 +48,7 @@ if [[ "$?" -eq 0 ]]; then
   echo ">>> Installing Python 3 dependencies ...."
   sudo apt install python3 python3-dev
   sudo apt install python3-virtualenv python3-venv python3-pip
+  sudo /usr/bin/python3 -m pip install --upgrade pip
   read -s -p 'Press Enter to continue ..'
 fi
 clear
