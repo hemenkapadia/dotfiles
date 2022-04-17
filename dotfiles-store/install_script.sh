@@ -114,7 +114,7 @@ options=(
   "bas130"  "Docker CE" off
   "bas131"  "Docker Compose" off
   "bas132"  "Lazydocker" off
-  "bas133"  "Dive - docker image analyser" off
+  "bas133"  "Dive - docker image analyser" on
   "bas134"  "Ansible" off
   "bas135"  "Google Cloud SDK" off
   "bas136"  "AWS CLI SDK" off
@@ -136,7 +136,7 @@ options=(
   "dev030"  "NodeJS LTS using n-install" off
   "dev031"  "YARN" off
   "dev040"  "pyenv" off
-  "dev041"  "Pipenv and Pipes" off
+  "dev041"  "Pipenv and Pipes" on
   "dev050"  "OpenJDK 8" off
   "dev051"  "OpenJDK 11" off
   "dev060"  "Go language" off
@@ -145,23 +145,23 @@ options=(
   "dev110"  "SQLLite DB Browser" off
   "dev120"  "Clickhouse" off
   "dev130"  "Apache Directory Studio" off
-  "dev140"  "Ran - Static Http server" off
+  "dev140"  "Ran - Static Http server" on
   "dev141"  "cfssl tools" off
-  "dev142"  "Insomnia REST client" off
+  "dev142"  "Insomnia REST client" on
   "dev143"  "Android Tools - adb and fastboot" off
   "------"  "------------------------------" off
   "------"  "----- Productivity Stuff -----" off
   "------"  "------------------------------" off
   "prd000"  "mdbook" off
   "prd001"  "Joplin - Notes taking application" off
-  "prd002"  "Draw.io - charting software" off
-  "prd050"  "Mailspring" off
-  "prd051"  "Minetime" off
+  "prd002"  "Draw.io - charting software" on
+  "prd050"  "Mailspring" on
+  "prd051"  "Minetime" on
   "prd052"  "Slack" off
-  "prd060"  "Zoom Meetings App" off
+  "prd060"  "Zoom Meetings App" on
   "prd061"  "Microsoft Teams" off
   "prd070"  "Libreoffice" off
-  "prd080"  "PDFsam basic" off
+  "prd080"  "PDFsam basic" on
   "------"  "------------------------------" off
   "------"  "-------- Image Stuff  --------" off
   "------"  "------------------------------" off
@@ -588,14 +588,14 @@ for choice in $choices; do
       kcmd=(dialog --separate-output --checklist "Select k8s tools to install:" 22 76 16)
       koptions=(
         "------"  "--------- k8s flavors --------" off
-        "k000"  "k3d - local k8s cluster using docker" off
-        "k001"  "kind - k3d alternative, local k8s using docker" off
+        "k000"  "k3d - local k8s cluster using docker" on
+        "k001"  "kind - k3d alternative, local k8s using docker" on
         "------"  "------- k8s cli tools  -------" off
-        "k010"  "kubectl - the main k8s controller cli" off
-        "k011"  "kubectx (context) and kubens (namespace) switchers" off
-        "k020"  "k9s - terminal gui based k8s cli" off
+        "k010"  "kubectl - the main k8s controller cli" on
+        "k011"  "kubectx (context) and kubens (namespace) switchers" on
+        "k020"  "k9s - terminal gui based k8s cli" on
         "------"  "--------  cli monitor  -------" off
-        "k040"  "kubebox - Terminal and Web console for K8S" off
+        "k040"  "kubebox - Terminal and Web console for K8S" on
         "------"  "-------  package mgrs  -------" off
         "k200"  "Helm" off
       )
