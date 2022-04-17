@@ -881,6 +881,7 @@ for choice in $choices; do
       echo "Installing Insomnia REST API client..."
       mkdir -p /tmp/insomnia
       pushd /tmp/insomnia
+      version="2022.2.1"
       curl -L "https://github.com/Kong/insomnia/releases/download/core@${version}/Insomnia.Core-${version}.deb" -o insomnia.deb
       sudo dpkg -i insomnia.deb
       popd
