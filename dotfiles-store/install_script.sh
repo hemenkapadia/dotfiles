@@ -920,12 +920,12 @@ for choice in $choices; do
       ;;
     prd002) # Installing draw.io
       echo ""
-      # Get latest github release tag or version but printing the redirection url for the latest relese
-      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/jgraph/drawio-desktop/releases/latest | rev | cut -d '/' -f 1 | rev | sed 's/v//')
       echo "Installing Drawio desktop client..."
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/jgraph/drawio-desktop/releases/latest | rev | cut -d '/' -f 1 | rev)
       mkdir -p /tmp/drawio
       pushd /tmp/drawio
-      curl -L "https://github.com/jgraph/drawio-desktop/releases/download/v${version}/drawio-amd64-${version}.deb" -o drawio.deb
+      curl -L "https://github.com/jgraph/drawio-desktop/releases/download/${version}/drawio-amd64-${version:1}.deb" -o drawio.deb
       sudo dpkg -i drawio.deb
       popd
       unset version
@@ -1005,7 +1005,8 @@ for choice in $choices; do
       echo "Installing PDFsam basic...."
       mkdir -p /tmp/pdfsamb
       pushd /tmp/pdfsamb
-      curl -L  https://github.com/torakiki/pdfsam/releases/download/v4.2.1/pdfsam_4.2.1-1_amd64.deb --output pdfsam.deb
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/torakiki/pdfsam/releases/latest | rev | cut -d '/' -f 1 | rev)
+      curl -L  "https://github.com/torakiki/pdfsam/releases/download/${version}/pdfsam_${version:1}-1_amd64.deb" --output pdfsam.deb
       sudo dpkg -i pdfsam.deb
       popd
       unset version
