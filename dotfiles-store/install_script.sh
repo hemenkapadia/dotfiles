@@ -93,6 +93,7 @@ options=(
   "sys011"  "Canon MX 490 Scanner Drivers" off
   "sys012"  "Xsane Scanning ssoftware" off
   "sys015"  "VPN and Gnome Network Manager" off
+  "sys020"  "Video4Linux Utils and GUVCViewer - Webcam Manager" off
   "------"  "------------------------------" off
   "------"  "-----   Base Utilities   -----" off
   "------"  "------------------------------" off
@@ -264,6 +265,15 @@ for choice in $choices; do
       echo "Installing VPN...."
       sudo apt install -y vpnc network-manager-vpnc-gnome
       echo "VPN installation completed. You will need to configure VPN connection yourself."
+      echo ""
+      ;;
+    sys020) # Installing Video4Linux
+      echo ""
+      echo "Installing Video4Linux and GSVCView..."
+      sudo apt-add-repository ppa:pj-assis/ppa -y
+      sudo apt-get update
+      sudo apt install -y v4l-utils guvcview
+      echo "Video4Linux and GSVCView installation completed"
       echo ""
       ;;
     bas000) # Installing Ubuntu extras
