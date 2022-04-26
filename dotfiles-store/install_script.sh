@@ -80,6 +80,8 @@ if [[ "$?" -eq 0 ]]; then
 fi
 clear
 
+# Make $HOME/.local/bin directory if it does not exist
+mkdir -p "${HOME}/.local/bin"
 
 # Offer list of applications to select for installation
 cmd=(dialog --separate-output --checklist "Please Select Software you want to install:" 22 76 16)
@@ -89,6 +91,7 @@ options=(
   "------"  "------------------------------" off
   "sys000"  "hid_apple patch for magic keyboard" off
   "sys005"  "Touchpad Indicator" off
+  "sys006"  "Solaar - Logitech Unifying Device Manager" off
   "sys010"  "Canon MX 490 Printer Drivers" off
   "sys011"  "Canon MX 490 Scanner Drivers" off
   "sys012"  "Xsane Scanning ssoftware" off
@@ -222,6 +225,15 @@ for choice in $choices; do
       echo "Touchpad indicator installation completed."
       echo ""
       ;;
+    sys006) # Installing Solaar
+      echo ""
+      echo "Installing Solaar...."
+      sudo add-apt-repository ppa:soppa:solaar-unifying/stable -y
+      sudo apt-get update
+      sudo apt install -y solaar
+      echo "Touchpad indicator installation completed."
+      echo ""
+      ;;
     sys010) # Installing Cannon MX490 Printer Drivers
       echo ""
       echo "Installing Canon MX490 Printer Drivers...."
@@ -285,7 +297,8 @@ for choice in $choices; do
     bas010) # Installing Adapta Theme
       echo ""
       echo "Installing Adapta Theme...."
-      sudo apt-add-repository ppa:tista/adapta -y
+      # Below line is commented for 20.04
+      # sudo apt-add-repository ppa:tista/adapta -y
       sudo apt-get update
       sudo apt install -y adapta-gtk-theme
       echo "Adapta theme installation completed."
@@ -499,6 +512,7 @@ for choice in $choices; do
       echo ""
       echo "Installing Lazydocker ...."
       curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+      mv lazydocker "${HOME}/.local/bin"
       echo "Lazydocker installation completed."
       echo ""
       ;;
@@ -975,26 +989,30 @@ for choice in $choices; do
       echo "Installing Slack...."
       mkdir -p /tmp/slack
       pushd /tmp/slack
-      wget https://downloads.slack-edge.com/linux_releases/slack-desktop-4.12.2-amd64.deb
-      sudo dpkg -i slack*.deb
+      version="4.25.0"
+      curl -L "https://downloads.slack-edge.com/releases/linux/${version}/prod/x64/slack-desktop-${version}-amd64.deb" --output slack.deb
+      sudo apt install ./slack.deb
       popd
+      unset version
       rm -rf /tmp/slack
       echo "Slack installation completed."
       echo ""
       ;;
     prd060) # Installing Zoom Meeting
-      # To download older versions of zoom
-      # Get the full version number from https://support.zoom.us/hc/en-us/articles/205759689-New-Updates-For-Linux
-      # version="5.9.6.2225" 5.10 has a bug on linux, video does not work
-      # curl -L "https://zoom.us/client/${version}/zoom_amd64.deb" --output "zoom_${version}.deb"
       echo ""
       echo "Installing zoom meeting app...."
       mkdir -p /tmp/zoom
       pushd /tmp/zoom
-      curl -L https://zoom.us/client/latest/zoom_amd64.deb --output zoom.deb
+      # To download older versions of zoom
+      # Get the full version number from https://support.zoom.us/hc/en-us/articles/205759689-New-Updates-For-Linux
+      version="5.9.6.2225" # 5.10 has a bug on linux, video does not work
+      curl -L "https://zoom.us/client/${version}/zoom_amd64.deb" --output zoom.deb
+      # Latest version (5.10) has a bug on linux, video does not work
+      #curl -L https://zoom.us/client/latest/zoom_amd64.deb --output zoom.deb
       sudo apt install ./zoom.deb
       popd
-      rm -rf /tmp/zoom
+      unset version
+      #rm -rf /tmp/zoom
       echo "Zoom installation completed."
       echo ""
       ;;
