@@ -114,7 +114,7 @@ options=(
   "bas103"  "Lazygit" off
   "bas105"  "Git SSH keys" off
   "bas106"  "Authy 2FA Authenticator" off
-  "bas110"  "dotdrop" on
+  "bas110"  "dotdrop" off
   "bas115"  "Tmux, powerline" off
   "bas120"  "VirtualBox and Vagrant" off
   "bas130"  "Docker CE" off
@@ -449,10 +449,10 @@ for choice in $choices; do
       sudo snap install authy
       echo "Authy installation completed"
       ;;
-    bas110) # Install dotdrop
+    bas110) # Install dotdrop, has to be done as system else global dotrop for system files will not work
       echo ""
       echo "Installing dotdrop from pypi for the user, not using virtualenv ...."
-      python3 -m pip install --user --upgrade dotdrop
+      sudo python3 -m pip install --system --upgrade dotdrop
       echo "dotdrop Installation completed."
       echo "Please setup your dordrop repository as explained at https://github.com/deadc0de6/dotdrop/wiki/installation#setup-your-repository"
       ;;

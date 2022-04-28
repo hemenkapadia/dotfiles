@@ -14,14 +14,13 @@ alias bfg="java -jar ~/Downloads/bfg-1.14.0.jar"
 
 # dotdrop
 # -------
-alias dd-upgrade="pip3 install --user dotdrop --upgrade"
 alias dd-c="dotdrop compare"
 alias dd-add="dotdrop import -m"
 alias dd-del="dotdrop remove"
 alias dd-get="dotdrop install"
 alias dd-put="dotdrop update"
 # Global Dotdrop
-alias gdd="sudo --preserve-env=DOTDROP_PASSPHRASE_FILE,DOTDROP_PROFILE dotdrop --cfg $HOME/dotfiles/config-global.yaml"
+alias gdd="sudo --preserve-env=DOTDROP_PASSPHRASE_FILE,DOTDROP_PROFILE dotdrop --cfg ${HOME}/dotfiles/config-global.yaml"
 alias gdd-c="gdd compare"
 alias gdd-add="gdd import -m"
 alias gdd-del="gdd remove"
