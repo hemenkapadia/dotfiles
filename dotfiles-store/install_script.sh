@@ -120,7 +120,7 @@ options=(
   "bas130"  "Docker CE" off
   "bas131"  "Docker Compose" off
   "bas132"  "Lazydocker" off
-  "bas133"  "Dive - docker image analyser" on
+  "bas133"  ">> Dive - docker image analyser" off
   "bas134"  "Ansible" off
   "bas135"  "Google Cloud SDK" off
   "bas136"  "AWS CLI SDK" off
@@ -142,7 +142,7 @@ options=(
   "dev030"  "NodeJS LTS using n-install" off
   "dev031"  "YARN" off
   "dev040"  "pyenv" off
-  "dev041"  "Pipenv and Pipes" on
+  "dev041"  ">> Pipenv and Pipes" off
   "dev050"  "OpenJDK 8" off
   "dev051"  "OpenJDK 11" off
   "dev060"  "Go language" off
@@ -151,23 +151,23 @@ options=(
   "dev110"  "SQLLite DB Browser" off
   "dev120"  "Clickhouse" off
   "dev130"  "Apache Directory Studio" off
-  "dev140"  "Ran - Static Http server" on
+  "dev140"  ">> Ran - Static Http server" off
   "dev141"  "cfssl tools" off
-  "dev142"  "Insomnia REST client" on
+  "dev142"  ">> Insomnia REST client" off
   "dev143"  "Android Tools - adb and fastboot" off
   "------"  "------------------------------" off
   "------"  "----- Productivity Stuff -----" off
   "------"  "------------------------------" off
   "prd000"  "mdbook" off
   "prd001"  "Joplin - Notes taking application" off
-  "prd002"  "Draw.io - charting software" on
-  "prd050"  "Mailspring" on
-  "prd051"  "Minetime" on
+  "prd002"  ">> Draw.io - charting software" off
+  "prd050"  ">> Mailspring" off
+  "prd051"  ">> Minetime" off
   "prd052"  "Slack" off
-  "prd060"  "Zoom Meetings App" on
+  "prd060"  ">> Zoom Meetings App" off
   "prd061"  "Microsoft Teams" off
   "prd070"  "Libreoffice" off
-  "prd080"  "PDFsam basic" on
+  "prd080"  ">> PDFsam basic" off
   "------"  "------------------------------" off
   "------"  "-------- Image Stuff  --------" off
   "------"  "------------------------------" off
