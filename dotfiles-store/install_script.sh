@@ -65,7 +65,7 @@ if [[ "$?" -eq 0 ]]; then
                    shellcheck snapd wmctrl \
                    libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm \
                    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev \
-                   python3-gpg
+                   python3-gpg fuse libfuse2
   read -s -p 'Press Enter to continue ..'
 fi
 clear
