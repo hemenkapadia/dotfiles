@@ -91,6 +91,10 @@ dotfiles:
     src: config/joplin-desktop/userstyle.css
     dst: ~/.config/joplin-desktop/userstyle.css
     chmod: '644'
+  f_config_joplin-desktop_userchrome.css:
+    src: config/joplin-desktop/userchrome.css
+    dst: ~/.config/joplin-desktop/userchrome.css
+    chmod: '664'
   f_dotdrop_tester.sh:
     src: dotdrop_tester.sh
     dst: ~/dotdrop_tester.sh
@@ -135,6 +139,7 @@ profiles:
     - f_ssh_rpi_id_rsa
     - f_ssh_rpi_id_rsa.pub
     - f_config_joplin-desktop_userstyle.css
+    - f_config_joplin-desktop_userchrome.css
     - f_ssh_readme
   workremote:
     include:
@@ -156,4 +161,5 @@ profiles:
     - f_ssh_rpi_id_rsa
     - f_ssh_rpi_id_rsa.pub
     - f_config_joplin-desktop_userstyle.css
+    - f_config_joplin-desktop_userchrome.css
 

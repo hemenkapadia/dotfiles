@@ -1,0 +1,53 @@
+/* For styling the entire Joplin app (except the rendered Markdown, which is defined in `userstyle.css`) */
+
+/* Headers */
+span.cm-header {
+    color: #D33682 !important;
+}
+span.cm-header-1 {
+    font-size: 1.2em !important;
+}
+span.cm-header-2 {
+    font-size: 1.1em !important;
+}
+
+/* Links */
+span.cm-link-text {
+    color: #268BD2 !important;
+    font-weight: bold !important;
+}
+span.cm-url {
+    color: #859900 !important;
+    font-style: italic !important;
+}
+
+/* Lists */
+span.cm-variable-2 {
+    color: #93aaaa;
+}
+
+/* Text Attributes */
+/* Strong */
+span.cm-strong {
+    color: #a8baba !important;
+    font-weight: bold !important;
+}
+/* italics */
+span.cm-em {
+    color: #a8baba !important;
+    font-style: italic !important;
+}
+/* monospace inline */
+span.cm-comment.cm-jn-inline-code {
+    font-family: 'MonacoBSemi', monospace !important;
+    font-style: normal !important;
+    color: #b58900 !important;
+    border: none !important;
+}
+/* monospace blocks */
+span.cm-comment.cm-jn-monospace {
+    font-family: 'MonacoBSemi', monospace !important;
+    font-style: normal !important;
+    color: #b58900 !important;
+    border: none !important;
+}
