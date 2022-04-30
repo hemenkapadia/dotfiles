@@ -452,7 +452,7 @@ for choice in $choices; do
     bas110) # Install dotdrop, has to be done as system else global dotrop for system files will not work
       echo ""
       echo "Installing dotdrop from pypi for the user, not using virtualenv ...."
-      sudo python3 -m pip install --system --upgrade dotdrop
+      sudo python3 -m pip install --upgrade dotdrop
       echo "dotdrop Installation completed."
       echo "Please setup your dordrop repository as explained at https://github.com/deadc0de6/dotdrop/wiki/installation#setup-your-repository"
       ;;
