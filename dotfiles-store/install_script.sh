@@ -34,7 +34,7 @@ dialog --title "Install Base dependencies" \
 if [[ "$?" -eq 0 ]]; then
   # Install base dependencies
   echo ">>> Installing base dependencies ...."
-  sudo apt install tree wget curl htop unzip net-tools icdiff vim\
+  sudo apt install tree wget curl htop unzip net-tools icdiff vim jq \
                    openssl gnupg-agent apt-transport-https ca-certificates \
                    software-properties-common make build-essential lsb-release
   read -s -p 'Press Enter to continue ..'
@@ -104,6 +104,7 @@ options=(
   "bas010"  "Adapta theme" off
   "bas011"  "Icon themes" off
   "bas012"  "Ubuntu Wallpapers and Source Code fonts" off
+  "bas027"  "Firefox" off
   "bas028"  "Google Chrome" off
   "bas029"  "Gnome Tweaks, Shell Extensions" off
   "bas030"  "Gnome Clocks" off
@@ -116,7 +117,8 @@ options=(
   "bas106"  "Authy 2FA Authenticator" off
   "bas110"  "dotdrop" off
   "bas115"  "Tmux, powerline" off
-  "bas120"  "VirtualBox and Vagrant" off
+  "bas120"  "VirtualBox" off
+  "bas121"  "Vagrant" off
   "bas130"  "Docker CE" off
   "bas131"  "Docker Compose" off
   "bas132"  "Lazydocker" off
@@ -163,9 +165,9 @@ options=(
   "prd002"  ">> Draw.io - charting software" off
   "prd050"  ">> Mailspring" off
   "prd051"  ">> Minetime" off
-  "prd052"  "Slack" off
-  "prd060"  ">> Zoom Meetings App" off
-  "prd061"  "Microsoft Teams" off
+  "prd052"  ">>v Slack" off
+  "prd060"  ">>v Zoom Meetings App" off
+  "prd061"  ">>v Microsoft Teams" off
   "prd070"  "Libreoffice" off
   "prd080"  ">> PDFsam basic" off
   "------"  "------------------------------" off
@@ -341,6 +343,14 @@ for choice in $choices; do
         echo "Download the zip from https://github.com/hemenkapadia/privatestuff in your broser and put in the same dir as this file."
       fi
       ;;
+    bas027) # Installing Firefox
+      echo ""
+      echo "Removing Firefox snap browser...."
+      echo "Installing Firefox APT browser...."
+      # Hanlde as explained in https://www.debugpoint.com/2021/09/remove-firefox-snap-ubuntu/
+      # and https://askubuntu.com/questions/1399383/how-to-install-firefox-as-a-traditional-deb-package-without-snap-in-ubuntu-22/1403204#1403204
+      echo ""
+      ;;
     bas028) # Installing Google Chrome
       echo ""
       echo "Installing Google Chrome browser...."
@@ -470,20 +480,21 @@ for choice in $choices; do
       echo "Tmux and Powerline installation completed."
       echo ""
       ;;
-    bas120) # Installing Virtual Box and Vagrant
+    bas120) # Installing VirtualBox
       echo ""
       echo "Installing VirtualBox...."
       wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
       wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
       sudo add-apt-repository "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" -y
-      sudo apt-get update
-      sudo apt-get install -y virtualbox-6.0
+      sudo apt-get update && sudo apt-get install -y virtualbox-6.0
       echo "VirtualBox installation completed."
+      ;;
+    bas121) # Installing Vagrant
       echo ""
       echo "Installing Vagrant ...."
-      sudo add-apt-repository ppa:tiagohillebrandt/vagrant -y
-      sudo apt-get update
-      sudo apt-get install -y vagrant
+      curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+      sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+      sudo apt-get update && sudo apt-get install -y vagrant
       echo "Vagrant installation completed."
       ;;
     bas130) # Installing Docker Community Edition
@@ -536,7 +547,7 @@ for choice in $choices; do
       echo "Installing Ansible...."
       sudo apt-add-repository --yes --update ppa:ansible/ansible
       sudo apt-get update
-      sudo apt-get install -y ansible python-argcomplete
+      sudo apt-get install -y ansible python3-argcomplete
       sudo activate-global-python-argcomplete
       echo "Ansible installation completed."
       echo ""
@@ -987,14 +998,15 @@ for choice in $choices; do
     prd052) # Installing Slack
       echo ""
       echo "Installing Slack...."
-      mkdir -p /tmp/slack
-      pushd /tmp/slack
-      version="4.25.0"
-      curl -L "https://downloads.slack-edge.com/releases/linux/${version}/prod/x64/slack-desktop-${version}-amd64.deb" --output slack.deb
-      sudo apt install ./slack.deb
-      popd
-      unset version
-      rm -rf /tmp/slack
+      # mkdir -p /tmp/slack
+      # pushd /tmp/slack
+      # version="4.25.0"
+      # curl -L "https://downloads.slack-edge.com/releases/linux/${version}/prod/x64/slack-desktop-${version}-amd64.deb" --output slack.deb
+      # sudo apt install ./slack.deb
+      sudo apt install -y slack-desktop
+      # popd
+      #unset version
+      # rm -rf /tmp/slack
       echo "Slack installation completed."
       echo ""
       ;;
@@ -1017,11 +1029,13 @@ for choice in $choices; do
       echo ""
       ;;
     prd061) # Installing Microsoft Teams
+      # This needs improvement - download the latest version from tis file listing
+      # https://packages.microsoft.com/repos/ms-teams/pool/main/t/teams/
       echo ""
       echo "Installing MS Teams...."
       mkdir -p /tmp/msteams
       pushd /tmp/msteams
-      wget -O teams.deb https://go.microsoft.com/fwlink/p/?LinkID=2112886&clcid=0x409&culture=en-us&country=US
+      curl -L "https://go.microsoft.com/fwlink/p/?LinkID=2112886&clcid=0x409&culture=en-us&country=US" --output teams.deb
       sudo apt install ./teams.deb
       popd
       rm -rf /tmp/msteams
