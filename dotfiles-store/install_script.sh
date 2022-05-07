@@ -12,53 +12,54 @@ dialog -v || sudo apt install -y dialog
 dialog --title "Update Keys" \
   --yesno "Do you want to update apt keys ?" 8 45
 if [[ "$?" -eq 0 ]]; then
+  clear
   echo " >>> Updating apt keys ...."
   sudo apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
   read -s -p 'Press Enter to continue ..'
 fi
-clear
 
 # Check if update is needed
 dialog --title "Update" \
   --yesno "Do you want to run apt-get update ?" 8 45
 if [[ "$?" -eq 0 ]]; then
+  clear
   echo " >>> Updating apt list ...."
   sudo apt-get update
   read -s -p 'Press Enter to continue ..'
 fi
-clear
 
 # Install Base dependencies. These should be absolute base, console only dependencies.
 dialog --title "Install Base dependencies" \
   --yesno "Do you want to install base dependencies (recommended) ?" 8 55
 if [[ "$?" -eq 0 ]]; then
   # Install base dependencies
+  clear
   echo ">>> Installing base dependencies ...."
   sudo apt install tree wget curl htop unzip net-tools icdiff vim jq \
                    openssl gnupg-agent apt-transport-https ca-certificates \
                    software-properties-common make build-essential lsb-release
   read -s -p 'Press Enter to continue ..'
 fi
-clear
 
 # Install Python 3 dependencies
 dialog --title "Install Python3 dependencies" \
   --yesno "Do you want to install Python3 (recommended) ?" 8 55
 if [[ "$?" -eq 0 ]]; then
   # Install Python 3 dependencies
+  clear
   echo ">>> Installing Python 3 dependencies ...."
   sudo apt install python3 python3-dev
   sudo apt install python3-virtualenv python3-venv python3-pip
   # sudo -H /usr/bin/python3 -m pip install --upgrade pip
   read -s -p 'Press Enter to continue ..'
 fi
-clear
 
 # Install Extended dependencies
 dialog --title "Install Extended dependencies" \
   --yesno "Do you want to install extended dependencies (recommended) ?" 8 55
 if [[ "$?" -eq 0 ]]; then
   # Install extended dependencies
+  clear
   echo ">>> Installing extended dependencies ...."
   sudo apt install xdotool libcanberra-gtk0 libcanberra-gtk-module \
                    unixodbc unixodbc-dev libmagic-dev \
@@ -68,17 +69,16 @@ if [[ "$?" -eq 0 ]]; then
                    python3-gpg
   read -s -p 'Press Enter to continue ..'
 fi
-clear
 
 # Check if upgrade is needed
 dialog --title "Upgrade" \
   --yesno "Do you want to run apt-get upgrade ?" 8 55
 if [[ "$?" -eq 0 ]]; then
+  clear
   echo ">>> Upgrading system ...."
   sudo apt-get upgrade -y
   read -s -p 'Press Enter to continue ..'
 fi
-clear
 
 # Make $HOME/.local/bin directory if it does not exist
 mkdir -p "${HOME}/.local/bin"
@@ -501,10 +501,12 @@ for choice in $choices; do
       echo ""
       echo "Installing Docker CE...."
       sudo apt-get remove docker docker-engine docker.io containerd runc
-      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+      echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
       sudo apt-get update
-      sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+      sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
       sudo usermod -a -G docker $USER
       echo "Docker installation completed."
       ;;
@@ -998,15 +1000,14 @@ for choice in $choices; do
     prd052) # Installing Slack
       echo ""
       echo "Installing Slack...."
-      # mkdir -p /tmp/slack
-      # pushd /tmp/slack
-      # version="4.25.0"
-      # curl -L "https://downloads.slack-edge.com/releases/linux/${version}/prod/x64/slack-desktop-${version}-amd64.deb" --output slack.deb
-      # sudo apt install ./slack.deb
-      sudo apt install -y slack-desktop
-      # popd
-      #unset version
-      # rm -rf /tmp/slack
+      mkdir -p /tmp/slack
+      pushd /tmp/slack
+      version="4.25.0"
+      curl -L "https://downloads.slack-edge.com/releases/linux/${version}/prod/x64/slack-desktop-${version}-amd64.deb" --output slack.deb
+      sudo apt install ./slack.deb
+      popd
+      unset version
+      rm -rf /tmp/slack
       echo "Slack installation completed."
       echo ""
       ;;
@@ -1094,8 +1095,8 @@ for choice in $choices; do
     med000) # Installing Spotify Client
       echo ""
       echo "Installing Spotify Client...."
-      curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add -
-      echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+      curl -sS https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | sudo gpg --dearmor -o /usr/share/keyrings/spotify.gpg
+      echo "deb [signed-by=/usr/share/keyrings/spotify.gpg] http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
       sudo apt-get update && sudo apt install -y spotify-client
       echo "Spotify Client installation completed."
       echo ""
@@ -1166,6 +1167,7 @@ read -s -p 'Press Enter to continue ..'
 dialog --title "Fix Broken? " \
   --yesno "Do you want to run apt --fix-broken install ?" 8 45
 if [[ "$?" -eq 0 ]]; then
+  clear
   echo ">>> Fixing broken install applications ...."
   sudo apt --fix-broken -y install
   read -s -p 'Press Enter to continue ..'
@@ -1175,6 +1177,7 @@ fi
 dialog --title "Auto Remove? " \
   --yesno "Do you want to run apt auto-remove ?" 8 45
 if [[ "$?" -eq 0 ]]; then
+  clear
   echo ">>> Removing unwanted applications ...."
   sudo apt auto-remove -y
   read -s -p 'Press Enter to continue ..'
