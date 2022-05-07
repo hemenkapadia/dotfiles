@@ -346,10 +346,15 @@ for choice in $choices; do
     bas027) # Installing Firefox
       echo ""
       echo "Removing Firefox snap browser...."
+      sudo snap remove firefox
+      rm -rf "${HOME}/snap/firefox"
       echo "Installing Firefox APT browser...."
       # Hanlde as explained in https://www.debugpoint.com/2021/09/remove-firefox-snap-ubuntu/
       # and https://askubuntu.com/questions/1399383/how-to-install-firefox-as-a-traditional-deb-package-without-snap-in-ubuntu-22/1403204#1403204
-      echo ""
+      sudo add-apt-repository ppa:mozillateam/ppa
+      sudo apt-get update
+      sudo apt-get install firefox
+      echo "Firefox install completed."
       ;;
     bas028) # Installing Google Chrome
       echo ""
