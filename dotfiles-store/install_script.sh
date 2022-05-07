@@ -641,14 +641,14 @@ for choice in $choices; do
       kcmd=(dialog --separate-output --checklist "Select k8s tools to install:" 22 76 16)
       koptions=(
         "------"  "--------- k8s flavors --------" off
-        "k000"  "k3d - local k8s cluster using docker" on
-        "k001"  "kind - k3d alternative, local k8s using docker" on
+        "k000"  "k3d - local k8s cluster using docker" off
+        "k001"  "kind - k3d alternative, local k8s using docker" off
         "------"  "------- k8s cli tools  -------" off
-        "k010"  "kubectl - the main k8s controller cli" on
-        "k011"  "kubectx (context) and kubens (namespace) switchers" on
-        "k020"  "k9s - terminal gui based k8s cli" on
+        "k010"  "kubectl - the main k8s controller cli" off
+        "k011"  "kubectx (context) and kubens (namespace) switchers" off
+        "k020"  "k9s - terminal gui based k8s cli" off
         "------"  "--------  cli monitor  -------" off
-        "k040"  "kubebox - Terminal and Web console for K8S" on
+        "k040"  "kubebox - Terminal and Web console for K8S" off
         "------"  "-------  package mgrs  -------" off
         "k200"  "Helm" off
       )
@@ -687,12 +687,20 @@ for choice in $choices; do
             ;;
           k011)
             echo "Installing kubectx and kubens...."
+            mkdir -p /tmp/kubectx
+            pushd /tmp/kubectx
             version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/ahmetb/kubectx/releases/latest | rev | cut -d '/' -f 1 | rev)
-            wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubectx_${version}_linux_x86_64.tar.gz" -O "${HOME}/.local/bin/kubectx"
-            wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubens_${version}_linux_x86_64.tar.gz" -O "${HOME}/.local/bin/kubens"
+            wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubectx_${version}_linux_x86_64.tar.gz" -O "kubectx.tar.gz"
+            wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubens_${version}_linux_x86_64.tar.gz" -O "kubens.tar.gz"
+            tar -zxvf kubectx.tar.gz
+            tar -zxvf kubens.tar.gz
+            chmod u+x kubectx
+            chmod u+x kubens
+            mv kubectx "${HOME}/.local/bin"
+            mv kubens "${HOME}/.local/bin"
+            popd
             unset version
-            chmod u+x "${HOME}/.local/bin/kubectx"
-            chmod u+x "${HOME}/.local/bin/kubens"
+            rm -rf /tmp/kubectx
             echo "kubectx and kubens installation completed."
             echo ""
             ;;
@@ -713,7 +721,7 @@ for choice in $choices; do
           k040)
             echo "Installing kubebox...."
             version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/astefanutti/kubebox/releases/latest | rev | cut -d '/' -f 1 | rev)
-            wget "https://github.com/astefanutti/kubebox/releases/download/v0.9.0/kubebox-linux" -O "${HOME}/.local/bin/kubebox"
+            wget "https://github.com/astefanutti/kubebox/releases/download/${version}/kubebox-linux" -O "${HOME}/.local/bin/kubebox"
             unset version
             chmod u+x "${HOME}/.local/bin/kubebox"
             echo "kubebox installation completed."
@@ -724,12 +732,13 @@ for choice in $choices; do
             mkdir -p /tmp/helm
             pushd /tmp/helm
             version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/helm/helm/releases/latest | rev | cut -d '/' -f 1 | rev)
-            wget "https://get.helm.sh/helm-v3.5.1-linux-amd64.tar.gz" -O helm.tar.gz
+            wget "https://get.helm.sh/helm-${version}-linux-amd64.tar.gz" -O helm.tar.gz
             unset version
             tar -zxvf helm.tar.gz
             mv linux-amd64/helm "${HOME}/.local/bin"
+            chmod u+x "${HOME}/.local/bin/helm"
             popd
-            echo "kubebox installation completed."
+            echo "helm installation completed."
             echo ""
             ;;
           *)
