@@ -410,11 +410,15 @@ for choice in $choices; do
     bas101) # Installing Gitbatch
       echo ""
       echo "Installing gitbatch...."
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/isacikgoz/gitbatch/releases/latest | rev | cut -d '/' -f 1 | rev)
       mkdir -p /tmp/gitbatch
       pushd /tmp/gitbatch
-      curl -OL https://github.com/isacikgoz/gitbatch/releases/download/v0.5.0/gitbatch_0.5.0_linux_amd64.tar.gz
-      tar xzf gitbatch_0.5.0_linux_amd64.tar.gz
-      sudo mv gitbatch /usr/local/bin
+      curl -L "https://github.com/isacikgoz/gitbatch/releases/download/${version}/gitbatch_${version:1}_linux_amd64.tar.gz" --output gitbatch.tar.gz
+      tar xzf gitbatch.tar.gz
+      chmod u+x gitbatch
+      mv gitbatch "${HOME}/.local/bin"
+      unset version
       popd
       rm -rf /tmp/gitbatch
       echo "Gitbatch installation completed."
@@ -435,7 +439,6 @@ for choice in $choices; do
       version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/jesseduffield/lazygit/releases/latest | rev | cut -d '/' -f 1 | rev)
       mkdir -p /tmp/lazygit
       pushd /tmp/lazygit
-      https://github.com/jesseduffield/lazygit/releases/download/v0.34/lazygit_0.34_Linux_x86_64.tar.gz
       curl -L "https://github.com/jesseduffield/lazygit/releases/download/${version}/lazygit_${version:1}_Linux_x86_64.tar.gz" --output lazygit.tar.gz
       tar -zxvf lazygit.tar.gz
       chmod u+x lazygit
