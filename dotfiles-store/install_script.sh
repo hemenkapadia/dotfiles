@@ -603,12 +603,14 @@ for choice in $choices; do
       echo "Installing Terraform...."
       mkdir -p /tmp/terraform
       pushd /tmp/terraform
-      # Commenting download of latest version as there were some errors experienced. Will use 0.13.6 version for now
-      # wget $(curl --silent  https://www.terraform.io/downloads.html | grep '_linux_amd64.zip' | cut -d '"' -f 2) -O terraform.zip
-      wget  https://releases.hashicorp.com/terraform/0.13.6/terraform_0.13.6_linux_amd64.zip -O terraform.zip
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | rev | cut -d '/' -f 1 | rev)
+      curl -L "https://releases.hashicorp.com/terraform/${version:1}/terraform_${version:1}_linux_amd64.zip" --output terraform.zip
       unzip terraform.zip
-      mv terraform $HOME/.local/bin
+      chmod u+x terraform
+      mv terraform "${HOME}/.local/bin"
       popd
+      unset version
+      rm -rf /tmp/terraform
       echo "Terraform installation completed."
       echo ""
       ;;
@@ -617,10 +619,14 @@ for choice in $choices; do
       echo "Installing Packer...."
       mkdir -p /tmp/packer
       pushd /tmp/packer
-      wget https://releases.hashicorp.com/packer/1.6.6/packer_1.6.6_linux_amd64.zip -O packer.zip
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/packer/releases/latest | rev | cut -d '/' -f 1 | rev)
+      curl -L "https://releases.hashicorp.com/packer/${version:1}/packer_${version:1}_linux_amd64.zip" --output packer.zip
       unzip packer.zip
-      mv packer $HOME/.local/bin
+      chmod u+x packer
+      mv packer "${HOME}/.local/bin"
       popd
+      unset version
+      rm -rf /tmp/packer
       echo "Packer installation completed."
       echo ""
       ;;
