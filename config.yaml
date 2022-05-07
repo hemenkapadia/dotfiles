@@ -94,7 +94,7 @@ dotfiles:
   f_config_joplin-desktop_userchrome.css:
     src: config/joplin-desktop/userchrome.css
     dst: ~/.config/joplin-desktop/userchrome.css
-    chmod: '664'
+    chmod: '644'
   f_dotdrop_tester.sh:
     src: dotdrop_tester.sh
     dst: ~/dotdrop_tester.sh
