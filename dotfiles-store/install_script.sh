@@ -110,26 +110,26 @@ options=(
   "bas030"  "Gnome Clocks" off
   "bas031"  "Gnome Calendar" off
   "bas100"  "Git" off
-  "bas101"  "Gitbatch" off
+  "bas101"  ">> Gitbatch" off
   "bas102"  "Tig" off
-  "bas103"  "Lazygit" off
+  "bas103"  ">> Lazygit" off
   "bas105"  "Git SSH keys" off
   "bas106"  "Authy 2FA Authenticator" off
-  "bas110"  "dotdrop" off
+  "bas110"  ">> dotdrop" off
   "bas115"  "Tmux, powerline" off
   "bas120"  "VirtualBox" off
   "bas121"  "Vagrant" off
   "bas130"  "Docker CE" off
   "bas131"  "Docker Compose" off
-  "bas132"  "Lazydocker" off
+  "bas132"  ">> Lazydocker" off
   "bas133"  ">> Dive - docker image analyser" off
   "bas134"  "Ansible" off
   "bas135"  "Google Cloud SDK" off
   "bas136"  "AWS CLI SDK" off
   "bas137"  "Azure CLI SDK" off
-  "bas138"  "Terraform" off
-  "bas139"  "Packer" off
-  "bas140"  "s3cmd" off
+  "bas138"  ">> Terraform" off
+  "bas139"  ">> Packer" off
+  "bas140"  ">> s3cmd" off
   "bas150"  "Kubernetes Tools" off
   "------"  "------------------------------" off
   "------"  "-----         IDE        -----" off
@@ -161,13 +161,13 @@ options=(
   "------"  "----- Productivity Stuff -----" off
   "------"  "------------------------------" off
   "prd000"  "mdbook" off
-  "prd001"  "Joplin - Notes taking application" off
+  "prd001"  ">> Joplin - Notes taking application" off
   "prd002"  ">> Draw.io - charting software" off
   "prd050"  ">> Mailspring" off
   "prd051"  ">> Minetime" off
   "prd052"  ">>v Slack" off
   "prd060"  ">>v Zoom Meetings App" off
-  "prd061"  ">>v Microsoft Teams" off
+  "prd061"  ">> Microsoft Teams" off
   "prd070"  "Libreoffice" off
   "prd080"  ">> PDFsam basic" off
   "------"  "------------------------------" off
@@ -314,13 +314,13 @@ for choice in $choices; do
       sudo apt-get install -y papirus-icon-theme
       echo "papirus icon theme installation completed."
       echo ""
-      echo ""
-      echo "Installing moka icons theme...."
-      sudo add-apt-repository ppa:snwh/ppa -y
-      sudo apt-get update
-      sudo apt-get install -y moka-icon-theme faba-icon-theme faba-mono-icons
-      echo "moka icon theme installation completed."
-      echo ""
+#      echo ""
+#      echo "Installing moka icons theme...."
+#      sudo add-apt-repository ppa:snwh/ppa -y
+#      sudo apt-get update
+#      sudo apt-get install -y moka-icon-theme faba-icon-theme faba-mono-icons
+#      echo "moka icon theme installation completed."
+#      echo ""
       ;;
     bas012) # Install wallpapers and source code fonts
       # https://help.gnome.org/admin/system-admin-guide/stable/fonts-user.html.en
