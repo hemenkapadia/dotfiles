@@ -348,10 +348,16 @@ for choice in $choices; do
       echo "Removing Firefox snap browser...."
       sudo snap remove firefox
       rm -rf "${HOME}/snap/firefox"
-      echo "Installing Firefox APT browser...."
-      # Hanlde as explained in https://www.debugpoint.com/2021/09/remove-firefox-snap-ubuntu/
+      echo "Creating /etc/apt/preferences.d/firefox-no-snap file...."
+      echo "Package: firefox*" | sudo tee /etc/apt/preferences.d/firefox-no-snap
+      echo "Pin: release o=LP-PPA-mozillateam" | sudo tee -a /etc/apt/preferences.d/firefox-no-snap
+      echo "Pin-Priority: 1001" | sudo tee -a /etc/apt/preferences.d/firefox-no-snap
+      echo "Creating /etc/apt/apt.conf.d/51unattended-upgrades-firefox file...."
+      echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox
+      echo "Installing  APT browser...."
+      # Handle as explained in https://www.debugpoint.com/2021/09/remove-firefox-snap-ubuntu/
       # and https://askubuntu.com/questions/1399383/how-to-install-firefox-as-a-traditional-deb-package-without-snap-in-ubuntu-22/1403204#1403204
-      sudo add-apt-repository ppa:mozillateam/ppa
+      sudo add-apt-repository -y ppa:mozillateam/ppa
       sudo apt-get update
       sudo apt-get install firefox
       echo "Firefox install completed."
