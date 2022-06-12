@@ -12,53 +12,54 @@ dialog -v || sudo apt install -y dialog
 dialog --title "Update Keys" \
   --yesno "Do you want to update apt keys ?" 8 45
 if [[ "$?" -eq 0 ]]; then
+  clear
   echo " >>> Updating apt keys ...."
   sudo apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
   read -s -p 'Press Enter to continue ..'
 fi
-clear
 
 # Check if update is needed
 dialog --title "Update" \
   --yesno "Do you want to run apt-get update ?" 8 45
 if [[ "$?" -eq 0 ]]; then
+  clear
   echo " >>> Updating apt list ...."
   sudo apt-get update
   read -s -p 'Press Enter to continue ..'
 fi
-clear
 
 # Install Base dependencies. These should be absolute base, console only dependencies.
 dialog --title "Install Base dependencies" \
   --yesno "Do you want to install base dependencies (recommended) ?" 8 55
 if [[ "$?" -eq 0 ]]; then
   # Install base dependencies
+  clear
   echo ">>> Installing base dependencies ...."
-  sudo apt install tree wget curl htop unzip net-tools icdiff vim\
+  sudo apt install tree wget curl htop unzip net-tools icdiff vim jq \
                    openssl gnupg-agent apt-transport-https ca-certificates \
                    software-properties-common make build-essential lsb-release
   read -s -p 'Press Enter to continue ..'
 fi
-clear
 
 # Install Python 3 dependencies
 dialog --title "Install Python3 dependencies" \
   --yesno "Do you want to install Python3 (recommended) ?" 8 55
 if [[ "$?" -eq 0 ]]; then
   # Install Python 3 dependencies
+  clear
   echo ">>> Installing Python 3 dependencies ...."
   sudo apt install python3 python3-dev
   sudo apt install python3-virtualenv python3-venv python3-pip
   # sudo -H /usr/bin/python3 -m pip install --upgrade pip
   read -s -p 'Press Enter to continue ..'
 fi
-clear
 
 # Install Extended dependencies
 dialog --title "Install Extended dependencies" \
   --yesno "Do you want to install extended dependencies (recommended) ?" 8 55
 if [[ "$?" -eq 0 ]]; then
   # Install extended dependencies
+  clear
   echo ">>> Installing extended dependencies ...."
   sudo apt install xdotool libcanberra-gtk0 libcanberra-gtk-module \
                    unixodbc unixodbc-dev libmagic-dev \
@@ -68,17 +69,16 @@ if [[ "$?" -eq 0 ]]; then
                    python3-gpg fuse libfuse2
   read -s -p 'Press Enter to continue ..'
 fi
-clear
 
 # Check if upgrade is needed
 dialog --title "Upgrade" \
   --yesno "Do you want to run apt-get upgrade ?" 8 55
 if [[ "$?" -eq 0 ]]; then
+  clear
   echo ">>> Upgrading system ...."
   sudo apt-get upgrade -y
   read -s -p 'Press Enter to continue ..'
 fi
-clear
 
 # Make $HOME/.local/bin directory if it does not exist
 mkdir -p "${HOME}/.local/bin"
@@ -104,30 +104,32 @@ options=(
   "bas010"  "Adapta theme" off
   "bas011"  "Icon themes" off
   "bas012"  "Ubuntu Wallpapers and Source Code fonts" off
+  "bas027"  "Firefox" off
   "bas028"  "Google Chrome" off
   "bas029"  "Gnome Tweaks, Shell Extensions" off
   "bas030"  "Gnome Clocks" off
   "bas031"  "Gnome Calendar" off
   "bas100"  "Git" off
-  "bas101"  "Gitbatch" off
+  "bas101"  ">> Gitbatch" off
   "bas102"  "Tig" off
-  "bas103"  "Lazygit" off
+  "bas103"  ">> Lazygit" off
   "bas105"  "Git SSH keys" off
   "bas106"  "Authy 2FA Authenticator" off
-  "bas110"  "dotdrop" off
+  "bas110"  ">> dotdrop" off
   "bas115"  "Tmux, powerline" off
-  "bas120"  "VirtualBox and Vagrant" off
+  "bas120"  "VirtualBox" off
+  "bas121"  "Vagrant" off
   "bas130"  "Docker CE" off
   "bas131"  "Docker Compose" off
-  "bas132"  "Lazydocker" off
+  "bas132"  ">> Lazydocker" off
   "bas133"  ">> Dive - docker image analyser" off
   "bas134"  "Ansible" off
   "bas135"  "Google Cloud SDK" off
   "bas136"  "AWS CLI SDK" off
   "bas137"  "Azure CLI SDK" off
-  "bas138"  "Terraform" off
-  "bas139"  "Packer" off
-  "bas140"  "s3cmd" off
+  "bas138"  ">> Terraform" off
+  "bas139"  ">> Packer" off
+  "bas140"  ">> s3cmd" off
   "bas150"  "Kubernetes Tools" off
   "------"  "------------------------------" off
   "------"  "-----         IDE        -----" off
@@ -159,13 +161,13 @@ options=(
   "------"  "----- Productivity Stuff -----" off
   "------"  "------------------------------" off
   "prd000"  "mdbook" off
-  "prd001"  "Joplin - Notes taking application" off
+  "prd001"  ">> Joplin - Notes taking application" off
   "prd002"  ">> Draw.io - charting software" off
   "prd050"  ">> Mailspring" off
   "prd051"  ">> Minetime" off
-  "prd052"  "Slack" off
-  "prd060"  ">> Zoom Meetings App" off
-  "prd061"  "Microsoft Teams" off
+  "prd052"  ">>v Slack" off
+  "prd060"  ">>v Zoom Meetings App" off
+  "prd061"  ">> Microsoft Teams" off
   "prd070"  "Libreoffice" off
   "prd080"  ">> PDFsam basic" off
   "------"  "------------------------------" off
@@ -312,13 +314,13 @@ for choice in $choices; do
       sudo apt-get install -y papirus-icon-theme
       echo "papirus icon theme installation completed."
       echo ""
-      echo ""
-      echo "Installing moka icons theme...."
-      sudo add-apt-repository ppa:snwh/ppa -y
-      sudo apt-get update
-      sudo apt-get install -y moka-icon-theme faba-icon-theme faba-mono-icons
-      echo "moka icon theme installation completed."
-      echo ""
+#      echo ""
+#      echo "Installing moka icons theme...."
+#      sudo add-apt-repository ppa:snwh/ppa -y
+#      sudo apt-get update
+#      sudo apt-get install -y moka-icon-theme faba-icon-theme faba-mono-icons
+#      echo "moka icon theme installation completed."
+#      echo ""
       ;;
     bas012) # Install wallpapers and source code fonts
       # https://help.gnome.org/admin/system-admin-guide/stable/fonts-user.html.en
@@ -340,6 +342,25 @@ for choice in $choices; do
         echo "Could not locate privatestuff-master.zip."
         echo "Download the zip from https://github.com/hemenkapadia/privatestuff in your broser and put in the same dir as this file."
       fi
+      ;;
+    bas027) # Installing Firefox
+      echo ""
+      echo "Removing Firefox snap browser...."
+      sudo snap remove firefox
+      rm -rf "${HOME}/snap/firefox"
+      echo "Creating /etc/apt/preferences.d/firefox-no-snap file...."
+      echo "Package: firefox*" | sudo tee /etc/apt/preferences.d/firefox-no-snap
+      echo "Pin: release o=LP-PPA-mozillateam" | sudo tee -a /etc/apt/preferences.d/firefox-no-snap
+      echo "Pin-Priority: 1001" | sudo tee -a /etc/apt/preferences.d/firefox-no-snap
+      echo "Creating /etc/apt/apt.conf.d/51unattended-upgrades-firefox file...."
+      echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox
+      echo "Installing  APT browser...."
+      # Handle as explained in https://www.debugpoint.com/2021/09/remove-firefox-snap-ubuntu/
+      # and https://askubuntu.com/questions/1399383/how-to-install-firefox-as-a-traditional-deb-package-without-snap-in-ubuntu-22/1403204#1403204
+      sudo add-apt-repository -y ppa:mozillateam/ppa
+      sudo apt-get update
+      sudo apt-get install firefox
+      echo "Firefox install completed."
       ;;
     bas028) # Installing Google Chrome
       echo ""
@@ -395,11 +416,15 @@ for choice in $choices; do
     bas101) # Installing Gitbatch
       echo ""
       echo "Installing gitbatch...."
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/isacikgoz/gitbatch/releases/latest | rev | cut -d '/' -f 1 | rev)
       mkdir -p /tmp/gitbatch
       pushd /tmp/gitbatch
-      curl -OL https://github.com/isacikgoz/gitbatch/releases/download/v0.5.0/gitbatch_0.5.0_linux_amd64.tar.gz
-      tar xzf gitbatch_0.5.0_linux_amd64.tar.gz
-      sudo mv gitbatch /usr/local/bin
+      curl -L "https://github.com/isacikgoz/gitbatch/releases/download/${version}/gitbatch_${version:1}_linux_amd64.tar.gz" --output gitbatch.tar.gz
+      tar xzf gitbatch.tar.gz
+      chmod u+x gitbatch
+      mv gitbatch "${HOME}/.local/bin"
+      unset version
       popd
       rm -rf /tmp/gitbatch
       echo "Gitbatch installation completed."
@@ -420,7 +445,6 @@ for choice in $choices; do
       version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/jesseduffield/lazygit/releases/latest | rev | cut -d '/' -f 1 | rev)
       mkdir -p /tmp/lazygit
       pushd /tmp/lazygit
-      https://github.com/jesseduffield/lazygit/releases/download/v0.34/lazygit_0.34_Linux_x86_64.tar.gz
       curl -L "https://github.com/jesseduffield/lazygit/releases/download/${version}/lazygit_${version:1}_Linux_x86_64.tar.gz" --output lazygit.tar.gz
       tar -zxvf lazygit.tar.gz
       chmod u+x lazygit
@@ -470,43 +494,46 @@ for choice in $choices; do
       echo "Tmux and Powerline installation completed."
       echo ""
       ;;
-    bas120) # Installing Virtual Box and Vagrant
+    bas120) # Installing VirtualBox
       echo ""
       echo "Installing VirtualBox...."
-      wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-      wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
-      sudo add-apt-repository "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" -y
-      sudo apt-get update
-      sudo apt-get install -y virtualbox-6.0
+#      wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+#      wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+#      sudo add-apt-repository "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" -y
+      sudo apt-get update && sudo apt install -y virtualbox
       echo "VirtualBox installation completed."
+      ;;
+    bas121) # Installing Vagrant
       echo ""
       echo "Installing Vagrant ...."
-      sudo add-apt-repository ppa:tiagohillebrandt/vagrant -y
-      sudo apt-get update
-      sudo apt-get install -y vagrant
+#      curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+#      sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+      sudo apt-get update && sudo apt-get install -y vagrant
       echo "Vagrant installation completed."
       ;;
     bas130) # Installing Docker Community Edition
       echo ""
       echo "Installing Docker CE...."
       sudo apt-get remove docker docker-engine docker.io containerd runc
-      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+      echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
       sudo apt-get update
-      sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+      sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
       sudo usermod -a -G docker $USER
       echo "Docker installation completed."
       ;;
     bas131) # Install docker compose
-      echo ""
-      # Get latest github release tag or version but printing the redirection url for the latest relese
-      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/docker/compose/releases/latest | rev | cut -d '/' -f 1 | rev)
-      version="1.27.4"  # hardcoading as 1.28.0 was giving python library error
-      echo "Installing Docker Compose...."
-      sudo curl -L "https://github.com/docker/compose/releases/download/${version}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-      sudo chmod +x /usr/local/bin/docker-compose
-      unset version
-      echo ""
+      echo "Docker compose is now part of Docker CE"
+#      # Get latest github release tag or version but printing the redirection url for the latest relese
+#      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/docker/compose/releases/latest | rev | cut -d '/' -f 1 | rev)
+#      version="1.27.4"  # hardcoading as 1.28.0 was giving python library error
+#      echo "Installing Docker Compose...."
+#      sudo curl -L "https://github.com/docker/compose/releases/download/${version}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+#      sudo chmod +x /usr/local/bin/docker-compose
+#      unset version
+#      echo ""
       ;;
     bas132) # Installing Lazydocker
       echo ""
@@ -536,7 +563,7 @@ for choice in $choices; do
       echo "Installing Ansible...."
       sudo apt-add-repository --yes --update ppa:ansible/ansible
       sudo apt-get update
-      sudo apt-get install -y ansible python-argcomplete
+      sudo apt-get install -y ansible python3-argcomplete
       sudo activate-global-python-argcomplete
       echo "Ansible installation completed."
       echo ""
@@ -582,12 +609,14 @@ for choice in $choices; do
       echo "Installing Terraform...."
       mkdir -p /tmp/terraform
       pushd /tmp/terraform
-      # Commenting download of latest version as there were some errors experienced. Will use 0.13.6 version for now
-      # wget $(curl --silent  https://www.terraform.io/downloads.html | grep '_linux_amd64.zip' | cut -d '"' -f 2) -O terraform.zip
-      wget  https://releases.hashicorp.com/terraform/0.13.6/terraform_0.13.6_linux_amd64.zip -O terraform.zip
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | rev | cut -d '/' -f 1 | rev)
+      curl -L "https://releases.hashicorp.com/terraform/${version:1}/terraform_${version:1}_linux_amd64.zip" --output terraform.zip
       unzip terraform.zip
-      mv terraform $HOME/.local/bin
+      chmod u+x terraform
+      mv terraform "${HOME}/.local/bin"
       popd
+      unset version
+      rm -rf /tmp/terraform
       echo "Terraform installation completed."
       echo ""
       ;;
@@ -596,10 +625,14 @@ for choice in $choices; do
       echo "Installing Packer...."
       mkdir -p /tmp/packer
       pushd /tmp/packer
-      wget https://releases.hashicorp.com/packer/1.6.6/packer_1.6.6_linux_amd64.zip -O packer.zip
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/packer/releases/latest | rev | cut -d '/' -f 1 | rev)
+      curl -L "https://releases.hashicorp.com/packer/${version:1}/packer_${version:1}_linux_amd64.zip" --output packer.zip
       unzip packer.zip
-      mv packer $HOME/.local/bin
+      chmod u+x packer
+      mv packer "${HOME}/.local/bin"
       popd
+      unset version
+      rm -rf /tmp/packer
       echo "Packer installation completed."
       echo ""
       ;;
@@ -614,14 +647,14 @@ for choice in $choices; do
       kcmd=(dialog --separate-output --checklist "Select k8s tools to install:" 22 76 16)
       koptions=(
         "------"  "--------- k8s flavors --------" off
-        "k000"  "k3d - local k8s cluster using docker" on
-        "k001"  "kind - k3d alternative, local k8s using docker" on
+        "k000"  "k3d - local k8s cluster using docker" off
+        "k001"  "kind - k3d alternative, local k8s using docker" off
         "------"  "------- k8s cli tools  -------" off
-        "k010"  "kubectl - the main k8s controller cli" on
-        "k011"  "kubectx (context) and kubens (namespace) switchers" on
-        "k020"  "k9s - terminal gui based k8s cli" on
+        "k010"  "kubectl - the main k8s controller cli" off
+        "k011"  "kubectx (context) and kubens (namespace) switchers" off
+        "k020"  "k9s - terminal gui based k8s cli" off
         "------"  "--------  cli monitor  -------" off
-        "k040"  "kubebox - Terminal and Web console for K8S" on
+        "k040"  "kubebox - Terminal and Web console for K8S" off
         "------"  "-------  package mgrs  -------" off
         "k200"  "Helm" off
       )
@@ -660,12 +693,20 @@ for choice in $choices; do
             ;;
           k011)
             echo "Installing kubectx and kubens...."
+            mkdir -p /tmp/kubectx
+            pushd /tmp/kubectx
             version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/ahmetb/kubectx/releases/latest | rev | cut -d '/' -f 1 | rev)
-            wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubectx_${version}_linux_x86_64.tar.gz" -O "${HOME}/.local/bin/kubectx"
-            wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubens_${version}_linux_x86_64.tar.gz" -O "${HOME}/.local/bin/kubens"
+            wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubectx_${version}_linux_x86_64.tar.gz" -O "kubectx.tar.gz"
+            wget "https://github.com/ahmetb/kubectx/releases/download/${version}/kubens_${version}_linux_x86_64.tar.gz" -O "kubens.tar.gz"
+            tar -zxvf kubectx.tar.gz
+            tar -zxvf kubens.tar.gz
+            chmod u+x kubectx
+            chmod u+x kubens
+            mv kubectx "${HOME}/.local/bin"
+            mv kubens "${HOME}/.local/bin"
+            popd
             unset version
-            chmod u+x "${HOME}/.local/bin/kubectx"
-            chmod u+x "${HOME}/.local/bin/kubens"
+            rm -rf /tmp/kubectx
             echo "kubectx and kubens installation completed."
             echo ""
             ;;
@@ -686,7 +727,7 @@ for choice in $choices; do
           k040)
             echo "Installing kubebox...."
             version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/astefanutti/kubebox/releases/latest | rev | cut -d '/' -f 1 | rev)
-            wget "https://github.com/astefanutti/kubebox/releases/download/v0.9.0/kubebox-linux" -O "${HOME}/.local/bin/kubebox"
+            wget "https://github.com/astefanutti/kubebox/releases/download/${version}/kubebox-linux" -O "${HOME}/.local/bin/kubebox"
             unset version
             chmod u+x "${HOME}/.local/bin/kubebox"
             echo "kubebox installation completed."
@@ -697,12 +738,13 @@ for choice in $choices; do
             mkdir -p /tmp/helm
             pushd /tmp/helm
             version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/helm/helm/releases/latest | rev | cut -d '/' -f 1 | rev)
-            wget "https://get.helm.sh/helm-v3.5.1-linux-amd64.tar.gz" -O helm.tar.gz
+            wget "https://get.helm.sh/helm-${version}-linux-amd64.tar.gz" -O helm.tar.gz
             unset version
             tar -zxvf helm.tar.gz
             mv linux-amd64/helm "${HOME}/.local/bin"
+            chmod u+x "${HOME}/.local/bin/helm"
             popd
-            echo "kubebox installation completed."
+            echo "helm installation completed."
             echo ""
             ;;
           *)
@@ -1017,11 +1059,13 @@ for choice in $choices; do
       echo ""
       ;;
     prd061) # Installing Microsoft Teams
+      # This needs improvement - download the latest version from tis file listing
+      # https://packages.microsoft.com/repos/ms-teams/pool/main/t/teams/
       echo ""
       echo "Installing MS Teams...."
       mkdir -p /tmp/msteams
       pushd /tmp/msteams
-      wget -O teams.deb https://go.microsoft.com/fwlink/p/?LinkID=2112886&clcid=0x409&culture=en-us&country=US
+      curl -L "https://go.microsoft.com/fwlink/p/?LinkID=2112886&clcid=0x409&culture=en-us&country=US" --output teams.deb
       sudo apt install ./teams.deb
       popd
       rm -rf /tmp/msteams
@@ -1080,8 +1124,8 @@ for choice in $choices; do
     med000) # Installing Spotify Client
       echo ""
       echo "Installing Spotify Client...."
-      curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add -
-      echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+      curl -sS https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | sudo gpg --dearmor -o /usr/share/keyrings/spotify.gpg
+      echo "deb [signed-by=/usr/share/keyrings/spotify.gpg] http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
       sudo apt-get update && sudo apt install -y spotify-client
       echo "Spotify Client installation completed."
       echo ""
@@ -1152,6 +1196,7 @@ read -s -p 'Press Enter to continue ..'
 dialog --title "Fix Broken? " \
   --yesno "Do you want to run apt --fix-broken install ?" 8 45
 if [[ "$?" -eq 0 ]]; then
+  clear
   echo ">>> Fixing broken install applications ...."
   sudo apt --fix-broken -y install
   read -s -p 'Press Enter to continue ..'
@@ -1161,6 +1206,7 @@ fi
 dialog --title "Auto Remove? " \
   --yesno "Do you want to run apt auto-remove ?" 8 45
 if [[ "$?" -eq 0 ]]; then
+  clear
   echo ">>> Removing unwanted applications ...."
   sudo apt auto-remove -y
   read -s -p 'Press Enter to continue ..'
