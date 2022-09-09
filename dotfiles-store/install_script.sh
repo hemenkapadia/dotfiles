@@ -35,7 +35,7 @@ if [[ "$?" -eq 0 ]]; then
   # Install base dependencies
   clear
   echo ">>> Installing base dependencies ...."
-  sudo apt install tree wget curl htop unzip net-tools icdiff vim jq \
+  sudo apt install tree wget curl htop unzip net-tools icdiff vim jq pv \
                    openssl gnupg-agent apt-transport-https ca-certificates \
                    software-properties-common make build-essential lsb-release
   read -s -p 'Press Enter to continue ..'
