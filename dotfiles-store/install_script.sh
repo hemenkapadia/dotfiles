@@ -90,10 +90,11 @@ options=(
   "------"  "-----  System Utilities  -----" off
   "------"  "------------------------------" off
   "sys000"  "hid_apple patch for magic keyboard" off
+  "sys001"  "HDD and NVMe health check tools" off
   "sys005"  "Touchpad Indicator" off
   "sys006"  "Solaar - Logitech Unifying Device Manager" off
-  "sys010"  "Canon MX 490 Printer Drivers" off
-  "sys011"  "Canon MX 490 Scanner Drivers" off
+  "sys010"  "Printer Driver - Canon MX490" off
+  "sys011"  "Scanner Driver - Canon MX490" off
   "sys012"  "Xsane Scanning ssoftware" off
   "sys015"  "VPN and Gnome Network Manager" off
   "sys020"  "Video4Linux Utils and GUVCViewer - Webcam Manager" off
@@ -216,6 +217,13 @@ for choice in $choices; do
       rm -rf /tmp/magickb
       echo "Installallation of hid_apple patched completed...."
       echo "Please reboot your machine."
+      echo ""
+      ;;
+    sys001) # Installing HDD and NVMe disk management tools 
+      echo ""
+      echo "Installing HDD and NVMe disk management tools...."
+      sudo apt install -y nvme-cli smartmontools
+      echo "HDD and NVMe disk management tools installation completed"
       echo ""
       ;;
     sys005) # Installing Touchpad Indicator
