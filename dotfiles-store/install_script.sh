@@ -367,7 +367,7 @@ for choice in $choices; do
       # and https://askubuntu.com/questions/1399383/how-to-install-firefox-as-a-traditional-deb-package-without-snap-in-ubuntu-22/1403204#1403204
       sudo add-apt-repository -y ppa:mozillateam/ppa
       sudo apt-get update
-      sudo apt-get install firefox
+      sudo apt-get install firefox-esr
       echo "Firefox install completed."
       ;;
     bas028) # Installing Google Chrome
