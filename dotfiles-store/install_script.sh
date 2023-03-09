@@ -262,6 +262,7 @@ for choice in $choices; do
     sys011) # Installing Canon MX490 Scanner Drivers
       echo ""
       echo "Installing Canon MX490 Scanner Drivers...."
+      sudo apt install -y libpango-1.0-0
       mkdir -p /tmp/cnonscan
       pushd /tmp/cnonscan
       curl -L http://gdlp01.c-wss.com/gds/2/0100006672/01/scangearmp2-3.10-1-deb.tar.gz --output driver.tar.gz
