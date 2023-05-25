@@ -1040,7 +1040,7 @@ for choice in $choices; do
       echo "Installing Slack...."
       mkdir -p /tmp/slack
       pushd /tmp/slack
-      version="4.25.0"
+      version="4.29.149"
       curl -L "https://downloads.slack-edge.com/releases/linux/${version}/prod/x64/slack-desktop-${version}-amd64.deb" --output slack.deb
       sudo apt install ./slack.deb
       popd
