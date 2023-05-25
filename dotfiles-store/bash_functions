@@ -109,10 +109,10 @@ function devdesk {
     wmctrl -r 'PyCharm' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$full_window_height"
     wmctrl -r 'Visual Studio Code' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$full_window_height"
     # _GTK_FRAME_EXTENTS(CARDINAL) = 26, 26, 23, 29 for Terminal
-    wmctrl -r 'Mozilla Firefox' -e "0,$[left_anchor_x-26],$[top_anchor_y-23],$[window_width+26+26],$[half_window_height+23+29]"
+    wmctrl -r 'Mozilla Firefox' -e "0,$[left_anchor_x-26],$[top_anchor_y-23],$[window_width+26+26],$[half_window_height+23+29+23+23]"
     # Keep terminal last as it will always exist (since we run rd in terminal) and there will be 0 exit status for wmctrl
     # _GTK_FRAME_EXTENTS(CARDINAL) = 26, 26, 23, 29 for Terminal
-    wmctrl -r 'Terminal' -e "0,$[left_anchor_x-26],$[bottom_anchor_y-23],$[window_width+26+26],$[half_window_height+23+23+29+29]"
+    wmctrl -r 'Terminal' -e "0,$[left_anchor_x-26],$[bottom_anchor_y-23],$[window_width+26+26],$[half_window_height+0+0+29+29]"
   elif [[ $display_count -eq 2 ]]; then
     wmctrl -r 'PyCharm' -t 0
     wmctrl -r 'Visual Studio Code' -t 0
