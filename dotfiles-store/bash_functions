@@ -108,6 +108,7 @@ function devdesk {
     # keep pycharm and vscode above Terminal; if pycharm not running then rd exit code is 1
     wmctrl -r 'PyCharm' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$full_window_height"
     wmctrl -r 'Visual Studio Code' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$full_window_height"
+    wmctrl -r 'Xournal' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$half_window_height"
     # _GTK_FRAME_EXTENTS(CARDINAL) = 26, 26, 23, 29 for Terminal
     wmctrl -r 'Mozilla Firefox' -e "0,$[left_anchor_x-26],$[top_anchor_y-23],$[window_width+26+26],$[half_window_height+23+29+23+23]"
     # Keep terminal last as it will always exist (since we run rd in terminal) and there will be 0 exit status for wmctrl
@@ -135,6 +136,7 @@ function devdesk {
 function ruindesk {
   wmctrl -r 'PyCharm' -t 0 -e '0,10,650,230,350'
   wmctrl -r 'Visual Studio Code' -t 0 -e '0,300,650,230,350'
+  wmctrl -r 'Xournal' -t 0 -e '0,300,650,230,350'
   wmctrl -r 'Mozilla Firefox' -t 0 -e '0,800,650,230,350'
   wmctrl -r 'Terminal' -t 0 -e '0,1300,650,230,350'
   wmctrl -r 'Mailspring' -t 1 -e '0,1300,50,230,350'

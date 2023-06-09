@@ -93,6 +93,8 @@ options=(
   "sys001"  "HDD and NVMe health check tools" off
   "sys005"  "Touchpad Indicator" off
   "sys006"  "Solaar - Logitech Unifying Device Manager" off
+  "sys007"  "XPPen G430S Driver" off
+  "sys008"  "Xournal++ - Handwritten notes app" off
   "sys010"  "Printer Driver - Canon MX490" off
   "sys011"  "Scanner Driver - Canon MX490" off
   "sys012"  "Xsane Scanning ssoftware" off
@@ -242,6 +244,33 @@ for choice in $choices; do
       sudo apt-get update
       sudo apt install -y solaar
       echo "Touchpad indicator installation completed."
+      echo ""
+      ;;
+    sys007) # Installing XP-Pen G430S drivers
+      echo ""
+      echo "Installing XP-Pen G430S drivers ...."
+      mkdir -p /tmp/xppen
+      pushd /tmp/xppen
+      wget --content-disposition https://www.xp-pen.com/download/file/id/1949/pid/56/ext/deb.html
+      sudo dpkg -i XPPen*.deb
+      popd
+      rm -rf /tmp/xppen
+      echo "XP-Pen G430S driver installation completed. "
+      echo ""
+      ;;
+    sys008) # Installing Xournal++
+      echo ""
+      echo "Installing Xournal++...."
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/xournalpp/xournalpp/releases/latest | rev | cut -d '/' -f 1 | rev)
+      mkdir -p /tmp/xournal
+      pushd /tmp/xournal
+      curl -L "https://github.com/xournalpp/xournalpp/releases/download/${version}/xournalpp-${version:1}-Ubuntu-jammy-x86_64.deb" --output xournalpp.deb
+      sudo dpkg -i xournalpp.deb
+      unset version
+      popd
+      rm -rf /tmp/xournal
+      echo "Xournal++ installation completed."
       echo ""
       ;;
     sys010) # Installing Cannon MX490 Printer Drivers
