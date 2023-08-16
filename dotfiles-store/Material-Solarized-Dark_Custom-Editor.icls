@@ -1,15 +1,11 @@
-<scheme name="Material Solarized Dark Custom" version="142" parent_scheme="Darcula">
-  <option name="FONT_SCALE" value="1.0" />
+<scheme name="Material Solarized Dark Custom copy5" version="142" parent_scheme="Darcula">
   <metaInfo>
-    <property name="created">2020-05-12T09:06:54</property>
+    <property name="created">2023-08-09T15:19:19</property>
     <property name="ide">Python</property>
-    <property name="ideVersion">2020.1.0.0</property>
-    <property name="modified">2020-05-12T09:07:02</property>
-    <property name="originalScheme">Material Solarized Dark Custom</property>
+    <property name="ideVersion">2023.2.0.0</property>
+    <property name="modified">2023-08-09T15:19:29</property>
+    <property name="originalScheme">Material Solarized Dark Custom copy5</property>
   </metaInfo>
-  <option name="CONSOLE_FONT_NAME" value="DejaVu Sans Mono" />
-  <option name="CONSOLE_FONT_SIZE" value="16" />
-  <option name="CONSOLE_LINE_SPACING" value="1.6" />
   <colors>
     <option name="ADDED_LINES_COLOR" value="10483e" />
     <option name="ANNOTATIONS_COLOR" value="7899a4" />
@@ -22,6 +18,30 @@
     <option name="DIFF_SEPARATORS_TOP_BORDER" value="1e26" />
     <option name="DOCUMENTATION_COLOR" value="1f26" />
     <option name="ERROR_HINT" value="611738" />
+    <option name="FILESTATUS_ADDED" value="c3e887" />
+    <option name="FILESTATUS_COPIED" value="859900" />
+    <option name="FILESTATUS_DELETED" value="f77669" />
+    <option name="FILESTATUS_HIJACKED" value="ffcb6b" />
+    <option name="FILESTATUS_IDEA_FILESTATUS_DELETED_FROM_FILE_SYSTEM" value="b58900" />
+    <option name="FILESTATUS_IDEA_FILESTATUS_IGNORED" value="b58900" />
+    <option name="FILESTATUS_IDEA_FILESTATUS_MERGED_WITH_BOTH_CONFLICTS" value="cb4b16" />
+    <option name="FILESTATUS_IDEA_FILESTATUS_MERGED_WITH_CONFLICTS" value="cb4b16" />
+    <option name="FILESTATUS_IDEA_FILESTATUS_MERGED_WITH_PROPERTY_CONFLICTS" value="cb4b16" />
+    <option name="FILESTATUS_IDEA_SVN_FILESTATUS_EXTERNAL" value="72a038" />
+    <option name="FILESTATUS_IDEA_SVN_FILESTATUS_OBSTRUCTED" value="727238" />
+    <option name="FILESTATUS_IDEA_SVN_REPLACED" value="859900" />
+    <option name="FILESTATUS_MERGED" value="6c71c4" />
+    <option name="FILESTATUS_MODIFIED" value="80cbc4" />
+    <option name="FILESTATUS_NOT_CHANGED_IMMEDIATE" value="80cbc4" />
+    <option name="FILESTATUS_NOT_CHANGED_RECURSIVE" value="80cbc4" />
+    <option name="FILESTATUS_OBSOLETE" value="ffcb6b" />
+    <option name="FILESTATUS_RENAMED" value="268bd2" />
+    <option name="FILESTATUS_SUPPRESSED" value="546e7a" />
+    <option name="FILESTATUS_SWITCHED" value="f77669" />
+    <option name="FILESTATUS_UNKNOWN" value="f77669" />
+    <option name="FILESTATUS_addedOutside" value="d33682" />
+    <option name="FILESTATUS_changelistConflict" value="cb4b16" />
+    <option name="FILESTATUS_modifiedOutside" value="6c71c4" />
     <option name="FOLDED_TEXT_BORDER_COLOR" value="1b4652" />
     <option name="GUTTER_BACKGROUND" value="73642" />
     <option name="HTML_TAG_TREE_LEVEL0" value="dc322f" />
