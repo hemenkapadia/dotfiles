@@ -36,7 +36,7 @@ dotfiles:
   f_profile:
     src: profile
     dst: ~/.profile
-    chmod: '644'
+    chmod: '664'
   f_bash_logout:
     src: bash_logout
     dst: ~/.bash_logout
