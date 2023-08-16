@@ -30,7 +30,7 @@ Host rpi-main rpi-node1 rpi-node2 rpi-node3
   AddressFamily inet
   Ciphers aes128-gcm@openssh.com,aes128-ctr
 Host rpi-main
-  HostName 192.168.33.20
+  HostName 192.168.5.81
 Host rpi-node1
   HostName 192.168.33.21
 Host rpi-node2
