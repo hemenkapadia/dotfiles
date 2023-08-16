@@ -101,12 +101,12 @@ function devdesk {
     wmctrl -r 'Google Chrome' -e "0,$[left_anchor_x-22],$[top_anchor_y-19],$[window_width+22+22],$[half_window_height+19+19+25+25]"
     wmctrl -r 'Joplin' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$half_window_height"
     {%@@ endif @@%}
-    wmctrl -r 'PyCharm' -t 0
+    wmctrl -r 'Workspace' -t 0
     wmctrl -r 'Visual Studio Code' -t 0
     wmctrl -r 'Mozilla Firefox' -t 0
     wmctrl -r 'Terminal' -t 0
     # keep pycharm and vscode above Terminal; if pycharm not running then rd exit code is 1
-    wmctrl -r 'PyCharm' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$full_window_height"
+    wmctrl -r 'Workspace' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$[full_window_height+37]"
     wmctrl -r 'Visual Studio Code' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$full_window_height"
     wmctrl -r 'Xournal' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$half_window_height"
     # _GTK_FRAME_EXTENTS(CARDINAL) = 26, 26, 23, 29 for Terminal
@@ -115,7 +115,7 @@ function devdesk {
     # _GTK_FRAME_EXTENTS(CARDINAL) = 26, 26, 23, 29 for Terminal
     wmctrl -r 'Terminal' -e "0,$[left_anchor_x-26],$[bottom_anchor_y+23],$[window_width+26+26],$[half_window_height+0+0+29+29]"
   elif [[ $display_count -eq 2 ]]; then
-    wmctrl -r 'PyCharm' -t 0
+    wmctrl -r 'Workspace' -t 0
     wmctrl -r 'Visual Studio Code' -t 0
     wmctrl -r 'Mozilla Firefox' -t 0
     wmctrl -r 'Terminal' -t 0
@@ -123,7 +123,7 @@ function devdesk {
     wmctrl -r 'Slack' -t 0
     wmctrl -r 'Morgen' -t 0
     # TODO: Handle Dual monitor setup using screen size calculations
-    wmctrl -r 'PyCharm' -e '0,2570,30,1850,2034'
+    wmctrl -r 'Workspace' -e '0,2570,30,1850,2034'
     wmctrl -r 'Visual Studio Code' -e '0,2570,30,1850,2034'
     wmctrl -r 'Mozilla Firefox' -e '0,4430,30,1960,1290'
     wmctrl -r 'Terminal' -e '0,4430,1360,1960,707'
@@ -134,7 +134,7 @@ function devdesk {
 }
 
 function ruindesk {
-  wmctrl -r 'PyCharm' -t 0 -e '0,10,650,230,350'
+  wmctrl -r 'Workspace' -t 0 -e '0,10,650,230,350'
   wmctrl -r 'Visual Studio Code' -t 0 -e '0,300,650,230,350'
   wmctrl -r 'Xournal' -t 0 -e '0,300,650,230,350'
   wmctrl -r 'Mozilla Firefox' -t 0 -e '0,800,650,230,350'
