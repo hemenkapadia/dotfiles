@@ -753,7 +753,7 @@ for choice in $choices; do
             version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/derailed/k9s/releases/latest | rev | cut -d '/' -f 1 | rev)
             mkdir -p /tmp/k9s
             pushd /tmp/k9s
-            wget "https://github.com/derailed/k9s/releases/download/${version}/k9s_Linux_x86_64.tar.gz" -O k9s.tar.gz
+            wget "https://github.com/derailed/k9s/releases/download/${version}/k9s_Linux_amd64.tar.gz" -O k9s.tar.gz
             unset version
             tar -zxvf k9s.tar.gz
             chmod u+x k9s
@@ -956,7 +956,7 @@ for choice in $choices; do
       echo "Installing Ran - Static Http Web Server...."
       mkdir -p /tmp/ran
       pushd /tmp/ran
-      sudo curl -L "https://github.com/m3ng9i/ran/releases/download/${version}/ran_linux_amd64.zip" -o ran.zip
+      curl -L "https://github.com/m3ng9i/ran/releases/download/${version}/ran_linux_amd64.zip" -o ran.zip
       unzip ran.zip
       mv ran_linux_amd64 "${HOME}/.local/bin/http-server"
       popd
@@ -1069,7 +1069,7 @@ for choice in $choices; do
       echo "Installing Slack...."
       mkdir -p /tmp/slack
       pushd /tmp/slack
-      version="4.29.149"
+      version="4.33.90"
       curl -L "https://downloads.slack-edge.com/releases/linux/${version}/prod/x64/slack-desktop-${version}-amd64.deb" --output slack.deb
       sudo apt install ./slack.deb
       popd
