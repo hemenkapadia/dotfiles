@@ -107,6 +107,7 @@ options=(
   "bas010"  "Adapta theme" off
   "bas011"  "Icon themes" off
   "bas012"  "Ubuntu Wallpapers and Source Code fonts" off
+  "bas020"  "AppImage Launcher" off
   "bas027"  "Firefox" off
   "bas028"  "Google Chrome" off
   "bas029"  "Gnome Tweaks, Shell Extensions" off
@@ -381,6 +382,16 @@ for choice in $choices; do
         echo "Could not locate privatestuff-master.zip."
         echo "Download the zip from https://github.com/hemenkapadia/privatestuff in your broser and put in the same dir as this file."
       fi
+      ;;
+    bas020) # Install AppImage Launcher
+      echo ""
+      echo "Installing AppImage Launcher...."
+      sudo apt install software-properties-common
+      sudo add-apt-repository ppa:appimagelauncher-team/stable
+      sudo apt update
+      sudo apt install appimagelauncher
+      echo "AppImage Launcher installation completed."
+      echo ""
       ;;
     bas027) # Installing Firefox
       echo ""
