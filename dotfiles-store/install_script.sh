@@ -186,6 +186,7 @@ options=(
   "med000"  "Spotify Client" off
   "med010"  "VLC Media Player" off
   "med020"  "Simple Screen Recorder" off
+  "med021"  "Peek - Screen to Gif Recorder(see gifcap)" off
   "med030"  "Open Boradcast Studio" off
   "med040"  "Lightworks Video Studio" off
   "med050"  "Shotcut Video Editor" off
@@ -1182,6 +1183,16 @@ for choice in $choices; do
       sudo apt-get update
       sudo apt install -y simplescreenrecorder
       echo "SimpleScreenRecorder Installation completed."
+      echo ""
+      ;;
+    med021) # Install Peek - Screen to Gif Recorder. 
+      # Alternative - Also see https://gifcap.dev for web based tool
+      # Alternative - see github lecram/congif for converting script shell recording to gifs
+      echo ""
+      echo "Installing Peek - Screen to Gif Recorder ...."
+      sudo apt-get update
+      sudo apt install -y peek 
+      echo "Peek Installation completed."
       echo ""
       ;;
     med030) # Installing Open Broadcast Studio
