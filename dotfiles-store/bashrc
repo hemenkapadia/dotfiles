@@ -129,3 +129,5 @@ if ! shopt -oq posix; then
 fi
 . /usr/share/powerline/bindings/bash/powerline.sh
 
+# command complettion for AWS CLI
+complete -C '/usr/local/bin/aws_completer' aws
