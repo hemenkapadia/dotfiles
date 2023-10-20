@@ -107,6 +107,10 @@ dotfiles:
     src: config/lazygit/config.yml
     dst: ~/.config/lazygit/config.yml
     chmod: '644'
+  f_local_bin_aws-sts-refresh:
+    src: local/bin/aws-sts-refresh
+    dst: ~/.local/bin/aws-sts-refresh
+    chmod: '764'
 trans_read:
   _gpg_priv: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}}
     -q --for-your-eyes-only --no-tty -d {0} > {1} && chmod 600 {1}
@@ -141,6 +145,7 @@ profiles:
     - f_config_joplin-desktop_userstyle.css
     - f_config_joplin-desktop_userchrome.css
     - f_ssh_readme
+    - f_local_bin_aws-sts-refresh
   workremote:
     include:
     - base

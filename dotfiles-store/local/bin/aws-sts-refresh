@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+# Edit the associative array below to add your AWS profile, region and MFA device ARN
+# see the Start and End tags below for the section to edit
+# do not alter anything else in the script
+
+# Update the associative array as shown below with your region and MFA device ARN seperated by pipe (|).
+# Key of the associative array is the AWS profile that you should have setup already.
+# See aws configure list-profiles for the list of profiles current setup in your system 
+declare -A aws_profile_region_device_map
+# ===== Edit only this part of the script : Start =====
+aws_profile_region_device_map["hemen-h2oai-root"]="us-east-1|arn:aws:iam::524466471676:mfa/hemen"
+# aws_profile_region_device_map["profile-2"]="region-2|mfa-arn-2"
+# ===== Edit only this part of the script : End =====
+
+# Utiltity Functions #
+function choose_from_menu() {
+    local prompt="$1" 
+    local outvar="$2"
+    shift
+    shift
+    local cur=0
+    local index=0
+    local options=("$@") 
+    local count=${#options[@]}
+    local esc=$(echo -en "\e") # cache ESC as test doesn't allow esc codes
+    printf "\n$prompt\n"
+    while true
+    do
+        # list all options (option list is zero-based)
+        index=0 
+        for o in "${options[@]}"
+        do
+            if [ "$index" == "$cur" ]
+            then echo -e " >\e[7m$o\e[0m" # mark & highlight the current option
+            else echo "  $o"
+            fi
+            index=$(( index + 1 ))
+        done
+        read -r -s -n3 key # wait for user to key in arrows or ENTER
+        if [[ $key == "${esc}[A" ]] # up arrow
+        then cur=$(( cur - 1 ))
+            [ "$cur" -lt 0 ] && cur=0
+        elif [[ $key == "${esc}[B" ]] # down arrow
+        then cur=$(( cur + 1 ))
+            [ "$cur" -ge "${count}" ] && cur=$(( count - 1 ))
+        elif [[ $key == "" ]] # nothing, i.e the read delimiter - ENTER
+        then break
+        fi
+        echo -en "\e[${count}A" # go up to the beginning to re-render
+    done
+    # export the selection to the requested output variable
+    printf -v "${outvar}" "${options[$cur]}"
+}
+
+# Select base AWS profile to use for MFA token refresh
+declare base_profile # variable will be set by choose_from_menu 
+readarray -t base_profiles < <(aws configure list-profiles | grep -v temp) # get aws profiles excluding temp profiles
+choose_from_menu "Select AWS profile for refreshing Session Token:" base_profile "${base_profiles[@]}"
+
+# Get region and MFA device ARN from the associative array
+region=$(echo "${aws_profile_region_device_map[${base_profile}]}" | cut -d '|' -f 1)
+mfa_virtual_device=$(echo "${aws_profile_region_device_map[${base_profile}]}" | cut -d '|' -f 2)
+
+# exit if region or mfa device is not found
+if [[ -z "${region}" || -z "${mfa_virtual_device}" ]]; then
+    echo -e "\nError: Region or MFA device ARN not found for profile: ${base_profile}\n"
+    exit 1
+fi
+
+echo -e "\nRefreshing Session Token for profile: ${base_profile}" 
+read -rp "Enter MFA token for the above profile: " mfa_token
+creds=$(AWS_PROFILE=${base_profile} aws sts get-session-token --serial-number "${mfa_virtual_device}" --token-code "${mfa_token}")
+# exit if creds is empty
+if [[ -z "${creds}" ]]; then
+    echo -e "\nError: Failed to get STS token for profile: ${base_profile}\n"
+    exit 1
+fi
+
+temp_profile="${base_profile}-temp"
+aws configure set aws_access_key_id "$(echo "${creds}" | grep -Eo 'AccessKeyId: ([^ ]+)' | cut -d ' ' -f 2)" --profile "${temp_profile}"
+aws configure set aws_secret_access_key "$(echo "${creds}" | grep -Eo 'SecretAccessKey: ([^ ]+)' | cut -d ' ' -f 2)" --profile "${temp_profile}"
+aws configure set aws_session_token "$(echo "${creds}" | grep -Eo 'SessionToken: ([^ ]+)' | cut -d ' ' -f 2)" --profile "${temp_profile}"
+aws configure set region "${region}" --profile "${temp_profile}"
+
+echo -e "\nSTS token successfull added to corresponding temporary profile: ${temp_profile}"
+echo -e "Prepend AWS_PROFILE=${temp_profile} or use --profile ${temp_profile} to/with aws cli commands.\n"
+echo -e "Optionally, export AWS_PROFILE=${temp_profile} to use it with multiple aws commands or if you are not explicitly using aws cli.\n"

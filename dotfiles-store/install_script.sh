@@ -166,7 +166,8 @@ options=(
   "------"  "------------------------------" off
   "prd000"  "mdbook" off
   "prd001"  ">> Joplin - Notes taking application" off
-  "prd002"  ">> Draw.io - charting software" off
+  "prd002"  ">> Logseq - Personal Knowledge Management" off
+  "prd003"  ">> Draw.io - charting software" off
   "prd050"  ">> Mailspring" off
   "prd051"  ">> Minetime" off
   "prd052"  ">>v Slack" off
@@ -1037,7 +1038,24 @@ for choice in $choices; do
       echo "Joplin installation completed. "
       echo ""
       ;;
-    prd002) # Installing draw.io
+    prd002) # Installing Logseq
+      echo ""
+      echo "Installing Logseq desktop client..."
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/logseq/logseq/releases/latest | rev | cut -d '/' -f 1 | rev)
+      mkdir -p /tmp/logseq
+      pushd /tmp/logseq
+      curl -L "https://github.com/logseq/logseq/releases/download/${version}/Logseq-linux-x64-${version}.zip" -o logseq.zip
+      unzip logseq.zip
+      mv Logseq-linux-x64 ~/.local/bin
+      ln -s ~/.local/bin/Logseq-linux-x64/Logseq ~/.local/bin/logseq
+      popd
+      unset version
+      rm -rf /tmp/logseq
+      echo "Logseq desktop client installation completed."
+      echo ""
+      ;;
+    prd003) # Installing draw.io
       echo ""
       echo "Installing Drawio desktop client..."
       # Get latest github release tag or version but printing the redirection url for the latest relese
