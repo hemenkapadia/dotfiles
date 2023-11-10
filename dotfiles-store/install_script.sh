@@ -707,6 +707,7 @@ for choice in $choices; do
         "k010"  "kubectl - the main k8s controller cli" off
         "k011"  "kubectx (context) and kubens (namespace) switchers" off
         "k020"  "k9s - terminal gui based k8s cli" off
+        "k013"  "kubestr - Kubernetes Storage Check" off
         "------"  "--------  cli monitor  -------" off
         "k040"  "kubebox - Terminal and Web console for K8S" off
         "------"  "-------  package mgrs  -------" off
@@ -772,6 +773,17 @@ for choice in $choices; do
             unset version
             rm -rf /tmp/kubectx
             echo "kubectx and kubens installation completed."
+            echo ""
+            ;;
+          k013)
+            echo "Installing kubestr...."
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/kastenhq/kubestr/releases/latest | rev | cut -d '/' -f 1 | rev)
+            wget "https://github.com/kastenhq/kubestr/releases/download/${version}/kubestr_${version:1}_Linux_amd64.tar.gz" -O "kubestr.tar.gz"
+            tar -zxvf kubestr.tar.gz
+            chmod u+x kubestr
+            mv kubestr "${HOME}/.local/bin"
+            unset version
+            echo "kubestr installation completed."
             echo ""
             ;;
           k020)
