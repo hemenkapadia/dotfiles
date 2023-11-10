@@ -702,6 +702,7 @@ for choice in $choices; do
         "------"  "--------- k8s flavors --------" off
         "k000"  "k3d - local k8s cluster using docker" off
         "k001"  "kind - k3d alternative, local k8s using docker" off
+        "k002"  "k0sctl - create kubernetes on baremetal" off
         "------"  "------- k8s cli tools  -------" off
         "k010"  "kubectl - the main k8s controller cli" off
         "k011"  "kubectx (context) and kubens (namespace) switchers" off
@@ -733,6 +734,16 @@ for choice in $choices; do
             unset version
             chmod u+x "${HOME}/.local/bin/kind"
             echo "kind installation completed."
+            echo ""
+            ;;
+          k002)
+            echo "Installing k0sctl...."
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/k0sproject/k0sctl/releases/latest | rev | cut -d '/' -f 1 | rev)
+            wget "https://github.com/k0sproject/k0sctl/releases/download/${version}/k0sctl-linux-x64" -O "${HOME}/.local/bin/k0sctl"
+            unset version
+            chmod u+x "${HOME}/.local/bin/k0sctl"
+            k0sctl completion | sudo tee /etc/bash_completion.d/k0sctl
+            echo "k0sctl installation completed."
             echo ""
             ;;
           k010)
