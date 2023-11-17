@@ -94,12 +94,14 @@ function devdesk {
     wmctrl -r 'Morgen' -t 1
     wmctrl -r 'Google Chrome' -t 2
     wmctrl -r 'Joplin' -t 2
+    wmctrl -r 'Logseq' -t 2
     wmctrl -r 'Mailspring' -e "0,$left_anchor_x,$top_anchor_y,$window_width,$full_window_height"
     wmctrl -r 'Slack' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$[half_window_height-37]"
     wmctrl -r 'Morgen' -e "0,$right_anchor_x,$bottom_anchor_y,$window_width,$half_window_height"
     # _GTK_FRAME_EXTENTS(CARDINAL) = 22, 22, 19, 25 for Google Chrome
     wmctrl -r 'Google Chrome' -e "0,$[left_anchor_x-22],$[top_anchor_y-19],$[window_width+22+22],$[half_window_height+19+19+25+25]"
     wmctrl -r 'Joplin' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$half_window_height"
+    wmctrl -r 'Logseq' -e "0,$right_anchor_x,$[bottom_anchor_y+35],$window_width,$half_window_height"
     {%@@ endif @@%}
     wmctrl -r 'Workspace' -t 0
     wmctrl -r 'Visual Studio Code' -t 0
@@ -144,6 +146,7 @@ function ruindesk {
   wmctrl -r 'Morgen' -t 1 -e '0,10,50,230,350'
   wmctrl -r 'Google Chrome' -t 2 -e '0,12,35,300,260'
   wmctrl -r 'Joplin' -t 2 -e '0,12,35,300,260'
+  wmctrl -r 'Logseq' -t 2 -e '0,12,335,300,260'
 }
 
 function rd {
