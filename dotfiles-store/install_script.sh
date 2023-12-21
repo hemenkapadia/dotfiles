@@ -224,7 +224,7 @@ for choice in $choices; do
       echo "Please reboot your machine."
       echo ""
       ;;
-    sys001) # Installing HDD and NVMe disk management tools 
+    sys001) # Installing HDD and NVMe disk management tools
       echo ""
       echo "Installing HDD and NVMe disk management tools...."
       sudo apt install -y nvme-cli smartmontools
@@ -311,7 +311,7 @@ for choice in $choices; do
       echo ""
       echo "Installing xsane scanning software...."
       sudo apt-get update
-      sudo apt install -y sane sane-utils xsane sinple-scan
+      sudo apt install -y sane sane-utils xsane simple-scan
       echo "Xsane Installation completed."
       echo ""
       ;;
@@ -599,7 +599,7 @@ for choice in $choices; do
     bas133) # Installing Dive - docker image analyser
       echo ""
       echo "Installing Dive - docker image analyser...."
-      # Get latest github release tag or version but printing the redirection url for the latest relese
+      # Get latest github release tag or version but printing the redirection url for the latest release
       version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/wagoodman/dive/releases/latest | rev | cut -d '/' -f 1 | rev)
       mkdir -p /tmp/dive
       pushd /tmp/dive
@@ -1239,13 +1239,13 @@ for choice in $choices; do
       echo "SimpleScreenRecorder Installation completed."
       echo ""
       ;;
-    med021) # Install Peek - Screen to Gif Recorder. 
+    med021) # Install Peek - Screen to Gif Recorder.
       # Alternative - Also see https://gifcap.dev for web based tool
       # Alternative - see github lecram/congif for converting script shell recording to gifs
       echo ""
       echo "Installing Peek - Screen to Gif Recorder ...."
       sudo apt-get update
-      sudo apt install -y peek 
+      sudo apt install -y peek
       echo "Peek Installation completed."
       echo ""
       ;;
