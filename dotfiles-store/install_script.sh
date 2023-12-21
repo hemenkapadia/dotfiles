@@ -311,7 +311,7 @@ for choice in $choices; do
       echo ""
       echo "Installing xsane scanning software...."
       sudo apt-get update
-      sudo apt install -y sane sane-utils libsane-extras xsane
+      sudo apt install -y sane sane-utils xsane sinple-scan
       echo "Xsane Installation completed."
       echo ""
       ;;
