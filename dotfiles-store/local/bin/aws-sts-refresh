@@ -78,9 +78,9 @@ if [[ -z "${creds}" ]]; then
 fi
 
 temp_profile="${base_profile}-temp"
-aws configure set aws_access_key_id "$(echo "${creds}" | grep -Eo 'AccessKeyId: ([^ ]+)' | cut -d ' ' -f 2)" --profile "${temp_profile}"
-aws configure set aws_secret_access_key "$(echo "${creds}" | grep -Eo 'SecretAccessKey: ([^ ]+)' | cut -d ' ' -f 2)" --profile "${temp_profile}"
-aws configure set aws_session_token "$(echo "${creds}" | grep -Eo 'SessionToken: ([^ ]+)' | cut -d ' ' -f 2)" --profile "${temp_profile}"
+aws configure set aws_access_key_id "$(echo "${creds}" | jq -r '.Credentials.AccessKeyId')" --profile "${temp_profile}"
+aws configure set aws_secret_access_key "$(echo "${creds}" | jq -r '.Credentials.SecretAccessKey')" --profile "${temp_profile}"
+aws configure set aws_session_token "$(echo "${creds}" | jq -r '.Credentials.SessionToken')" --profile "${temp_profile}"
 aws configure set region "${region}" --profile "${temp_profile}"
 
 echo -e "\nSTS token successfull added to corresponding temporary profile: ${temp_profile}"
