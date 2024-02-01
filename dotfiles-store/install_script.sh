@@ -1138,8 +1138,8 @@ for choice in $choices; do
       pushd /tmp/logseq
       curl -L "https://github.com/logseq/logseq/releases/download/${version}/Logseq-linux-x64-${version}.zip" -o logseq.zip
       unzip logseq.zip
-      mv Logseq-linux-x64 ~/.local/bin
-      ln -s ~/.local/bin/Logseq-linux-x64/Logseq ~/.local/bin/logseq
+      sudo mv Logseq-linux-x64 /opt
+      ln -s /opt/Logseq-linux-x64/Logseq ~/.local/bin/logseq
       popd
       unset version
       rm -rf /tmp/logseq
