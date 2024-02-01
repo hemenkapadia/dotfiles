@@ -707,10 +707,13 @@ for choice in $choices; do
         "------"  "------- k8s cli tools  -------" off
         "k010"  "kubectl - the main k8s controller cli" off
         "k011"  "kubectx (context) and kubens (namespace) switchers" off
-        "k020"  "k9s - terminal gui based k8s cli" off
+        "k012"  "krew - kubectl plugin manager" off
         "k013"  "kubestr - Kubernetes Storage Check" off
+        "k014"  "velero CLI - CLI for Velero K8S backup tool" off
+        "k020"  "Replicated - replicated cli, KOTS cli, Support Bundle ctl (sbctl)" off
         "------"  "--------  cli monitor  -------" off
-        "k040"  "kubebox - Terminal and Web console for K8S" off
+        "k030"  "k9s - terminal gui based k8s cli" off
+        "k031"  "kubebox - Terminal and Web console for K8S" off
         "------"  "-------  package mgrs  -------" off
         "k200"  "Helm" off
       )
@@ -787,7 +790,69 @@ for choice in $choices; do
             echo "kubestr installation completed."
             echo ""
             ;;
+          k014)
+            echo "Installing velero...."
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/vmware-tanzu/velero/releases/latest | rev | cut -d '/' -f 1 | rev)
+            wget "https://github.com/vmware-tanzu/velero/releases/download/${version}/velero-${version}-linux-amd64.tar.gz" -O "velero.tar.gz"
+            tar -zxvf velero.tar.gz
+            chmod u+x velero
+            mv velero "${HOME}/.local/bin"
+            unset version
+            k0sctl completion | sudo tee /etc/bash_completion.d/velero
+            echo "velero installation completed."
+            echo ""
+            ;;
           k020)
+            echo "Installing Replicated Tools...."
+            mkdir -p /tmp/replicated
+            pushd /tmp/replicated
+            echo "Installing Replicated CLI...."
+            curl -s https://api.github.com/repos/replicatedhq/replicated/releases/latest \
+              | grep "browser_download_url.*linux_amd64.tar.gz" \
+              | cut -d : -f 2,3 \
+              | tr -d \" \
+              | wget -O replicated.tar.gz -qi -
+            tar -zxvf replicated.tar.gz replicated && rm replicated.tar.gz
+            mv replicated "${HOME}/.local/bin"
+            echo "Replicated CLI installed"
+            echo "Installing KOTS CLI...."
+            curl -s https://api.github.com/repos/replicatedhq/kots/releases/latest \
+              | grep "browser_download_url.*linux_amd64.tar.gz" \
+              | cut -d : -f 2,3 \
+              | tr -d \" \
+              | wget -O kots.tar.gz -qi -
+            tar -zxvf kots.tar.gz kots && rm kots.tar.gz
+            mv kots "${HOME}/.local/bin"
+            echo "KOTS CLI installed"
+            echo "Installing Support Bundle CLI...."
+            curl -s https://api.github.com/repos/replicatedhq/sbctl/releases/latest \
+              | grep "browser_download_url.*linux_amd64.tar.gz" \
+              | cut -d : -f 2,3 \
+              | tr -d \" \
+              | wget -O sbctl.tar.gz -qi -
+            tar -zxvf sbctl.tar.gz sbctl && rm sbctl.tar.gz
+            mv sbctl "${HOME}/.local/bin"
+            echo "Support Bundle CLI installed"
+            popd
+            rm -rf /tmp/replciated
+            echo "Replicated Tools installation completed."
+            echo ""
+            ;;
+          k012)
+            echo "Installing krew...."
+            version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/kubernetes-sigs/krew/releases/latest | rev | cut -d '/' -f 1 | rev)
+            mkdir -p /tmp/krew
+            pushd /tmp/krew
+            wget "https://github.com/kubernetes-sigs/krew/releases/download/${version}/krew_Linux_amd64.tar.gz" -O krew.tar.gz
+            unset version
+            tar -zxvf krew.tar.gz
+            chmod u+x krew-linux_amd64
+            ./krew-linux_amd64 install krew
+            popd
+            echo "krew installation completed."
+            echo ""
+            ;;
+          k030)
             echo "Installing k9s...."
             version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/derailed/k9s/releases/latest | rev | cut -d '/' -f 1 | rev)
             mkdir -p /tmp/k9s
@@ -801,7 +866,7 @@ for choice in $choices; do
             echo "k9s installation completed."
             echo ""
             ;;
-          k040)
+          k031)
             echo "Installing kubebox...."
             version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/astefanutti/kubebox/releases/latest | rev | cut -d '/' -f 1 | rev)
             wget "https://github.com/astefanutti/kubebox/releases/download/${version}/kubebox-linux" -O "${HOME}/.local/bin/kubebox"
