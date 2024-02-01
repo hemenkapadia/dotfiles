@@ -62,6 +62,7 @@ if [[ "$?" -eq 0 ]]; then
   clear
   echo ">>> Installing extended dependencies ...."
   sudo apt install xdotool libcanberra-gtk0 libcanberra-gtk-module \
+                   ttyrec ttygif \
                    unixodbc unixodbc-dev libmagic-dev \
                    shellcheck snapd wmctrl \
                    libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm \
