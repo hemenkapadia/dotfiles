@@ -100,6 +100,7 @@ options=(
   "sys011"  "Scanner Driver - Canon MX490" off
   "sys012"  "Xsane Scanning ssoftware" off
   "sys015"  "VPN and Gnome Network Manager" off
+  "sys016"  "Tailscale VPN" off
   "sys020"  "Video4Linux Utils and GUVCViewer - Webcam Manager" off
   "------"  "------------------------------" off
   "------"  "-----   Base Utilities   -----" off
@@ -323,7 +324,17 @@ for choice in $choices; do
       echo "VPN installation completed. You will need to configure VPN connection yourself."
       echo ""
       ;;
-    sys020) # Installing Video4Linux
+    sys016) # Installing Tailscale VPN
+      echo ""
+      echo "Installing Tailscale VPN...."
+      curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
+      curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list
+      sudo apt-get update
+      sudo apt install -y tailscale
+      echo "Tailscale VPN installation completed."
+      echo ""
+      ;;
+     sys020) # Installing Video4Linux
       echo ""
       echo "Installing Video4Linux and GSVCView..."
       sudo apt-add-repository ppa:pj-assis/ppa -y
