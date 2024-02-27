@@ -10,6 +10,7 @@ config:
   longkey: true
   showdiff: true
   workdir: ~/.config/dotdrop
+  minversion: 1.14.0
 variables:
   dotdrop_passphrase_file: "{{@@ env['DOTDROP_PASSPHRASE_FILE'] @@}}"
 dotfiles:
@@ -80,13 +81,13 @@ dotfiles:
   f_ssh_rpi_id_rsa:
     src: ssh/RPi/id_rsa
     dst: ~/.ssh/RPi/id_rsa
-    trans_read: _gpg_priv
     chmod: '600'
+    trans_install: _gpg_priv
   f_ssh_rpi_id_rsa.pub:
     src: ssh/RPi/id_rsa.pub
     dst: ~/.ssh/RPi/id_rsa.pub
-    trans_read: _gpg_pub
     chmod: '644'
+    trans_install: _gpg_pub
   f_config_joplin-desktop_userstyle.css:
     src: config/joplin-desktop/userstyle.css
     dst: ~/.config/joplin-desktop/userstyle.css
@@ -111,11 +112,6 @@ dotfiles:
     src: local/bin/aws-sts-refresh
     dst: ~/.local/bin/aws-sts-refresh
     chmod: '764'
-trans_read:
-  _gpg_priv: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}}
-    -q --for-your-eyes-only --no-tty -d {0} > {1} && chmod 600 {1}
-  _gpg_pub: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}}
-    -q --for-your-eyes-only --no-tty -d {0} > {1} && chmod 644 {1}
 profiles:
   base:
     dotfiles:
@@ -168,3 +164,8 @@ profiles:
     - f_config_joplin-desktop_userstyle.css
     - f_config_joplin-desktop_userchrome.css
 
+trans_install:
+  _gpg_priv: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}}
+    -q --for-your-eyes-only --no-tty -d {0} > {1} && chmod 600 {1}
+  _gpg_pub: gpg --batch --yes --passphrase-file {{@@ dotdrop_passphrase_file @@}}
+    -q --for-your-eyes-only --no-tty -d {0} > {1} && chmod 644 {1}
