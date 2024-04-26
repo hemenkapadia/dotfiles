@@ -191,6 +191,7 @@ options=(
   "med010"  "VLC Media Player" off
   "med020"  "Simple Screen Recorder" off
   "med021"  "Peek - Screen to Gif Recorder(see gifcap)" off
+  "med022"  "Video Download Helper Companion App" off
   "med030"  "Open Boradcast Studio" off
   "med040"  "Lightworks Video Studio" off
   "med050"  "Shotcut Video Editor" off
@@ -1335,6 +1336,19 @@ for choice in $choices; do
       sudo apt-get update
       sudo apt install -y peek
       echo "Peek Installation completed."
+      echo ""
+      ;;
+    med021) # Install Video Download Helper Companion App
+      echo ""
+      echo "Installing Video Download Helper Companion app ...."
+      mkdir -p /tmp/videodownloadhelper
+      pushd /tmp/videodownloadhelper
+      curl -L https://github.com/aclap-dev/vdhcoapp/releases/latest/download/vdhcoapp-linux-x86_64.deb --output vdhcoapp.deb
+      sudo apt install ./vdhcoapp.deb
+      sudo apt install mediainfo-gui
+      popd
+      rm -rf /tmp/lw
+      echo "Video Downloadhelper Companion app Installation completed."
       echo ""
       ;;
     med030) # Installing Open Broadcast Studio
