@@ -1213,8 +1213,8 @@ for choice in $choices; do
       echo "Installing Slack...."
       mkdir -p /tmp/slack
       pushd /tmp/slack
-      version="4.33.90"
-      curl -L "https://downloads.slack-edge.com/releases/linux/${version}/prod/x64/slack-desktop-${version}-amd64.deb" --output slack.deb
+      version="4.39.95"
+      curl -L "https://downloads.slack-edge.com/desktop-releases/linux/x64/${version}/slack-desktop-${version}-amd64.deb" --output slack.deb
       sudo apt install ./slack.deb
       popd
       unset version
@@ -1229,7 +1229,7 @@ for choice in $choices; do
       pushd /tmp/zoom
       # To download older versions of zoom
       # Get the full version number from https://support.zoom.us/hc/en-us/articles/205759689-New-Updates-For-Linux
-      version="5.17.1.1840" # 5.10 has a bug on linux, video does not work
+      version="6.2.0.1855" # 5.10 has a bug on linux, video does not work
       curl -L "https://zoom.us/client/${version}/zoom_amd64.deb" --output zoom.deb
       # Latest version (5.10) has a bug on linux, video does not work
       #curl -L https://zoom.us/client/latest/zoom_amd64.deb --output zoom.deb
