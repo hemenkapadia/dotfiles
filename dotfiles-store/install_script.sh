@@ -760,7 +760,7 @@ for choice in $choices; do
             wget "https://github.com/k0sproject/k0s/releases/download/${version}/k0s-${version}-amd64" -O "${HOME}/.local/bin/k0s"
             unset version
             chmod u+x "${HOME}/.local/bin/k0s"
-            k0s completion | sudo tee /etc/bash_completion.d/k0s
+            k0s completion bash | sudo tee /etc/bash_completion.d/k0s
             echo "k0sctl installation completed."
             echo ""
             ;;
@@ -770,7 +770,7 @@ for choice in $choices; do
             wget "https://github.com/k0sproject/k0sctl/releases/download/${version}/k0sctl-linux-x64" -O "${HOME}/.local/bin/k0sctl"
             unset version
             chmod u+x "${HOME}/.local/bin/k0sctl"
-            k0sctl completion | sudo tee /etc/bash_completion.d/k0sctl
+            k0sctl completion -s bash | sudo tee /etc/bash_completion.d/k0sctl
             echo "k0sctl installation completed."
             echo ""
             ;;
