@@ -3,12 +3,41 @@
 /* Styles for Markdown Code and Rendered Markdown layout */
 #rendered-md {
   font-family: 'Verdana', 'Arial', 'sans-serif';
-  font-size: 14px;
-  line-height: 1.4em;
+  font-size: 13px;
+  line-height: 1.2em;
+}
+
+/* Headers */
+#rendered-md > h1 {
+  margin-top: 3.5em;
+  color: #D33682 !important;
 }
 #rendered-md > h2 {
   margin-top: 2.5em;
+  color: #D33682 !important;
 }
-#rendered-md > h1 {
-  margin-top: 3.5em;
+#rendered-md > h3 {
+  margin-top: 1.5em;
+  color: #D33682 !important;
 }
+#rendered-md > h4 {
+  margin-top: 1.25em;
+  color: #D33682 !important;
+}
+#rendered-md > h5 {
+  margin-top: 1.25em;
+  color: #D33682 !important;
+}
+#rendered-md > h6 {
+  margin-top: 1.25em;
+  color: #D33682 !important;
+}
+
+/* Inline code */
+.inline-code, .mce-content-body code {
+  font-family: 'MonacoBSemi', monospace !important;
+  font-style: normal !important;
+  color: #b58900 !important;
+  border: none !important;
+}
+
