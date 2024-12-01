@@ -39,91 +39,28 @@ Host rpi-node4
   HostName 192.168.114.34
 
 {%@@ endif @@%}
-
 {%@@ if profile in ["worklaptop"] @@%}
 
-Host github.pwc.com
- HostName github.pwc.com
- User git
- IdentityFile ~/.ssh/github-pwc/id_rsa
-
-Host p8 p9 0xp2 dl19 dl14 dl14X dl7 dl7X 0xb11 g16X g9 g5 dl24 dl24X
+Host dl14 dl14X 0x12
     User hemen
     ForwardAgent yes
     Compression yes
     AddressFamily inet
 
-Host dl14X dl7X g16X dl24X
+Host dl14X
     ServerAliveInterval 60
     ServerAliveCountMax 10
     ForwardX11 yes
     ForwardX11Trusted yes
     Ciphers aes128-gcm@openssh.com,aes128-ctr
 
-
-# IBM Power 8 raw; 15 GB RAM; 1 Tesla K80 11 GB Ram
-# Requires VPN to vpnisv.isv.ihost.com via Cisco
-Host p8
-    HostName 172.31.219.95
-    IdentityFile ~/.ssh/ibm/ibm.id_rsa
-    LocalForward 12345 localhost:12345
-
-# IBM Power 9 raw; 1 TB RAM; 2 Tesla V100 15GB Ram
-# Requires VPN to vpnisv.isv.ihost.com via Cisco
-Host p9
-    HostName 172.31.249.99
-    IdentityFile ~/.ssh/ibm/ibm.id_rsa
-    LocalForward 12345 127.0.0.1:12345
-    LocalForward 54321 127.0.0.1:54321
-    LocalForward  9090 127.0.0.1:9090
-
-# IBM Power 9 machine in H2O.ai office server room
-# Used to build ppc64le conda packages
-Host 0xp2
-    HostName mr-0xp2.0xdata.loc
-
-# Postgres load test server
-# GPU machine used to build pygdf, h2o4gpu
-# CANNOT be used for h2o4gpu testing as CUDA version is old
-# poboy's conda server
-Host dl19
-    HostName mr-dl19.0xdata.loc
-
 # GPU machine with latest CUDA, used for h2o4gpu testing
 Host dl14 dl14X
     HostName mr-dl14.0xdata.loc
 
-# GPU machine originally Mark Chan's.
-Host dl7 dl7X
-    HostName mr-dl7.0xdata.loc
-
-# GPU machine. Given by Anmol as dl7 is unstable
-Host dl24 dl24X
-    HostName mr-dl24.0xdata.loc
-
-# Mac OSX machine
-# Used to build conda packages for mac 
-Host 0xb11
-    HostName mr-0xb11.0xdata.loc
-
-# CentOS Machine
-# No GPU
-Host g16X
-    HostName mr-0xg16.0xdata.loc
-
-# Hadoop and Enterprise Steam
-# Cloudera
-Host g9
-    HostName mr-0xg9.0xdata.loc
-
-# Hortonworks
-Host g5
-    HostName mr-0xg5.0xdata.loc
-
-# Poboys server
-Host poboys
-    HostName mr-0xc3.0xdata.loc
-    User jenkins
+# Repository Machine
+Host 0x12
+    HostName mr-0x12.0xdata.loc
 
 {%@@ endif @@%}
 
