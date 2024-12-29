@@ -1,5 +1,10 @@
 /* For styling the entire Joplin app (except the rendered Markdown, which is defined in `userstyle.css`) */
 
+/* for the overall markdown editor border when in focus */
+*:focus-visible {
+	outline: none !important;
+}
+
 /* Headers */
 span.cm-header {
     color: #D33682 !important;
