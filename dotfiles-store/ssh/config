@@ -46,6 +46,8 @@ Host dl14 dl14X 0x12
     ForwardAgent yes
     Compression yes
     AddressFamily inet
+    ServerAliveInterval 600
+    ServerAliveCountMax 5
 
 Host dl14X
     ServerAliveInterval 60
