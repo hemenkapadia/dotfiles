@@ -127,6 +127,10 @@ options=(
   "bas121"  "Vagrant" off
   "bas130"  "Docker CE" off
   "bas131"  "Docker Compose" off
+  "bas131a" "Docker Scout" off
+  "bas131b" "Trivy" off
+  "bas131c" "Grype" off
+  "bas131d" "Syft" off
   "bas132"  ">> Lazydocker" off
   "bas133"  ">> Dive - docker image analyser" off
   "bas134"  "Ansible" off
@@ -600,7 +604,41 @@ for choice in $choices; do
 #      unset version
 #      echo ""
       ;;
-    bas132) # Installing Lazydocker
+    bas131a) # Install Docker Scout
+      echo "Installing Docker Scout..."
+      mkdir -p "${HOME}/.docker/scout"
+      download_url="$(curl -s https://api.github.com/repos/docker/scout-cli/releases/latest | grep -o -E -i -m 1 "https://.+?/docker-scout_.+?_linux_amd64.tar.gz")"
+      curl -sL "${download_url}" >scout.tar.gz && tar -xzf scout.tar.gz docker-scout && rm scout.tar.gz && mv docker-scout "${HOME}/.docker/scout"
+      jq ".cliPluginsExtraDirs |= [\"$HOME/.docker/scout\"]" "${HOME}/.docker/config.json" > temp.json && mv temp.json "${HOME}/.docker/config.json"
+      unset download_url
+      echo "Docker Scout installation completed."
+      echo ""
+    ;;
+    bas131b) # Install Trivy
+      echo "Installing Trivy ...."
+      download_url="$(curl -s https://api.github.com/repos/aquasecurity/trivy/releases/latest | grep -o -E -i -m 1 "https://.+?/trivy_.+?_Linux-64bit.tar.gz")"
+      curl -sL "${download_url}" >trivy.tar.gz && tar -xzf trivy.tar.gz trivy && rm trivy.tar.gz && mv trivy "${HOME}/.local/bin"
+      unset download_url
+      echo "Trivy installation completed."
+      echo ""
+      ;;
+    bas131c) # Install Grype
+      echo "Installing Grype ...."
+      download_url="$(curl -s https://api.github.com/repos/anchore/grype/releases/latest | grep -o -E -i -m 1 "https://.+?/grype_.+?_linux_amd64.tar.gz")"
+      curl -sL "${download_url}" >grype.tar.gz && tar -xzf grype.tar.gz grype && rm grype.tar.gz && mv grype "${HOME}/.local/bin"
+      unset download_url
+      echo "Grype installation completed."
+      echo ""
+      ;;
+    bas131c) # Install Syft 
+      echo "Installing Syft...."
+      download_url="$(curl -s https://api.github.com/repos/anchore/syft/releases/latest | grep -o -E -i -m 1 "https://.+?/syft_.+?_linux_amd64.tar.gz")"
+      curl -sL "${download_url}" >syft.tar.gz && tar -xzf syft.tar.gz syft && rm syft.tar.gz && mv syft "${HOME}/.local/bin"
+      unset download_url
+      echo "Syft installation completed."
+      echo ""
+      ;;
+     bas132) # Installing Lazydocker
       echo ""
       echo "Installing Lazydocker ...."
       curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
