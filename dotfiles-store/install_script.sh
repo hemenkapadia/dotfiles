@@ -630,7 +630,7 @@ for choice in $choices; do
       echo "Grype installation completed."
       echo ""
       ;;
-    bas131c) # Install Syft 
+    bas131d) # Install Syft 
       echo "Installing Syft...."
       download_url="$(curl -s https://api.github.com/repos/anchore/syft/releases/latest | grep -o -E -i -m 1 "https://.+?/syft_.+?_linux_amd64.tar.gz")"
       curl -sL "${download_url}" >syft.tar.gz && tar -xzf syft.tar.gz syft && rm syft.tar.gz && mv syft "${HOME}/.local/bin"
