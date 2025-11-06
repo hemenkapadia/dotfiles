@@ -26,9 +26,10 @@ noremap j h
 
 " Visual Configuration
 " Download first curl -fLo ~/.vim/colors/solarized.vim --create-dirs https://raw.githubusercontent.com/ericbn/vim-solarized/master/colors/solarized.vim
-set term=screen-256color
-set background=dark
-colorscheme solarized
+" set term=screen-256color
+set term=xterm-ghostty
+" set background=dark
+" colorscheme solarized
 syntax on
 syntax enable
 
@@ -38,4 +39,3 @@ set laststatus=2
 python3 from powerline.vim import setup as powerline_setup
 python3 powerline_setup()
 python3 del powerline_setup
-
