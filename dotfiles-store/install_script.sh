@@ -1418,10 +1418,20 @@ for choice in $choices; do
       echo "Installing Shotcut Video Editor...."
       mkdir -p /tmp/shotcut
       pushd /tmp/shotcut
-      curl -L https://github.com/mltframework/shotcut/releases/download/v20.07.11/shotcut-linux-x86_64-200711.txz --output shotcut.txz
-      tar -xf shotcut.txz && sudo mv Shotcut /opt
-      sed -i '/^Exec.*/d' /opt/Shotcut/Shotcut.desktop
-      echo 'Exec=/opt/Shotcut/Shotcut.app/shotcut "%F"' >> /opt/Shotcut/Shotcut.desktop
+      curl -L https://github.com/mltframework/shotcut/releases/download/v25.08.16/shotcut-linux-x86_64-250816.txz --output shotcut.txz
+      curl -L https://www.shotcut.org/assets/img/media/shotcut-logo-640x640.png --output icon.png
+      tar -xf shotcut.txz && mv icon.png Shotcut && sudo mv Shotcut /opt
+      cat <<EOF > /opt/Shotcut/Shotcut.desktop
+[Desktop Entry]
+Version=1.0
+Name=Shotcut
+Comment=Video editor
+Exec=/opt/Shotcut/Shotcut.app/shotcut "%F"
+Icon=/opt/Shotcut/icon.png
+Terminal=false
+Type=Application
+Categories=AudioVideo;AudioVideoEditing;
+EOF
       ln -s /opt/Shotcut/Shotcut.desktop "${HOME}"/.local/share/applications
       popd
       rm -rf /tmp/shotcut
