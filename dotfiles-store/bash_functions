@@ -36,7 +36,7 @@ function start_agent {
     . "${SSH_ENV}" > /dev/null
 
     # Adding keys to ssh agent
-    find ~/.ssh -type f -name *id_rsa -exec /usr/bin/ssh-add {} \;
+    find ~/.ssh -type f -name *.agent_add -exec /usr/bin/ssh-add {} \;
 }
 # Do not start SSH Agent if SSH agent is still running as the same PID
 # as the one stored in the environment

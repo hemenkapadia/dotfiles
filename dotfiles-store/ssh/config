@@ -19,11 +19,12 @@ Host bitbucket.org
 
 # github
 Host github.com
-  IdentityFile ~/.ssh/github/id_rsa
+  # Commented for ssh_agent to provide this
+  # IdentityFile ~/.ssh/github/id_rsa.agent_add
 
 # RaspberryPis
 Host rpi-node1 rpi-node2 rpi-node3 rpi-node4
-  IdentityFile ~/.ssh/RPi/id_rsa
+  IdentityFile ~/.ssh/RPi/id_ed25519_hemen
   User hemen
   ForwardAgent yes
   Compression yes
@@ -38,31 +39,17 @@ Host rpi-node3
 Host rpi-node4
   HostName 192.168.114.34
 
-{%@@ endif @@%}
-{%@@ if profile in ["worklaptop"] @@%}
-
-Host dl14 dl14X 0x12
-    User hemen
-    ForwardAgent yes
-    Compression yes
-    AddressFamily inet
-    ServerAliveInterval 600
-    ServerAliveCountMax 5
-
-Host dl14X
-    ServerAliveInterval 60
-    ServerAliveCountMax 10
-    ForwardX11 yes
-    ForwardX11Trusted yes
-    Ciphers aes128-gcm@openssh.com,aes128-ctr
-
-# GPU machine with latest CUDA, used for h2o4gpu testing
-Host dl14 dl14X
-    HostName mr-dl14.0xdata.loc
-
-# Repository Machine
-Host 0x12
-    HostName mr-0x12.0xdata.loc
+Host dl14 dl15
+  # Commented for ssh_agent to provide this
+  # IdentityFile ~/.ssh/supermicro/id_rsa.agent_add
+  User hemen
+  ForwardAgent yes
+  Compression yes
+  AddressFamily inet
+  Ciphers aes128-gcm@openssh.com,aes128-ctr
+Host dl14
+  HostName 192.168.114.36
+Host dl15
+  HostName 192.168.114.35
 
 {%@@ endif @@%}
-

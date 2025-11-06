@@ -1,13 +1,13 @@
-
 *************************
 Readme about the ssh keys
 *************************
 
+>> All private keys that end with *.agent_add will be added to the ssh agent.
 
-All private keys that end with *id_rsa will be added to the ssh agent.
+>> Having many keys in agent causes ssh auth to fail as multiple wrong keys are tried before the right one is reached.
+>> Keys are added in start_agent function in ~/.bash_functions
+>> Use the above mentioned file naming convention to manage the keys added to agent at the start of the first bash shell
+>> to reload files in ssh-agent
+  - first kill existing agent instance with `pkill -9 ssh-agent`
+  - use the bash function `start_agent`
 
-However, having a lot of keys in the agent causes the ssh authentication to fail before all the keys
-are tried. Hence we are limiting them from being added to the agent by renaming them to
-id_rsa.private from id_rsa. 
-
-When you need them rename and add it back or restart ssh agent

@@ -78,16 +78,6 @@ dotfiles:
     src: Material-Solarized-Dark_Custom-Editor.icls
     dst: ~/Material-Solarized-Dark_Custom-Editor.icls
     chmod: '644'
-  f_ssh_rpi_id_rsa:
-    src: ssh/RPi/id_rsa
-    dst: ~/.ssh/RPi/id_rsa
-    chmod: '600'
-    trans_install: _gpg_priv
-  f_ssh_rpi_id_rsa.pub:
-    src: ssh/RPi/id_rsa.pub
-    dst: ~/.ssh/RPi/id_rsa.pub
-    chmod: '644'
-    trans_install: _gpg_pub
   f_config_joplin-desktop_userstyle.css:
     src: config/joplin-desktop/userstyle.css
     dst: ~/.config/joplin-desktop/userstyle.css
@@ -136,8 +126,6 @@ profiles:
     - f_ssh_config
     - f_material-solarized-dark_custom-ide.xml
     - f_material-solarized-dark_custom-editor.icls
-    - f_ssh_rpi_id_rsa
-    - f_ssh_rpi_id_rsa.pub
     - f_config_joplin-desktop_userstyle.css
     - f_config_joplin-desktop_userchrome.css
     - f_ssh_readme
@@ -159,8 +147,6 @@ profiles:
     - f_material-solarized-dark_custom-ide.xml
     - f_material-solarized-dark_custom-editor.icls
     - f_ssh_config
-    - f_ssh_rpi_id_rsa
-    - f_ssh_rpi_id_rsa.pub
     - f_config_joplin-desktop_userstyle.css
     - f_config_joplin-desktop_userchrome.css
 
