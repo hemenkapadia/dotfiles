@@ -1199,7 +1199,9 @@ for choice in $choices; do
       pushd /tmp/logseq
       curl -L "https://github.com/logseq/logseq/releases/download/${version}/Logseq-linux-x64-${version}.zip" -o logseq.zip
       unzip logseq.zip
+      sudo rm -rf /opt/Logseq-linux-x64
       sudo mv Logseq-linux-x64 /opt
+      rm ~/.local/bin/logseq
       ln -s /opt/Logseq-linux-x64/Logseq ~/.local/bin/logseq
       popd
       unset version
@@ -1251,7 +1253,7 @@ for choice in $choices; do
       echo "Installing Slack...."
       mkdir -p /tmp/slack
       pushd /tmp/slack
-      version="4.39.95"
+      version="4.45.69"
       curl -L "https://downloads.slack-edge.com/desktop-releases/linux/x64/${version}/slack-desktop-${version}-amd64.deb" --output slack.deb
       sudo apt install ./slack.deb
       popd
@@ -1267,7 +1269,7 @@ for choice in $choices; do
       pushd /tmp/zoom
       # To download older versions of zoom
       # Get the full version number from https://support.zoom.us/hc/en-us/articles/205759689-New-Updates-For-Linux
-      version="6.2.0.1855" # 5.10 has a bug on linux, video does not work
+      version="6.5.11.4015" # 5.10 has a bug on linux, video does not work
       curl -L "https://zoom.us/client/${version}/zoom_amd64.deb" --output zoom.deb
       # Latest version (5.10) has a bug on linux, video does not work
       #curl -L https://zoom.us/client/latest/zoom_amd64.deb --output zoom.deb
@@ -1403,7 +1405,7 @@ for choice in $choices; do
       echo "Installing lightworks...."
       mkdir -p /tmp/lw
       pushd /tmp/lw
-      curl -L https://cdn.lwks.com/releases/lightworks-2020.1-r122068-amd64.deb --output lw.deb
+      curl -L https://cdn.lwks.com/releases/latest/lightworks_linux_deb.deb --output lw.deb
       sudo apt install ./lw.deb
       sudo apt install mediainfo-gui
       popd
