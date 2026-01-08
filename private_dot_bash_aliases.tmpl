@@ -1,0 +1,46 @@
+# vim: filetype=sh
+# Bash Aliases.
+
+# This file is sourced by .bashrc and is used to configure all bash aliases
+# Functions are similar to aliases, but provide more functionality.
+# Mostly functions cannot be implemented in a single code line like alias can
+
+# Command aliases
+# ---------------
+alias vi=vim
+alias tmux="tmux -2"
+alias diff="icdiff -N --no-bold -U 3"
+alias bfg="java -jar ~/Downloads/bfg-1.14.0.jar"
+
+# dotdrop
+# -------
+alias dd-c="dotdrop compare"
+alias dd-add="dotdrop import -m"
+alias dd-del="dotdrop remove"
+alias dd-get="dotdrop install"
+alias dd-put="dotdrop update"
+# Global Dotdrop
+alias gdd="sudo --preserve-env=DOTDROP_PASSPHRASE_FILE,DOTDROP_PROFILE dotdrop --cfg ${HOME}/dotfiles/config-global.yaml"
+alias gdd-c="gdd compare"
+alias gdd-add="gdd import -m"
+alias gdd-del="gdd remove"
+alias gdd-get="gdd install"
+alias gdd-put="gdd update"
+
+# aws aliases
+# -----------
+alias aws-activate-bash-complete="complete -C '/usr/local/bin/aws_completer' aws"
+
+# Directory aliases
+# -----------------
+alias cdo="cd $HOME/Workspace/Office"
+alias cdpwc="cd $HOME/Workspace/Office/Customers/PwC"
+alias cdp="cd $HOME/Workspace/Personal"
+
+# Utility Aliases
+# ---------------
+alias memutil='free -wht --si'
+alias memfree='memutil; sudo tee /proc/sys/vm/drop_caches <<< 1; memutil'
+
+alias du-top='du -sh * | sort -k 1 -h'
+alias df-root='df -h /'
