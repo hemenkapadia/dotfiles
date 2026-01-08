@@ -1,0 +1,9 @@
+# vim: filetype=dosini
+[user]
+  name = Hemen Kapadia
+  email = hemen.kapadia@gmail.com
+
+[core]
+  autocrlf = input
+[pull]
+	ff = only
