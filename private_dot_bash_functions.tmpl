@@ -6,19 +6,10 @@
 
 
 # Generic Utility functions
-function spdr {
-  source activate base; spyder &
-}
-
 function enabletouchpad {
   touchid=$(xinput list | grep 'Touchpad' | grep -P -o 'id=[0-9]+' | cut -d '=' -f 2)
   xinput set-prop $touchid "Device Enabled" 1
 }
-
-function enableconda {
-  export PATH="$CONDA_BIN_PATH:$PATH"
-}
-
 
 # SSH Agent configuration
 # Included only for local profiles. Remote profiles will use ssh-agent forwarding
@@ -48,112 +39,6 @@ else
     start_agent;
 fi
 
-
-# Window Manager funtions
-function infodesk {
-  deskdim=$(xdotool getdisplaygeometry)
-  echo "Screen Dimensions: ${deskdim}"
-  echo "Window List:"
-  wmctrl -lG
-  echo "Window Dimensions:"
-  wmctrl -l | cut -d ' ' -f 1 | xargs -t -n1 xdotool getwindowgeometry
-}
-
-# wmctrl -e flag takes option in format Gravity, X,Y (top left corner) , Width, Height of the window
-# Reason why Terminal and Chrome need special handling as they use GTK_FRAME_EXTENTS
-# -  https://superuser.com/questions/1429926/linux-wmctrl-returns-incorrect-size-of-gedit
-# - https://erwin.co/what-are-_gtk_frame_extents-and-how-does-gnome-window-sizing-work/
-# To get the FRAME_EXTENTS issue the command `xprop | grep -i frame_extents` and then click the window.
-# The FRAME_EXTENTS is tuple (left, right, top, bottom)
-# _NET_FRAME_EXTENTS tell you how much EXTRA SPACE add to your Window Size calculations
-# _GTK_FRAME_EXTENTS tell you how much EXTRA SPACE to REMOVE from your Window Size calculations.
-# wmctrl -r 'Terminal' -e "0,$left_anchor_x,$right_bottom_anchor_y,$window_width,$half_window_height"
-function devdesk {
-  display_count=$(xrandr --listactivemonitors | tail -n +2 | wc -l)
-  display_width=$(xrandr --listactivemonitors | tail -n +2 | cut -d ' ' -f 4 | cut -d '/' -f 1)
-  display_height=$(xrandr --listactivemonitors | tail -n +2 | cut -d ' ' -f 4 | cut -d 'x' -f 2 | cut -d '/' -f 1)
-  top_margin=40
-  bottom_margin=114
-  padding=10
-  window_width=$[$[display_width-padding*4]/2]
-  full_window_height=$[display_height-top_margin-bottom_margin]
-  half_window_height=$[$[full_window_height-padding*2]/2]
-  left_anchor_x=$padding
-  right_anchor_x=$[left_anchor_x+window_width+padding*2]
-  top_anchor_y=$top_margin
-  bottom_anchor_y=$[top_anchor_y+half_window_height+padding]
-  if [[ $display_count -eq 1 ]]; then
-    # id display is 1 then mostly home laptop
-    # For COVID, got monotor home, but dual monitor not possible; hence 1 monitor
-    # possible for work laptop profile too
-    # set workspace
-    wmctrl -r 'Mailspring' -t 1
-    wmctrl -r 'Slack' -t 1
-    wmctrl -r 'Morgen' -t 1
-    wmctrl -r 'Google Chrome' -t 2
-    wmctrl -r 'Joplin' -t 2
-    wmctrl -r 'Logseq' -t 2
-    wmctrl -r 'Mailspring' -e "0,$left_anchor_x,$top_anchor_y,$window_width,$full_window_height"
-    wmctrl -r 'Slack' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$[half_window_height-37]"
-    wmctrl -r 'Morgen' -e "0,$right_anchor_x,$bottom_anchor_y,$window_width,$half_window_height"
-    # _GTK_FRAME_EXTENTS(CARDINAL) = 22, 22, 19, 25 for Google Chrome
-    wmctrl -r 'Google Chrome' -e "0,$[left_anchor_x-22],$[top_anchor_y-19],$[window_width+22+22],$[half_window_height+19+19+25+25]"
-    wmctrl -r 'Joplin' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$half_window_height"
-    wmctrl -r 'Logseq' -e "0,$right_anchor_x,$[bottom_anchor_y+35],$window_width,$half_window_height"
-    wmctrl -r 'Workspace' -t 0
-    wmctrl -r 'Visual Studio Code' -t 0
-    wmctrl -r 'Mozilla Firefox' -t 0
-    wmctrl -r 'Terminal' -t 0
-    # keep pycharm and vscode above Terminal; if pycharm not running then rd exit code is 1
-    wmctrl -r 'Workspace' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$[full_window_height+37]"
-    wmctrl -r 'Visual Studio Code' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$full_window_height"
-    wmctrl -r 'Xournal' -e "0,$right_anchor_x,$top_anchor_y,$window_width,$half_window_height"
-    # _GTK_FRAME_EXTENTS(CARDINAL) = 26, 26, 23, 29 for Terminal
-    wmctrl -r 'Mozilla Firefox' -e "0,$[left_anchor_x-26],$[top_anchor_y-23],$[window_width+26+26],$[half_window_height+23+29+23+23]"
-    # Keep terminal last as it will always exist (since we run rd in terminal) and there will be 0 exit status for wmctrl
-    # _GTK_FRAME_EXTENTS(CARDINAL) = 26, 26, 23, 29 for Terminal
-    wmctrl -r 'Terminal' -e "0,$[left_anchor_x-26],$[bottom_anchor_y+23],$[window_width+26+26],$[half_window_height+0+0+29+29]"
-  elif [[ $display_count -eq 2 ]]; then
-    wmctrl -r 'Workspace' -t 0
-    wmctrl -r 'Visual Studio Code' -t 0
-    wmctrl -r 'Mozilla Firefox' -t 0
-    wmctrl -r 'Terminal' -t 0
-    wmctrl -r 'Mailspring' -t 0
-    wmctrl -r 'Slack' -t 0
-    wmctrl -r 'Morgen' -t 0
-    # TODO: Handle Dual monitor setup using screen size calculations
-    wmctrl -r 'Workspace' -e '0,2570,30,1850,2034'
-    wmctrl -r 'Visual Studio Code' -e '0,2570,30,1850,2034'
-    wmctrl -r 'Mozilla Firefox' -e '0,4430,30,1960,1290'
-    wmctrl -r 'Terminal' -e '0,4430,1360,1960,707'
-    wmctrl -r 'Mailspring' -e '0,10,305,1350,1310'
-    wmctrl -r 'Slack' -e '0,1365,305,1180,590'
-    wmctrl -r 'Morgen' -e '0,1365,930,1180,685'
-  fi
-}
-
-function ruindesk {
-  wmctrl -r 'Workspace' -t 0 -e '0,10,650,230,350'
-  wmctrl -r 'Visual Studio Code' -t 0 -e '0,300,650,230,350'
-  wmctrl -r 'Xournal' -t 0 -e '0,300,650,230,350'
-  wmctrl -r 'Mozilla Firefox' -t 0 -e '0,800,650,230,350'
-  wmctrl -r 'Terminal' -t 0 -e '0,1300,650,230,350'
-  wmctrl -r 'Mailspring' -t 1 -e '0,1300,50,230,350'
-  wmctrl -r 'Slack' -t 1 -e '0,800,50,230,350'
-  wmctrl -r 'Morgen' -t 1 -e '0,10,50,230,350'
-  wmctrl -r 'Google Chrome' -t 2 -e '0,12,35,300,260'
-  wmctrl -r 'Joplin' -t 2 -e '0,12,35,300,260'
-  wmctrl -r 'Logseq' -t 2 -e '0,12,335,300,260'
-}
-
-function rd {
-  ruindesk
-  devdesk
-}
-
-
-
-
 # git functions
 # git refresh remote branch list
 function g-rrbl {
@@ -162,7 +47,6 @@ function g-rrbl {
 
 
 # Docker functions
-
 # System
 function d-du {
   # Docker disk usage detail
@@ -177,7 +61,6 @@ function d-sp {
   d-du
   docker system prune
 }
-
 # Container
 function d-cl {
   docker container ls -a
@@ -193,12 +76,10 @@ function d-cs {
   [[ -z "${c_label}" ]] && { echo "Container pattern matching failed"; return 1; }
   docker container stop "${c_label}"
 }
-
 # Image
 function d-il {
   docker image ls $1 | sort -k 7 -h
 }
-
 # Volume
 function d-vl {
   docker volume ls
@@ -214,50 +95,4 @@ function d-vi {
 function d-vpr {
   docker volume prune
 }
-
-
-
-# Driverless AI functions
-function builddai {
-  cd ~/Workspace/Office/Codebases/h2oai
-  . env/bin/activate
-  chmod -R a+w /home/hemen/Workspace/Office/Codebases/h2oai/env/lib/python3.6/site-packages
-  case $1 in
-    wheel)
-      make centos7_in_docker
-      ;;
-    rpm)
-      make centos7_in_docker centos7_rpm_package_in_docker
-      ;;
-    deb)
-      make centos7_in_docker centos7_deb_package_in_docker
-      ;;
-    image)
-      make centos7_in_docker centos7_cuda10_runtime
-      ;;
-    fullreset)
-      make clean
-      rm -rf deps env
-      exit 0
-      ;;
-    *)
-      make quickfullinstall
-
-  esac
-  deactivate
-}
-
-function rundai {
-  cd ~/Workspace/Office/Codebases/h2oai
-  . env/bin/activate
-  ./redis-server --requirepass PlWUjvEJSiWu9j0aopOyL5KwqnrKtyWVoZHunqxr &
-  export DRIVERLESS_AI_MLI_STRICT_VERSION_CHECK=false
-  DRIVERLESS_AI_LOG_LEVEL=2 DRIVERLESS_AI_LIST_FILES_WITHOUT_EXTENSIONS=true CUDA_VISIBLE_DEVICES=  python -m h2oai --with_all
-  deactivate
-}
-
-function killdai {
-  pkill --signal 9 -f -u $USER 'procsy|h2o.jar|vis-data-server.jar|h2oai-DriverlessAI|h2oai-worker:stats|redis-server'
-}
-
 
