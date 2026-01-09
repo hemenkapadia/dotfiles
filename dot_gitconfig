@@ -6,5 +6,6 @@
   autocrlf = input
 [pull]
   ff = only
+  rebase = true
 [diff]
   external = difft
