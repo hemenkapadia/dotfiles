@@ -4,7 +4,7 @@
 # There could be some aliases and env variables declared here in order to keep them closer
 # to the code using them
 
-
+{{- if ne .profile "home-rpi" }}
 # Generic Utility functions
 function enabletouchpad {
   touchid=$(xinput list | grep 'Touchpad' | grep -P -o 'id=[0-9]+' | cut -d '=' -f 2)
@@ -38,13 +38,6 @@ if [ -f "${SSH_ENV}" ]; then
 else
     start_agent;
 fi
-
-# git functions
-# git refresh remote branch list
-function g-rrbl {
-  git remote update origin --prune
-}
-
 
 # Docker functions
 # System
@@ -95,4 +88,12 @@ function d-vi {
 function d-vpr {
   docker volume prune
 }
+{{- end }}
+
+# git functions
+# git refresh remote branch list
+function g-rrbl {
+  git remote update origin --prune
+}
+
 
