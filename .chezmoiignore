@@ -1,0 +1,3 @@
+{{- if eq .profile "home-rpi" }}
+install_script.sh
+{{- end }}
