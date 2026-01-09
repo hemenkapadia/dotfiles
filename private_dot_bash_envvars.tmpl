@@ -6,26 +6,6 @@ export LS_COLORS="no=00;38:rs=0:di=00;38;5;33:ln=01;38;5;37:mh=00:pi=48;5;230;38
 
 export EDITOR=vim
 
-# dotdrop variables
-if [ -f "$HOME/dotfiles/dotdrop_profile" ]; then
-    DOTDROP_PROFILE=$(cat "$HOME/dotfiles/dotdrop_profile")
-    export DOTDROP_PROFILE
-fi
-if [ -f "$HOME/dotfiles/dotdrop_passphrase" ]; then
-    DOTDROP_PASSPHRASE_FILE="$HOME/dotfiles/dotdrop_passphrase"
-    export DOTDROP_PASSPHRASE_FILE
-fi
-export DOTDROP_CONFIG="$HOME/dotfiles/config.yaml"
-
-# Added by n-install (see http://git.io/n-install-repo).
-export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH="$N_PREFIX/bin:${PATH}"  
-
-export CONDA_BIN_PATH="$HOME/miniconda3/bin"
-
-# Rustup and Cargo home variables. Used by mdbook
-export CARGO_HOME=/opt/cargo
-export RUSTUP_HOME=/opt/rustup
-
 # PATH environment variable. Keep this the last one in this file
-export PATH="/usr/local/go/bin:${HOME}/.local/bin:${CARGO_HOME}/bin:${HOME}/.pyenv/bin:${HOME}/bin/android-tools:${PATH}"
+export PATH="/usr/local/go/bin:${HOME}/.local/bin:${HOME}/.pyenv/bin:${PATH}"
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
