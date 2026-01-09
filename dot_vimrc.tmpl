@@ -23,11 +23,15 @@ noremap l k
 noremap k j
 noremap j h
 
-
 " Visual Configuration
+{{- if ne .profile "home-rpi" }}
 set term=xterm-ghostty
 syntax on
 syntax enable
+{{- end }}
+{{- if eq .profile "home-rpi" }}
+set term=xterm-256color
+{{- end }}
 
 
 " Statusline setup
