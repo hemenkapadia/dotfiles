@@ -7,7 +7,12 @@
 
 # Command aliases
 # ---------------
+{{- if ne .profile "home-rpi" }}
 alias vi=vim
+{{- end }}
+{{- if eq .profile "home-rpi" }}
+alias vim=vi
+{{- end }}
 alias tmux="tmux -2"
 alias diff="difft"
 
@@ -17,14 +22,14 @@ alias aws-activate-bash-complete="complete -C '/usr/local/bin/aws_completer' aws
 
 # Directory aliases
 # -----------------
+{{- if eq .profile "work-laptop" "work-server" }}
 alias cdo="cd $HOME/Workspace/Office"
-alias cdpwc="cd $HOME/Workspace/Office/Customers/PwC"
+{{- end }}
 alias cdp="cd $HOME/Workspace/Personal"
 
 # Utility Aliases
 # ---------------
 alias memutil='free -wht --si'
 alias memfree='memutil; sudo tee /proc/sys/vm/drop_caches <<< 1; memutil'
-
 alias du-top='du -sh * | sort -k 1 -h'
 alias df-root='df -h /'
