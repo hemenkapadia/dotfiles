@@ -6,6 +6,8 @@ export LS_COLORS="no=00;38:rs=0:di=00;38;5;33:ln=01;38;5;37:mh=00:pi=48;5;230;38
 
 export EDITOR=vim
 
+{{- if ne .profile "home-rpi" }}
 # PATH environment variable. Keep this the last one in this file
 export PATH="/usr/local/go/bin:${HOME}/.local/bin:${HOME}/.pyenv/bin:${PATH}"
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+{{- end }}
