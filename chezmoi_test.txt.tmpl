@@ -2,7 +2,7 @@ This is a test file to try chezmoi functionality.
 
 This is the first file added under chezmoi management with this content.
 
-{{- if eq .chezmoi.config.data.profile "work-laptop" "work-server" }}
+{{- if eq .profile "work-laptop" "work-server" }}
 this is work content
 {{- end }}
 {{- if eq .profile "home-laptop" "home-server" "home-rpi" }}
