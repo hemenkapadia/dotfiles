@@ -174,6 +174,7 @@ options=(
   "prd001"  ">> Joplin - Notes taking application" off
   "prd002"  ">> Logseq - Personal Knowledge Management" off
   "prd003"  ">> Draw.io - charting software" off
+  "prd004"  ">> Obsidian - Personal Knowledge Management" off
   "prd050"  ">> Mailspring" off
   "prd051"  ">> Minetime" off
   "prd052"  ">>v Slack" off
@@ -1222,6 +1223,19 @@ for choice in $choices; do
       unset version
       rm -rf /tmp/drawio
       echo "Drawio desktop client installation completed."
+      echo ""
+      ;;
+    prd004) # Installing Obsidian
+      echo ""
+      echo "Installing Obsidian - Personal Knowledge Management...."
+      mkdir -p /tmp/obsidian
+      pushd /tmp/obsidian
+      download_url="$(curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest | grep -o -E -i -m 1 "https://.+?/obsidian_.+?_amd64.deb")"
+      curl -L "${download_url}" --output obsidian.deb
+      sudo dpkg -i obsidian.deb
+      popd
+      rm -rf /tmp/obsidian
+      echo "Obsidian installation completed."
       echo ""
       ;;
     prd050) # Installing Mailspring
