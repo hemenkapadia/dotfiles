@@ -9,12 +9,13 @@
 # ---------------
 {{- if ne .profile "home-rpi" }}
 alias vi=vim
+alias tmux="tmux -2"
 {{- end }}
 {{- if eq .profile "home-rpi" }}
 alias vim=vi
 {{- end }}
-alias tmux="tmux -2"
 alias diff="difft"
+alias cls="clear"
 
 # aws aliases
 # -----------
