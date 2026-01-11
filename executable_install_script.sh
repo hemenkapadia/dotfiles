@@ -113,6 +113,7 @@ options=(
   "bas029"  "Gnome Tweaks, Shell Extensions" off
   "bas030"  "Gnome Clocks" off
   "bas031"  "Gnome Calendar" off
+  "bas099"  "dra - Download Release Assets from Github" off
   "bas100"  "Git" off
   "bas101"  ">> Gitbatch" off
   "bas102"  "Tig" off
@@ -466,6 +467,19 @@ for choice in $choices; do
       echo "Installing Gnome Calendar...."
       sudo apt install -y gnome-calendar
       echo "Gnome Calendar installation completed."
+      echo ""
+      ;;
+    bas099) # Download Release Assets from Github
+      echo ""
+      echo "Downloading dra from Github ...."
+      download_url="$(curl -s https://api.github.com/repos/devmatteini/dra/releases/latest | grep -o -E -i -m 1 "https://.+?/dra-.+?-x86_64-unknown-linux-gnu.tar.gz")"
+      curl -sL "${download_url}" -o dra.tar.gz 
+      tar -xzf dra.tar.gz
+      rm dra.tar.gz 
+      chmod u+x dra-*-x86_64-unknown-linux-gnu/dra 
+      mv dra-*-x86_64-unknown-linux-gnu/dra "${HOME}"/.local/bin
+      rm -rf dra-*-x86_64-unknown-linux-gnu
+      echo "dra install completed."
       echo ""
       ;;
     bas100) # Install Git
