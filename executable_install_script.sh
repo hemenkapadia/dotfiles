@@ -35,7 +35,7 @@ if [[ "$?" -eq 0 ]]; then
   # Install base dependencies
   clear
   echo ">>> Installing base dependencies ...."
-  sudo apt install tree wget curl htop unzip net-tools icdiff vim jq pv \
+  sudo apt install tree wget curl htop unzip net-tools vim jq pv \
                    openssl gnupg-agent apt-transport-https ca-certificates \
                    software-properties-common make build-essential lsb-release
   read -s -p 'Press Enter to continue ..'
@@ -48,9 +48,7 @@ if [[ "$?" -eq 0 ]]; then
   # Install Python 3 dependencies
   clear
   echo ">>> Installing Python 3 dependencies ...."
-  sudo apt install python3 python3-dev
-  sudo apt install python3-virtualenv python3-venv python3-pip
-  # sudo -H /usr/bin/python3 -m pip install --upgrade pip
+  sudo apt install python3-full python3-venv pipx direnv
   read -s -p 'Press Enter to continue ..'
 fi
 
@@ -154,7 +152,8 @@ options=(
   "dev030"  "NodeJS LTS using n-install" off
   "dev031"  "YARN" off
   "dev040"  "pyenv" off
-  "dev041"  ">> Pipenv and Pipes" off
+  "dev041"  "Pipenv and Pipes" off
+  "dev042"  "uv - Python package manager" off
   "dev050"  "OpenJDK 8" off
   "dev051"  "OpenJDK 11" off
   "dev060"  "Go language" off
@@ -1020,9 +1019,11 @@ for choice in $choices; do
       ;;
     dev040) #Install pyenv
       echo ""
-      echo "Installing pyenv"
-      curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-      echo "pyenv installation completed."
+      # echo "Installing pyenv"
+      # curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+      # echo "pyenv installation completed."
+      echo "pyenv installation is not supported in this script. Use pipx to install uv instead."
+      echo ""
       ;;
     dev041) # Install pipenv
       echo ""
@@ -1030,9 +1031,18 @@ for choice in $choices; do
       # Use below line for install
       # python3 -m pip install --user pipenv
       # python3 -m pip install --user pipenv-pipes
-      python3 -m pip install --upgrade --user pipenv
-      python3 -m pip install --upgrade --user pipenv-pipes
-      echo "Pipenv and Pipes Installation completed."
+      # python3 -m pip install --upgrade --user pipenv
+      # python3 -m pip install --upgrade --user pipenv-pipes
+      # echo "Pipenv and Pipes Installation completed."
+      echo "Pipenv and Pipes installation is not supported in this script. Use pipx to install uv instead."
+      echo ""
+      ;;
+    dev042) # Install uv
+      echo ""
+      echo "Installing uv...."
+      pipx install uv
+      echo "uv installation completed."
+      echo ""
       ;;
     dev050) # Installing OpenJDK 8
       echo ""
