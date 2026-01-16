@@ -143,8 +143,14 @@ fi
 . /usr/share/powerline/bindings/bash/powerline.sh
 {{- end }}
 
-# command complettion for AWS CLI
+# Command Completions
+{{- if ne .profile "home-rpi" }}
+# AWS CLI
 complete -C '/usr/local/bin/aws_completer' aws
-
-# command complection for chezmoi
+# terraform
+complete -C /home/hemen/.local/bin/terraform terraform
+# direnv
+eval "$(direnv hook bash)"
+{{- end }}
+# Chezmoi 
 eval "$(~/.local/bin/chezmoi completion bash)"
