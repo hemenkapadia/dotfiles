@@ -145,6 +145,8 @@ options=(
   "------"  "------------------------------" off
   "ide000"  "vim" off
   "ide005"  "Visual Studio Code" off
+  "ide006"  "Google Antigravity" off
+  "ide007"  "Cursor" off
   "ide010"  "Jetbrains Toolbox" off
   "------"  "------------------------------" off
   "------"  "----- Development Stuff  -----" off
@@ -989,6 +991,30 @@ for choice in $choices; do
       echo "Install Settings Sync extenstion and setup the same."
       echo ""
       ;;
+    ide006) # Installing Google Antigravity
+      echo ""
+      echo "Installing Google Antigravity..."
+      sudo mkdir -p /etc/apt/keyrings
+      curl -fsSL https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg \
+        | sudo gpg --dearmor --yes -o /etc/apt/keyrings/antigravity-repo-key.gpg
+      echo "deb [signed-by=/etc/apt/keyrings/antigravity-repo-key.gpg] https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/ antigravity-debian main" \
+        | sudo tee /etc/apt/sources.list.d/antigravity.list > /dev/null
+        sudo apt update
+        sudo apt install antigravity
+      echo "Antigravity installation completed."
+      echo ""
+      ;;
+    ide007) # Installing Cursor
+      echo ""
+      echo "Installing Cursor...."
+      mkdir /tmp/cursor
+      pushd /tmp/cursor
+      curl -fsSL https://api2.cursor.sh/updates/download/golden/linux-x64-deb/cursor/latest --output cursor.deb
+      sudo dpkg -i cursor.deb
+      popd
+      echo "Cursor installation completed."
+      echo ""
+      ;;    
     ide010) # Installing Jetbrains Toolbox
       echo ""
       echo "Installing Jetbrains Toolbox ...."
