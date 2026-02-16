@@ -115,6 +115,7 @@ options=(
   "bas031"  "Gnome Calendar" off
   "bas099"  "dra - Download Release Assets from Github" off
   "bas100"  "Git" off
+  "bas100a" "GitHub CLI" off
   "bas101"  ">> Gitbatch" off
   "bas102"  "Tig" off
   "bas103"  ">> Lazygit" off
@@ -501,7 +502,20 @@ for choice in $choices; do
       git config --global user.name "${username}"
       git config --global user.email "${useremail}"
       ;;
-    bas101) # Installing Gitbatch
+    bas100a) # Installing Github CLI
+      echo ""
+      echo "Downloading GitHub CLI from Github ...."
+      mkdir -p /tmp/ghcli
+      pushd /tmp/ghcli
+      download_url="$(curl -s https://api.github.com/repos/cli/cli/releases/latest | grep -o -E -i -m 1 "https://.+?/gh_.+?_linux_amd64.deb")"
+      curl -sL "${download_url}" -o gh.deb
+      sudo dpkg -i gh.deb
+      popd
+      rm -rf /tmp/ghcli
+      echo "GitHub CLI install completed."
+      echo ""
+      ;;
+     bas101) # Installing Gitbatch
       echo ""
       echo "Installing gitbatch...."
       # Get latest github release tag or version but printing the redirection url for the latest relese
