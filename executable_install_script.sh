@@ -474,13 +474,17 @@ for choice in $choices; do
     bas099) # Download Release Assets from Github
       echo ""
       echo "Downloading dra from Github ...."
+      mkdir -p /tmp/dra
+      pushd /tmp/dra
       download_url="$(curl -s https://api.github.com/repos/devmatteini/dra/releases/latest | grep -o -E -i -m 1 "https://.+?/dra-.+?-x86_64-unknown-linux-gnu.tar.gz")"
-      curl -sL "${download_url}" -o dra.tar.gz 
+      curl -sL "${download_url}" -o dra.tar.gz
       tar -xzf dra.tar.gz
-      rm dra.tar.gz 
-      chmod u+x dra-*-x86_64-unknown-linux-gnu/dra 
+      rm dra.tar.gz
+      chmod u+x dra-*-x86_64-unknown-linux-gnu/dra
       mv dra-*-x86_64-unknown-linux-gnu/dra "${HOME}"/.local/bin
       rm -rf dra-*-x86_64-unknown-linux-gnu
+      popd
+      rm -rf /tmp/dra
       echo "dra install completed."
       echo ""
       ;;
