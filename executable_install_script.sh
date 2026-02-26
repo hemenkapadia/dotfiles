@@ -1320,6 +1320,8 @@ for choice in $choices; do
       ;;
     prd051) # Installing Minetime
       echo ""
+      echo "UnInstalling Gnome Calendar...."
+      sudo apt remove gnome-calendar
       echo "Installing Minetime/Morgen...."
       mkdir -p /tmp/minetime
       pushd /tmp/minetime
