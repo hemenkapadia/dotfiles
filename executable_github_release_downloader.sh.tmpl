@@ -105,6 +105,8 @@ install_dra() {
 # Function to download and install a binary from a GitHub repository
 download_github_binary() {
     local repo="$1"
+    local select_pattern="$2"
+    local install_file_name="$3"
 
     if [ -z "$repo" ]; then
         echo -e "${RED}Error: Repository name is required (format: username/project)${NC}"
@@ -117,13 +119,11 @@ download_github_binary() {
     # -a: auto-select asset for current platform
     # -i: install (extract and make executable)
     # --output: specify installation directory
-    if dra download -a -i --output "$INSTALL_DIR/" "$repo"; then
+    if dra download -s "$select_pattern" -i --output "$INSTALL_DIR/$install_file_name" "$repo"; then
         echo -e "${GREEN}Successfully downloaded and installed binary from $repo${NC}"
-        return 0
     else
         echo -e "${RED}Failed to download binary from $repo${NC}"
         echo -e "${YELLOW}You may need to manually select the asset or check if the repository has releases${NC}"
-        return 1
     fi
 }
 
@@ -138,56 +138,65 @@ main() {
     # Install dra if not present
     install_dra
 
-    # Array of GitHub repositories to download binaries from
-    # Add your repositories here in the format "username/project"
+    # Array of GitHub repositories to download binaries from in the format  
+    # Format: "username/project select_pattern install_file_name"
+    # where
+    # username/project: GitHub repository in the format "username/project"
+    # select_pattern: output of command `dra untag username/project` and select the asset pattern
+    # install_file_name: name to save the binary as (e.g., "kubectl") in the `~/.local/bin` directory
     REPOS=(
         # Productivity Tools
-        "twpayne/chezmoi"
+        "twpayne/chezmoi chezmoi-linux-amd64 chezmoi"
         # System Tools/Utilities
-        "rktr1998/zig-wol"
-        "sharkdp/bat"
-        "ericchiang/pup"
+        "rktr1998/zig-wol zig-wol-x86_64-linux.tar.gz zig-wol"
+        "sharkdp/bat bat-v{tag}-x86_64-unknown-linux-gnu.tar.gz bat"
+        "ericchiang/pup pup_v{tag}_linux_amd64.zip pup"
+        "justjanne/powerline-go powerline-go-linux-amd64 powerline-go"
         # HTTP Servers
-        "m3ng9i/ran"
-        "caddyserver/caddy"
+        "m3ng9i/ran ran_linux_amd64.zip ran"
+        "caddyserver/caddy caddy_{tag}_linux_amd64.tar.gz caddy"
         # Security Tools
-        "anchore/grype"
-        "anchore/syft"
-        "aquasecurity/trivy"
-        "cloudflare/cfssl"
+        "anchore/grype grype_{tag}_linux_amd64.tar.gz grype"
+        "anchore/syft syft_{tag}_linux_amd64.tar.gz syft"
+        # "aquasecurity/trivy" # Repo no longer available
+        "cloudflare/cfssl cfssl-bundle_{tag}_linux_amd64 cfssl-bundle"
+        "cloudflare/cfssl cfssl-certinfo_{tag}_linux_amd64 cfssl-certinfo"
+        "cloudflare/cfssl cfssl-newkey_{tag}_linux_amd64 cfssl-newkey"
+        "cloudflare/cfssl cfssl-scan_{tag}_linux_amd64 cfssl-scan"
+        "cloudflare/cfssl cfssljson_{tag}_linux_amd64 cfssljson"
+        "cloudflare/cfssl cfssl_{tag}_linux_amd64 cfssl"
+        "cloudflare/cfssl mkbundle_{tag}_linux_amd64 mkbundle"
+        "cloudflare/cfssl multirootca_{tag}_linux_amd64 multirootca"
+        "FiloSottile/mkcert mkcert-v{tag}-linux-amd64 mkcert"
         # Development, git and diff tools
-        "Wilfred/difftastic"
-        "jesseduffield/lazygit"
-        "jesseduffield/lazydocker"
-        "isacikgoz/gitbatch"
+        "Wilfred/difftastic difft-x86_64-unknown-linux-gnu.tar.gz difft"
+        "jesseduffield/lazygit lazygit_{tag}_linux_x86_64.tar.gz lazygit"
+        "jesseduffield/lazydocker lazydocker_{tag}_Linux_x86_64.tar.gz lazydocker"
+        "isacikgoz/gitbatch gitbatch_{tag}_linux_amd64.tar.gz gitbatch"
         # JSON/Data Tools
-        "antonmedv/fx"
-        "PaulJuliusMartinez/jless"
-        "jqlang/jq"
+        "antonmedv/fx fx_linux_amd64 fx"
+        "PaulJuliusMartinez/jless jless-v{tag}-x86_64-unknown-linux-gnu.zip jless"
+        "jqlang/jq jq-linux-amd64 jq"
         # Container Tools
-        "containers/skopeo"
-        "containers/podman"
-        "project-zot/zot"
+        "containers/podman podman-remote-static-linux_amd64.tar.gz podman"
+        "project-zot/zot zb-linux-amd64 zb"
+        "project-zot/zot zli-linux-amd64 zli"
+        "project-zot/zot zot-linux-amd64 zot"
+        "project-zot/zot zxp-linux-amd64 zxp"
         # Infrastructure as Code
-        "hashicorp/terraform"
-        "hashicorp/packer"
-        "terraform-linters/tflint"
+        "openbao/openbao bao_{tag}_Linux_x86_64.tar.gz bao"
+        "opentofu/opentofu tofu_{tag}_linux_amd64.tar.gz tofu"
+        "terraform-linters/tflint tflint_linux_amd64.zip tflint"
         # Gen AI Tools
-        "AlexsJones/llmfit"
+        "AlexsJones/llmfit llmfit-v{tag}-x86_64-unknown-linux-gnu.tar.gz llmfit"
         # Kubernetes Tools
-        "k0sproject/k0s"
-        "k0sproject/k0sctl"
-        "kubernetes-sigs/krew"
-        # "rancher/k3d"
-        "derailed/k9s"
-        "helm/helm"
-        "ahmetb/kubectx"
-        # "astefanutti/kubebox"
-        "kastenhq/kubestr"
-        # "replicatedhq/kots"
-        # "replicatedhq/replicated"
-        # "replicatedhq/sbctl"
-        "vmware-tanzu/velero"
+        "k0sproject/k0s k0s-v{tag}-amd64 k0s"
+        "k0sproject/k0sctl k0sctl-linux-amd64 k0sctl"
+        "kubernetes-sigs/krew krew-linux_amd64.tar.gz krew"
+        "derailed/k9s k9s_Linux_amd64.tar.gz k9s"
+        "ahmetb/kubectx kubectx_v{tag}_linux_x86_64.tar.gz kubectx"
+        "ahmetb/kubectx kubns_v{tag}_linux_x86_64.tar.gz kubens"
+        "kastenhq/kubestr kubestr_{tag}_Linux_amd64.tar.gz kubestr"
     )
 
     # Check if repos array is empty
@@ -207,30 +216,16 @@ main() {
     echo -e "${GREEN}Downloading binaries from ${#REPOS[@]} repositories...${NC}"
     echo ""
 
-    # Counters for success/failure
-    SUCCESS_COUNT=0
-    FAILED_COUNT=0
-
     # Iterate through repositories and download binaries
     for repo in "${REPOS[@]}"; do
         # Skip empty lines or comments
         [[ -z "$repo" || "$repo" =~ ^#.*$ ]] && continue
 
         echo "---"
-        if download_github_binary "$repo"; then
-            ((SUCCESS_COUNT++))
-        else
-            ((FAILED_COUNT++))
-        fi
+        # Note: do not add quotes around repo variable, we want word splitting to happen
+        download_github_binary $repo
         echo ""
     done
-
-    # Summary
-    echo -e "${GREEN}=== Download Summary ===${NC}"
-    echo -e "${GREEN}Successful: $SUCCESS_COUNT${NC}"
-    if [ $FAILED_COUNT -gt 0 ]; then
-        echo -e "${RED}Failed: $FAILED_COUNT${NC}"
-    fi
 
     echo ""
     echo -e "${GREEN}All binaries are installed in: $INSTALL_DIR${NC}"
