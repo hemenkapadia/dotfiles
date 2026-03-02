@@ -1,0 +1,240 @@
+#!/bin/bash
+
+# GitHub Release Downloader Script
+# This script downloads binary assets from GitHub Releases using the dra tool
+# and installs them to ~/.local/bin
+
+# set -x  # Uncomment to debug script
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Configuration
+INSTALL_DIR="$HOME/.local/bin"
+DRA_REPO="devmatteini/dra"
+DRA_VERSION="latest"  # or specify a version like "0.6.2"
+
+# Ensure ~/.local/bin exists
+ensure_install_dir() {
+    if [ ! -d "$INSTALL_DIR" ]; then
+        echo -e "${YELLOW}Creating directory: $INSTALL_DIR${NC}"
+        mkdir -p "$INSTALL_DIR"
+    fi
+
+    # Add to PATH if not already there
+    if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
+        echo -e "${YELLOW}Note: $INSTALL_DIR is not in your PATH${NC}"
+        echo -e "${YELLOW}Add this line to your ~/.bashrc or ~/.zshrc:${NC}"
+        echo -e "${GREEN}export PATH=\"\$HOME/.local/bin:\$PATH\"${NC}"
+    fi
+}
+
+# Install dra tool
+install_dra() {
+    if command -v dra &> /dev/null; then
+        echo -e "${GREEN}dra is already installed${NC}"
+        return 0
+    fi
+
+    echo -e "${YELLOW}Installing dra tool...${NC}"
+
+    # Detect OS and architecture
+    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+    ARCH=$(uname -m)
+
+    # Convert architecture names
+    case $ARCH in
+        x86_64)
+            ARCH="x86_64"
+            ;;
+        aarch64|arm64)
+            ARCH="aarch64"
+            ;;
+        armv7l)
+            ARCH="armv7"
+            ;;
+        *)
+            echo -e "${RED}Unsupported architecture: $ARCH${NC}"
+            exit 1
+            ;;
+    esac
+
+    # Construct download URL for dra
+    if [ "$DRA_VERSION" = "latest" ]; then
+        RELEASE_URL="https://github.com/$DRA_REPO/releases/latest"
+        # Get the actual latest version
+        ACTUAL_VERSION=$(curl -sI "$RELEASE_URL" | grep -i "location:" | grep -oP 'tag/\K[^[:space:]]+' | tr -d '\r')
+        if [ -z "$ACTUAL_VERSION" ]; then
+            echo -e "${RED}Failed to determine latest dra version${NC}"
+            exit 1
+        fi
+    else
+        ACTUAL_VERSION="$DRA_VERSION"
+    fi
+
+    # Download dra binary
+    DRA_FILENAME="dra-${ACTUAL_VERSION}-${ARCH}-unknown-${OS}-gnu.tar.gz"
+    DRA_URL="https://github.com/$DRA_REPO/releases/download/${ACTUAL_VERSION}/${DRA_FILENAME}"
+
+    echo -e "${YELLOW}Downloading from: $DRA_URL${NC}"
+
+    TMP_DIR=$(mktemp -d)
+    cd "$TMP_DIR"
+
+    if ! curl -fsSL -o "$DRA_FILENAME" "$DRA_URL"; then
+        echo -e "${RED}Failed to download dra${NC}"
+        rm -rf "$TMP_DIR"
+        exit 1
+    fi
+
+    # Extract and install
+    tar -xzf "$DRA_FILENAME"
+    chmod +x dra
+    mv dra "$INSTALL_DIR/"
+
+    # Cleanup
+    cd - > /dev/null
+    rm -rf "$TMP_DIR"
+
+    echo -e "${GREEN}dra installed successfully to $INSTALL_DIR/dra${NC}"
+}
+
+# Function to download and install a binary from a GitHub repository
+download_github_binary() {
+    local repo="$1"
+
+    if [ -z "$repo" ]; then
+        echo -e "${RED}Error: Repository name is required (format: username/project)${NC}"
+        return 1
+    fi
+
+    echo -e "${YELLOW}Downloading binary from $repo...${NC}"
+
+    # Try automatic download with install flag
+    # -a: auto-select asset for current platform
+    # -i: install (extract and make executable)
+    # --output: specify installation directory
+    if dra download -a -i --output "$INSTALL_DIR/" "$repo"; then
+        echo -e "${GREEN}Successfully downloaded and installed binary from $repo${NC}"
+        return 0
+    else
+        echo -e "${RED}Failed to download binary from $repo${NC}"
+        echo -e "${YELLOW}You may need to manually select the asset or check if the repository has releases${NC}"
+        return 1
+    fi
+}
+
+# Main execution
+main() {
+    echo -e "${GREEN}=== GitHub Release Downloader ===${NC}"
+    echo ""
+
+    # Ensure install directory exists
+    ensure_install_dir
+
+    # Install dra if not present
+    install_dra
+
+    # Array of GitHub repositories to download binaries from
+    # Add your repositories here in the format "username/project"
+    REPOS=(
+        # Productivity Tools
+        "twpayne/chezmoi"
+        # System Tools/Utilities
+        "rktr1998/zig-wol"
+        "sharkdp/bat"
+        "ericchiang/pup"
+        # HTTP Servers
+        "m3ng9i/ran"
+        "caddyserver/caddy"
+        # Security Tools
+        "anchore/grype"
+        "anchore/syft"
+        "aquasecurity/trivy"
+        "cloudflare/cfssl"
+        # Development, git and diff tools
+        "Wilfred/difftastic"
+        "jesseduffield/lazygit"
+        "jesseduffield/lazydocker"
+        "isacikgoz/gitbatch"
+        # JSON/Data Tools
+        "antonmedv/fx"
+        "PaulJuliusMartinez/jless"
+        "jqlang/jq"
+        # Container Tools
+        "containers/skopeo"
+        "containers/podman"
+        "project-zot/zot"
+        # Infrastructure as Code
+        "hashicorp/terraform"
+        "hashicorp/packer"
+        "terraform-linters/tflint"
+        # Gen AI Tools
+        "AlexsJones/llmfit"
+        # Kubernetes Tools
+        "k0sproject/k0s"
+        "k0sproject/k0sctl"
+        "kubernetes-sigs/krew"
+        # "rancher/k3d"
+        "derailed/k9s"
+        "helm/helm"
+        "ahmetb/kubectx"
+        # "astefanutti/kubebox"
+        "kastenhq/kubestr"
+        # "replicatedhq/kots"
+        # "replicatedhq/replicated"
+        # "replicatedhq/sbctl"
+        "vmware-tanzu/velero"
+    )
+
+    # Check if repos array is empty
+    if [ ${#REPOS[@]} -eq 0 ]; then
+        echo -e "${YELLOW}No repositories configured in REPOS array${NC}"
+        echo -e "${YELLOW}Edit this script and add repositories to download${NC}"
+        echo ""
+        echo "Example usage:"
+        echo "  REPOS=("
+        echo "    \"junegunn/fzf\""
+        echo "    \"BurntSushi/ripgrep\""
+        echo "    \"sharkdp/fd\""
+        echo "  )"
+        exit 0
+    fi
+
+    echo -e "${GREEN}Downloading binaries from ${#REPOS[@]} repositories...${NC}"
+    echo ""
+
+    # Counters for success/failure
+    SUCCESS_COUNT=0
+    FAILED_COUNT=0
+
+    # Iterate through repositories and download binaries
+    for repo in "${REPOS[@]}"; do
+        # Skip empty lines or comments
+        [[ -z "$repo" || "$repo" =~ ^#.*$ ]] && continue
+
+        echo "---"
+        if download_github_binary "$repo"; then
+            ((SUCCESS_COUNT++))
+        else
+            ((FAILED_COUNT++))
+        fi
+        echo ""
+    done
+
+    # Summary
+    echo -e "${GREEN}=== Download Summary ===${NC}"
+    echo -e "${GREEN}Successful: $SUCCESS_COUNT${NC}"
+    if [ $FAILED_COUNT -gt 0 ]; then
+        echo -e "${RED}Failed: $FAILED_COUNT${NC}"
+    fi
+
+    echo ""
+    echo -e "${GREEN}All binaries are installed in: $INSTALL_DIR${NC}"
+}
+
+# Run main function
+main
