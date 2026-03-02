@@ -26,13 +26,13 @@ noremap j h
 " Visual Configuration
 {{- if ne .profile "home-rpi" }}
 set term=xterm-ghostty
-syntax on
-syntax enable
 {{- end }}
 {{- if eq .profile "home-rpi" }}
 set term=xterm-256color
 {{- end }}
-
+syntax on
+syntax enable
 
 " Statusline setup
+" Clone vim liteline GitHub Repo: git clone https://github.com/itchyny/lightline.vim ~/.vim/pack/plugins/start/lightline
 set laststatus=2
