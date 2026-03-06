@@ -91,7 +91,7 @@ install_dra() {
     fi
 
     # Extract and install
-    tar -xzf "$DRA_FILENAME"
+    tar -xzf "$DRA_FILENAME" --strip-components=1
     chmod +x dra
     mv dra "$INSTALL_DIR/"
 
