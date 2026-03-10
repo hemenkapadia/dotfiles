@@ -6,7 +6,7 @@
 
 export EDITOR=vim
 
-{{- if ne .profile "home-rpi" }}
+{{- if ne .chezmoi.config.data.profile "home-rpi" }}
 # PATH environment variable. Keep this the last one in this file
 export PATH="/usr/local/go/bin:${HOME}/.local/bin:${HOME}/.pyenv/bin:${PATH}"
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"

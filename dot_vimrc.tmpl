@@ -24,12 +24,11 @@ noremap k j
 noremap j h
 
 " Visual Configuration
-{{- if ne .profile "home-rpi" }}
-set term=xterm-ghostty
-{{- end }}
-{{- if eq .profile "home-rpi" }}
+{{- if eq .chezmoi.config.data.profile "home-kvm" }}
 set term=xterm-256color
-{{- end }}
+{{ else }}
+set term=xterm-ghostty
+{{ end -}}
 syntax on
 syntax enable
 

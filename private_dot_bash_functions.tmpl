@@ -4,7 +4,7 @@
 # There could be some aliases and env variables declared here in order to keep them closer
 # to the code using them
 
-{{- if ne .profile "home-rpi" }}
+{{- if ne .chezmoi.config.data.profile "home-rpi" }}
 # Generic Utility functions
 function enabletouchpad {
   touchid=$(xinput list | grep 'Touchpad' | grep -P -o 'id=[0-9]+' | cut -d '=' -f 2)

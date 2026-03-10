@@ -7,11 +7,11 @@
 
 # Command aliases
 # ---------------
-{{- if ne .profile "home-rpi" }}
+{{- if ne .chezmoi.config.data.profile "home-rpi" }}
 alias vi=vim
 alias tmux="tmux -2"
 {{- end }}
-{{- if eq .profile "home-rpi" }}
+{{- if eq .chezmoi.config.data.profile "home-rpi" }}
 alias vim=vi
 {{- end }}
 alias diff="difft"
@@ -23,7 +23,7 @@ alias aws-activate-bash-complete="complete -C '/usr/local/bin/aws_completer' aws
 
 # Directory aliases
 # -----------------
-{{- if eq .profile "work-laptop" "work-server" }}
+{{- if eq .chezmoi.config.data.profile "work-laptop" "work-server" }}
 alias cdo="cd $HOME/Workspace/Office"
 {{- end }}
 alias cdp="cd $HOME/Workspace/Personal"

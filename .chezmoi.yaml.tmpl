@@ -1,0 +1,39 @@
+chezmoi:template:left-delimiter=[[ right-delimiter=]]
+
+[[- $profile := "" -]]
+[[- if eq .chezmoi.hostname "rpi-node1" "rpi-node2" "rpi-node3" "rpi-node4" -]]
+    [[- $profile = "home-rpi" -]]
+[[- else if eq .chezmoi.hostname "dl12" "dl14" "dl15" -]]
+    [[- $profile = "home-supermicro" -]]
+[[- else if eq .chezmoi.hostname "hp-11-ak1035nr" -]]
+    [[- $profile = "home-laptop" -]]
+[[- else if contains .chezmoi.hostname "kvm.hemen.home.arpa" -]]
+    [[- $profile = "home-kvm" -]]
+[[- else if eq .chezmoi.hostname "hkapadia-dell15" -]]
+    [[- $profile = "work-laptop" -]]
+[[- else -]]
+    [[- $profile = "work-server" -]]
+[[- end -]]
+
+data:
+  profile: [[ $profile ]]
+diff:
+  command: difft
+  args:
+    - --color
+    - always
+    - --display
+    - side-by-side-show-both
+    - --skip-unchanged
+    - "{{ .Target }}"
+    - "{{ .Destination }}"
+  pager: cat
+[[ if eq $profile "work-laptop" ]]
+edit:
+  command: antigravity
+  args:
+    - --wait
+[[ else ]]
+edit:
+  command: vim
+[[ end ]]
