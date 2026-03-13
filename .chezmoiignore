@@ -1,4 +1,0 @@
-{{- if eq .chezmoi.config.data.profile "home-rpi" }}
-install_script.sh
-.tmux.conf
-{{- end }}
