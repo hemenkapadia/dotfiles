@@ -68,7 +68,11 @@ blur = false
 #          "Maximized"        - Start maximised
 #          "Fullscreen"       - Start in fullscreen
 #          "SimpleFullscreen" - macOS non-native fullscreen
+{{ if eq .chezmoi.confong.data.profile = "home-laptop" }}
 startup_mode = "Fullscreen"
+{{ else }}
+startup_mode = "Windowed"
+{{ end }}
 
 # Window title text.
 title = "Alacritty"
