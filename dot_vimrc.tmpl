@@ -24,10 +24,10 @@ noremap k j
 noremap j h
 
 " Visual Configuration
-{{- if eq .profile "home-supermicro" "home-rpi" "work-laptop" "work-server" }}
-set term=xterm-ghostty
-{{- else if eq .profile "home-laptop" "home-kvm" }}
+{{- if eq .profile "home-kvm" }}
 set term=xterm-256color
+{{ else }}
+set term=alacritty
 {{- end }}
 syntax on
 syntax enable
