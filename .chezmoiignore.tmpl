@@ -4,7 +4,7 @@ install_script.sh
 .tmux.conf
 {{- end }}
 
-{{- if ne .chezmoi.config.data.profile "home-laptop" "work-laptop" }}
+{{- if contains .chezmoi.config.data.profile "laptop" }}
 # Ignore these files on all profiles EXCEPT the 2 laptops
 .config/alacritty/alacritty.toml
 {{- end }}
