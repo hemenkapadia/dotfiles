@@ -1,10 +1,10 @@
 {{- if eq .chezmoi.config.data.profile "home-rpi" }}
-# Ignore these files on RPis
+# Ignore these files on RPis, i.e. they are NOT MANAGED on RPi
 install_script.sh
 .tmux.conf
 {{- end }}
 
-{{- if contains .chezmoi.config.data.profile "laptop" }}
+{{- if not (contains .chezmoi.config.data.profile "laptop") }}
 # Ignore these files on all profiles EXCEPT the 2 laptops
 .config/alacritty/alacritty.toml
 {{- end }}
