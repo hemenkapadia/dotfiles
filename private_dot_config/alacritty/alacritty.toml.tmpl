@@ -4,7 +4,7 @@
 # =============================================================================
 # GENERAL
 # =============================================================================
-#[general] Commented as alacritty was throwing error
+[general]
 
 # Import additional configuration files. Entries are resolved relative to the
 # directory of the config file. Glob patterns are allowed.
@@ -68,7 +68,7 @@ blur = false
 #          "Maximized"        - Start maximised
 #          "Fullscreen"       - Start in fullscreen
 #          "SimpleFullscreen" - macOS non-native fullscreen
-{{ if eq .chezmoi.confong.data.profile = "home-laptop" }}
+{{ if eq .chezmoi.config.data.profile "home-laptop" }}
 startup_mode = "Fullscreen"
 {{ else }}
 startup_mode = "Windowed"
@@ -125,17 +125,20 @@ multiplier = 3
 normal = { family = "DejaVu Sans Mono", style = "Regular" }
 
 # Bold font face. Falls back to the normal family when not specified.
-bold = { family = "monospace", style = "Bold" }
+bold = { family = "DejaVu Sans Mono", style = "Bold" }
 
 # Italic font face. Falls back to the normal family when not specified.
-italic = { family = "monospace", style = "Italic" }
+italic = { family = "DejaVu Sans Mono", style = "Italic" }
 
 # Bold-italic font face. Falls back to the normal family when not specified.
-bold_italic = { family = "monospace", style = "Bold Italic" }
+bold_italic = { family = "DejaVu Sans Mono", style = "Bold Italic" }
 
 # Font size in points.
+{{ if eq .chezmoi.config.data.profile "home-laptop" }}
 size = 7
-
+{{ else }}
+size = 11.25
+{{ end }}
 # Extra space added around each character in pixels. Increasing offset.y
 # increases vertical line spacing.
 offset = { x = 0, y = 0 }
