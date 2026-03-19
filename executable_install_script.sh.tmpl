@@ -1,9 +1,11 @@
 #!/bin/bash
 
-# Check sudo.
+{{- if ne .chezmoi.config.data.profile "work-server" }}
+# Check sudo on all profiles except work-server as we do not have the sudo password there
 # If credentials not already cached, ask for password and cache credentials.
 # If already cached, increase sudo timeout by 5 min
 sudo -v || { echo 'Sudo access needed to execute this script'; exit 1; }
+{{ end }}
 
 # Check if dialog is installed. If not, install it.
 dialog -v || sudo apt install -y dialog
