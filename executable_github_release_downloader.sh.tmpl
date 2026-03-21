@@ -13,20 +13,21 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Configuration
-INSTALL_DIR="$HOME/.local/bin"
+USER_INSTALL_DIR="$HOME/.local/bin"
+SYSTEM_INSTALL_DIR="/usr/local/bin"
 DRA_REPO="devmatteini/dra"
 DRA_VERSION="latest"  # or specify a version like "0.6.2"
 
 # Ensure ~/.local/bin exists
-ensure_install_dir() {
-    if [ ! -d "$INSTALL_DIR" ]; then
-        echo -e "${YELLOW}Creating directory: $INSTALL_DIR${NC}"
-        mkdir -p "$INSTALL_DIR"
+ensure_user_install_dir() {
+    if [ ! -d "$USER_INSTALL_DIR" ]; then
+        echo -e "${YELLOW}Creating directory: $USER_INSTALL_DIR${NC}"
+        mkdir -p "$USER_INSTALL_DIR"
     fi
 
     # Add to PATH if not already there
-    if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
-        echo -e "${YELLOW}Note: $INSTALL_DIR is not in your PATH${NC}"
+    if [[ ":$PATH:" != *":$USER_INSTALL_DIR:"* ]]; then
+        echo -e "${YELLOW}Note: $USER_INSTALL_DIR is not in your PATH${NC}"
         echo -e "${YELLOW}Add this line to your ~/.bashrc or ~/.zshrc:${NC}"
         echo -e "${GREEN}export PATH=\"\$HOME/.local/bin:\$PATH\"${NC}"
     fi
@@ -93,13 +94,13 @@ install_dra() {
     # Extract and install
     tar -xzf "$DRA_FILENAME" --strip-components=1
     chmod +x dra
-    mv dra "$INSTALL_DIR/"
+    sudo mv dra "$SYSTEM_INSTALL_DIR/"
 
     # Cleanup
     cd - > /dev/null
     rm -rf "$TMP_DIR"
 
-    echo -e "${GREEN}dra installed successfully to $INSTALL_DIR/dra${NC}"
+    echo -e "${GREEN}dra installed successfully to $SYSTEM_INSTALL_DIR/dra${NC}"
 }
 
 # Function to download and install a binary from a GitHub repository
@@ -107,23 +108,27 @@ download_github_binary() {
     local repo="$1"
     local select_pattern="$2"
     local install_file_name="$3"
+    local install_dir="${4:-user}"
 
     if [ -z "$repo" ]; then
         echo -e "${RED}Error: Repository name is required (format: username/project)${NC}"
         return 1
     fi
 
-    echo -e "${YELLOW}Downloading binary from $repo...${NC}"
+    echo -e "${YELLOW}Downloading binary version $select_pattern from $repo...${NC}"
 
-    # Try automatic download with install flag
-    # -a: auto-select asset for current platform
-    # -i: install (extract and make executable)
-    # --output: specify installation directory
-    if dra download -s "$select_pattern" -i --output "$INSTALL_DIR/$install_file_name" "$repo"; then
-        echo -e "${GREEN}Successfully downloaded and installed binary from $repo${NC}"
-    else
-        echo -e "${RED}Failed to download binary from $repo${NC}"
-        echo -e "${YELLOW}You may need to manually select the asset or check if the repository has releases${NC}"
+    if [ "$install_dir" = "user" ]; then
+        if dra download -s "$select_pattern" -i --output "$USER_INSTALL_DIR/$install_file_name" "$repo"; then
+            echo -e "${GREEN}Successfully downloaded and installed binary from $repo${NC}"
+        else
+            echo -e "${RED}Failed to download binary from $repo${NC}"
+        fi
+    elif [ "$install_dir" = "system" ]; then
+        if sudo dra download -s "$select_pattern" -i --output "$SYSTEM_INSTALL_DIR/$install_file_name" "$repo"; then
+            echo -e "${GREEN}Successfully downloaded and installed binary from $repo${NC}"
+        else
+            echo -e "${RED}Failed to download binary from $repo${NC}"
+        fi
     fi
 }
 
@@ -143,7 +148,12 @@ main() {
     # where
     # username/project: GitHub repository in the format "username/project"
     # select_pattern: output of command `dra untag username/project` and select the asset pattern
-    # install_file_name: name to save the binary as (e.g., "kubectl") in the `~/.local/bin` directory
+    # install_file_name: name to save the binary as (e.g., "kubectl") 
+    # install_dir: Optional, only possible values: user(default) or system. 
+    #   for user, the binary is installed in `~/.local/bin` and 
+    #   for system, the binary is installed in `/usr/local/bin`
+    # version: Optional, default is latest, else use Github release tag.
+    #   If specified, then install_dir must be specified. 
     REPOS=(
         # Productivity Tools
         "twpayne/chezmoi chezmoi-linux-amd64 chezmoi"
@@ -161,7 +171,7 @@ main() {
         "gopasspw/gopass gopass-{tag}-linux-amd64.tar.gz gopass"
         "anchore/grype grype_{tag}_linux_amd64.tar.gz grype"
         "anchore/syft syft_{tag}_linux_amd64.tar.gz syft"
-        "aquasecurity/trivy trivy_{tag}_Linux-64bit.tar.gz trivy"
+        # "aquasecurity/trivy trivy_{tag}_Linux-64bit.tar.gz trivy"
         "cloudflare/cfssl cfssl-bundle_{tag}_linux_amd64 cfssl-bundle"
         "cloudflare/cfssl cfssl-certinfo_{tag}_linux_amd64 cfssl-certinfo"
         "cloudflare/cfssl cfssl-newkey_{tag}_linux_amd64 cfssl-newkey"
@@ -194,7 +204,7 @@ main() {
         # Gen AI Tools
         "AlexsJones/llmfit llmfit-v{tag}-x86_64-unknown-linux-gnu.tar.gz llmfit"
         # Kubernetes Tools
-        "k0sproject/k0s k0s-v{tag}-amd64 k0s"
+        "k0sproject/k0s k0s-v{tag}-amd64 k0s system"
         "k0sproject/k0sctl k0sctl-linux-amd64 k0sctl"
         "kubernetes-sigs/krew krew-linux_amd64.tar.gz krew"
         "derailed/k9s k9s_Linux_amd64.tar.gz k9s"
