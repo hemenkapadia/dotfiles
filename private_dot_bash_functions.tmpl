@@ -99,4 +99,14 @@ function g-rrbl {
   git remote update origin --prune
 }
 
+{{ if (eq .chezmoi.hostname "hp-11-ak1035nr" ) }}
+# Desktop Resize shortcut for HP Laptop
+function hp-desktop-resize {
+  xrandr --output eDP-1 --mode 1366x768 --scale 1.25x1.25 --panning 1708x960
+  pcmanfm-qt --desktop-off
+  pcmanfm-qt --desktop --profile=lxqt &
+  killall lxqt-panel
+  lxqt-panel &
+}
+{{- end }}
 
