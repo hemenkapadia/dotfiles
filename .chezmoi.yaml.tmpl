@@ -28,12 +28,5 @@ diff:
     - "{{ .Target }}"
     - "{{ .Destination }}"
   pager: cat
-[[ if eq $profile "work-laptop" ]]
-edit:
-  command: antigravity
-  args:
-    - --wait
-[[ else ]]
 edit:
   command: vim
-[[ end ]]
