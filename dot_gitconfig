@@ -1,4 +1,3 @@
-# vim: filetype=dosini
 [user]
   name = Hemen Kapadia
   email = hemen.kapadia@gmail.com
@@ -9,3 +8,6 @@
   rebase = true
 [diff]
   external = difft
+
+# vim modline for gitconfig file
+# vim: ts=8 sw=8 noet ft=gitconfig
