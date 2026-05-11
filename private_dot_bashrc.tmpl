@@ -141,24 +141,27 @@ if ! shopt -oq posix; then
 fi
 
 # Remove python based powerline for Go based powerline-go
-function _update_ps1() {
-    PS1="$(~/.local/bin/powerline-go -colorize-hostname \
-            -cwd-max-depth 5 -cwd-mode semifancy \
-            -error $? \
-            -git-mode fancy \
-            -max-width 35 \
-            -jobs $(jobs -p | wc -l))"
+#function _update_ps1() {
+#    PS1="$(~/.local/bin/powerline-go -colorize-hostname \
+#            -cwd-max-depth 5 -cwd-mode semifancy \
+#            -error $? \
+#            -git-mode fancy \
+#            -max-width 35 \
+#            -jobs $(jobs -p | wc -l))"
+#
+#    # Uncomment the following line to automatically clear errors after showing
+#    # them once. This not only clears the error for powerline-go, but also for
+#    # everything else you run in that shell. Don't enable this if you're not
+#    # sure this is what you want.
+#
+#    #set "?"
+#}
+#if [ "$TERM" != "linux" ] && [ -f "$HOME/.local/bin/powerline-go" ]; then
+#    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+#fi
 
-    # Uncomment the following line to automatically clear errors after showing
-    # them once. This not only clears the error for powerline-go, but also for
-    # everything else you run in that shell. Don't enable this if you're not
-    # sure this is what you want.
-
-    #set "?"
-}
-if [ "$TERM" != "linux" ] && [ -f "$HOME/.local/bin/powerline-go" ]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-fi
+# Enable starship instead of powerline-go
+eval "$(starship init bash)"
 
 # Command Completions
 {{- if ne .chezmoi.config.data.profile "home-rpi" }}
