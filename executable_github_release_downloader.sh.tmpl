@@ -18,6 +18,25 @@ SYSTEM_INSTALL_DIR="/usr/local/bin"
 DRA_REPO="devmatteini/dra"
 DRA_VERSION="latest"  # or specify a version like "0.6.2"
 
+# Set OS and ARCH
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+ARCH=$(uname -m)
+case $ARCH in
+    x86_64)
+        ARCH="x86_64"
+        ;;
+    aarch64|arm64)
+        ARCH="aarch64"
+        ;;
+    armv7l)
+        ARCH="armv7"
+        ;;
+    *)
+        echo -e "${RED}Unsupported architecture: $ARCH${NC}"
+        exit 1
+        ;;
+esac
+
 # Ensure ~/.local/bin exists
 ensure_user_install_dir() {
     if [ ! -d "$USER_INSTALL_DIR" ]; then
@@ -35,33 +54,13 @@ ensure_user_install_dir() {
 
 # Install dra tool
 install_dra() {
+    echo -n "Checking for dra tool:"
     if command -v dra &> /dev/null; then
         echo -e "${GREEN}dra is already installed${NC}"
         return 0
     fi
 
-    echo -e "${YELLOW}Installing dra tool...${NC}"
-
-    # Detect OS and architecture
-    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-    ARCH=$(uname -m)
-
-    # Convert architecture names
-    case $ARCH in
-        x86_64)
-            ARCH="x86_64"
-            ;;
-        aarch64|arm64)
-            ARCH="aarch64"
-            ;;
-        armv7l)
-            ARCH="armv7"
-            ;;
-        *)
-            echo -e "${RED}Unsupported architecture: $ARCH${NC}"
-            exit 1
-            ;;
-    esac
+    echo -e "${YELLOW}dra not found. Proceeding to install it...${NC}"
 
     # Construct download URL for dra
     if [ "$DRA_VERSION" = "latest" ]; then
@@ -106,113 +105,110 @@ install_dra() {
 # Function to download and install a binary from a GitHub repository
 download_github_binary() {
     local repo="$1"
-    local select_pattern="$2"
-    local install_file_name="$3"
-    local install_dir="${4:-user}"
+    local select_pattern="$2" # Set x86_64 by default
+    if [ "$ARCH" = "aarch64" ]; then
+        select_pattern="$3"
+    fi
+    local install_file_name="$4"
+    local version="${5:-latest}"
+    local install_for="${6:-user}"
+
+    local install_dir="$USER_INSTALL_DIR"
 
     if [ -z "$repo" ]; then
         echo -e "${RED}Error: Repository name is required (format: username/project)${NC}"
         return 1
     fi
 
-    echo -e "${YELLOW}Downloading binary version $select_pattern from $repo...${NC}"
-
-    if [ "$install_dir" = "user" ]; then
-        if dra download -s "$select_pattern" -i --output "$USER_INSTALL_DIR/$install_file_name" "$repo"; then
-            echo -e "${GREEN}Successfully downloaded and installed binary from $repo${NC}"
-        else
-            echo -e "${RED}Failed to download binary from $repo${NC}"
-        fi
-    elif [ "$install_dir" = "system" ]; then
-        if sudo dra download -s "$select_pattern" -i --output "$SYSTEM_INSTALL_DIR/$install_file_name" "$repo"; then
-            echo -e "${GREEN}Successfully downloaded and installed binary from $repo${NC}"
-        else
-            echo -e "${RED}Failed to download binary from $repo${NC}"
-        fi
+    echo -e "${YELLOW}Downloading ${install_file_name} version ${version} for ${OS}/${ARCH} from ${repo}...${NC}"
+     
+    if [ "$install_for" = "system" ]; then
+        sudo dra download -s "$select_pattern" -t "$version" -i --output "$SYSTEM_INSTALL_DIR/$install_file_name" "$repo"
+    else
+        dra download -s "$select_pattern" -t "$version" -i --output "$install_dir/$install_file_name" "$repo"
     fi
 }
 
 # Main execution
 main() {
     echo -e "${GREEN}=== GitHub Release Downloader ===${NC}"
-    echo ""
 
     # Ensure install directory exists
-    ensure_install_dir
+    ensure_user_install_dir
 
     # Install dra if not present
     install_dra
 
     # Array of GitHub repositories to download binaries from in the format  
-    # Format: "username/project select_pattern install_file_name"
+    # Format: "username/project select_pattern_x86_64 select_patterhn_aarch64 install_file_name"
     # where
     # username/project: GitHub repository in the format "username/project"
-    # select_pattern: output of command `dra untag username/project` and select the asset pattern
+    # select_pattern_x86_64: output of command `dra untag username/project` and select the asset pattern
+    # select_pattern_aarch64: output of command `dra untag username/project` and select the asset pattern
     # install_file_name: name to save the binary as (e.g., "kubectl") 
+    # version: Optional, default is latest, else use Github release tag.
     # install_dir: Optional, only possible values: user(default) or system. 
     #   for user, the binary is installed in `~/.local/bin` and 
     #   for system, the binary is installed in `/usr/local/bin`
-    # version: Optional, default is latest, else use Github release tag.
-    #   If specified, then install_dir must be specified. 
     REPOS=(
         # Productivity Tools
-        "twpayne/chezmoi chezmoi-linux-amd64 chezmoi"
+        "twpayne/chezmoi chezmoi-linux-amd64 chezmoi_{tag}_linux_arm64.tar.gz chezmoi v2.70.3"
         # System Tools/Utilities
-        "rktr1998/zig-wol zig-wol-x86_64-linux.tar.gz zig-wol"
-        "sharkdp/bat bat-v{tag}-x86_64-unknown-linux-gnu.tar.gz bat"
-        "ericchiang/pup pup_v{tag}_linux_amd64.zip pup"
-        "justjanne/powerline-go powerline-go-linux-amd64 powerline-go"
-        "zellij-org/zellij zellij-x86_64-unknown-linux-musl.tar.gz zellij"
-        "starship/starship starship-x86_64-unknown-linux-gnu.tar.gz starship"
+        "rktr1998/zig-wol zwol-x86_64-linux.tar.gz zwol-aarch64-linux.tar.gz zig-wol v0.7.1"
+        "sharkdp/bat bat-v{tag}-x86_64-unknown-linux-gnu.tar.gz bat-v{tag}-aarch64-unknown-linux-gnu.tar.gz bat v0.26.1"
+        "ericchiang/pup pup_v{tag}_linux_amd64.zip pup_v{tag}_linux_arm64.zip pup v0.4.0"
+        "justjanne/powerline-go powerline-go-linux-amd64 powerline-go-linux-arm64 powerline-go v1.26"
+        "zellij-org/zellij zellij-no-web-x86_64-unknown-linux-musl.tar.gz zellij-no-web-aarch64-unknown-linux-musl.tar.gz zellij v0.44.2"
+        "starship/starship starship-x86_64-unknown-linux-gnu.tar.gz starship-aarch64-unknown-linux-musl.tar.gz starship v1.25.1"
         # HTTP Servers
-        "m3ng9i/ran ran_linux_amd64.zip ran"
-        "caddyserver/caddy caddy_{tag}_linux_amd64.tar.gz caddy"
+        "m3ng9i/ran ran_linux_amd64.zip ran_linux_arm64.zip ran v0.1.6"
+        "caddyserver/caddy caddy_{tag}_linux_amd64.tar.gz caddy_{tag}_linux_arm64.tar.gz caddy v2.11.3"
         # Security Tools
-        "FiloSottile/age age-v{tag}-linux-amd64.tar.gz age"
-        "gopasspw/gopass gopass-{tag}-linux-amd64.tar.gz gopass"
-        "anchore/grype grype_{tag}_linux_amd64.tar.gz grype"
-        "anchore/syft syft_{tag}_linux_amd64.tar.gz syft"
-        "aquasecurity/trivy trivy_{tag}_Linux-64bit.tar.gz trivy"
-        "cloudflare/cfssl cfssl-bundle_{tag}_linux_amd64 cfssl-bundle"
-        "cloudflare/cfssl cfssl-certinfo_{tag}_linux_amd64 cfssl-certinfo"
-        "cloudflare/cfssl cfssl-newkey_{tag}_linux_amd64 cfssl-newkey"
-        "cloudflare/cfssl cfssl-scan_{tag}_linux_amd64 cfssl-scan"
-        "cloudflare/cfssl cfssljson_{tag}_linux_amd64 cfssljson"
-        "cloudflare/cfssl cfssl_{tag}_linux_amd64 cfssl"
-        "cloudflare/cfssl mkbundle_{tag}_linux_amd64 mkbundle"
-        "cloudflare/cfssl multirootca_{tag}_linux_amd64 multirootca"
-        "FiloSottile/mkcert mkcert-v{tag}-linux-amd64 mkcert"
-        "macmod/godap godap-v{tag}-linux-amd64.tar.gz godap"
+        "FiloSottile/age age-v{tag}-linux-amd64.tar.gz age-v{tag}-linux-arm64.tar.gz age v1.3.1"
+        "gopasspw/gopass gopass-{tag}-linux-amd64.tar.gz gopass-{tag}-linux-arm64.tar.gz gopass v1.16.1"
+        "anchore/grype grype_{tag}_linux_amd64.tar.gz grype_{tag}_linux_arm64.tar.gz grype v0.112.0"
+        "anchore/syft syft_{tag}_linux_amd64.tar.gz syft_{tag}_linux_arm64.tar.gz syft v1.44.0"
+        "aquasecurity/trivy trivy_{tag}_Linux-64bit.tar.gz trivy_{tag}_Linux-ARM64.tar.gz trivy v0.70.0"
+        "cloudflare/cfssl cfssl-bundle_{tag}_linux_amd64 cfssl-bundle_{tag}_linux_arm64 cfssl-bundle v1.6.5"
+        "cloudflare/cfssl cfssl-certinfo_{tag}_linux_amd64 cfssl-certinfo_{tag}_linux_arm64 cfssl-certinfo v1.6.5"
+        "cloudflare/cfssl cfssl-newkey_{tag}_linux_amd64 cfssl-newkey_{tag}_linux_arm64 cfssl-newkey v1.6.5"
+        "cloudflare/cfssl cfssl-scan_{tag}_linux_amd64 cfssl-scan_{tag}_linux_arm64 cfssl-scan v1.6.5"
+        "cloudflare/cfssl cfssljson_{tag}_linux_amd64 cfssljson_{tag}_linux_arm64 cfssljson v1.6.5"
+        "cloudflare/cfssl cfssl_{tag}_linux_amd64 cfssl_{tag}_linux_arm64 cfssl v1.6.5"
+        "cloudflare/cfssl mkbundle_{tag}_linux_amd64 mkbundle_{tag}_linux_arm64 mkbundle v1.6.5"
+        "cloudflare/cfssl multirootca_{tag}_linux_amd64 multirootca_{tag}_linux_arm64 multirootca v1.6.5"
+        "FiloSottile/mkcert mkcert-v{tag}-linux-amd64 mkcert-v{tag}-linux-arm64 mkcert v1.4.4"
+        "macmod/godap godap-v{tag}-linux-amd64.tar.gz godap-v{tag}-linux-arm64.tar.gz godap v2.11.0"
         # Development, git and diff tools
-        "cli/cli gh_{tag}_linux_amd64.tar.gz gh"
-        "Wilfred/difftastic difft-x86_64-unknown-linux-gnu.tar.gz difft"
-        "jesseduffield/lazygit lazygit_{tag}_linux_x86_64.tar.gz lazygit"
-        "jesseduffield/lazydocker lazydocker_{tag}_Linux_x86_64.tar.gz lazydocker"
-        "isacikgoz/gitbatch gitbatch_{tag}_linux_amd64.tar.gz gitbatch"
+        "cli/cli gh_{tag}_linux_amd64.tar.gz gh_{tag}_linux_arm64.tar.gz gh v2.92.0"
+        "Wilfred/difftastic difft-x86_64-unknown-linux-gnu.tar.gz difft-aarch64-unknown-linux-gnu.tar.gz difft 0.69.0"
+        "jesseduffield/lazygit lazygit_{tag}_linux_x86_64.tar.gz lazygit_{tag}_linux_arm64.tar.gz lazygit v0.61.1"
+        "jesseduffield/lazydocker lazydocker_{tag}_Linux_x86_64.tar.gz lazydocker_{tag}_Linux_arm64.tar.gz lazydocker v0.25.2"
+        "isacikgoz/gitbatch gitbatch_{tag}_linux_amd64.tar.gz gitbatch_{tag}_linux_arm64.tar.gz gitbatch v0.6.1"
         # JSON/Data Tools
-        "antonmedv/fx fx_linux_amd64 fx"
-        "PaulJuliusMartinez/jless jless-v{tag}-x86_64-unknown-linux-gnu.zip jless"
-        "jqlang/jq jq-linux-amd64 jq"
+        "antonmedv/fx fx_linux_amd64 fx_linux_arm64 fx 39.2.0"
+        "PaulJuliusMartinez/jless jless-v{tag}-x86_64-unknown-linux-gnu.zip jless-v{tag}-arm64-unknown-linux-gnu.zip jless v0.9.0"
+        "jqlang/jq jq-linux-amd64 jq-linux-arm64 jq jq-1.8.1"
         # Container Tools
-        "containers/podman podman-remote-static-linux_amd64.tar.gz podman"
-        "project-zot/zot zb-linux-amd64 zb"
-        "project-zot/zot zli-linux-amd64 zli"
-        "project-zot/zot zot-linux-amd64 zot"
-        "project-zot/zot zxp-linux-amd64 zxp"
+        "containers/podman podman-remote-static-linux_amd64.tar.gz podman-remote-static-linux_arm64.tar.gz podman v5.8.2"
+        "project-zot/zot zb-linux-amd64 zb-linux-arm64 zb v2.1.16"
+        "project-zot/zot zli-linux-amd64 zli-linux-arm64 zli v2.1.16"
+        "project-zot/zot zot-linux-amd64 zot-linux-arm64 zot v2.1.16"
+        "project-zot/zot zxp-linux-amd64 zxp-linux-arm64 zxp v2.1.16"
         # Infrastructure as Code
-        "openbao/openbao bao_{tag}_Linux_x86_64.tar.gz bao"
-        "opentofu/opentofu tofu_{tag}_linux_amd64.tar.gz tofu"
-        "terraform-linters/tflint tflint_linux_amd64.zip tflint"
+        "openbao/openbao bao_{tag}_Linux_x86_64.tar.gz bao_{tag}_Linux_arm64.tar.gz openbao v2.5.3"
+        "opentofu/opentofu tofu_{tag}_linux_amd64.tar.gz tofu_{tag}_linux_arm64.tar.gz opentofu v1.12.0"
+        "terraform-linters/tflint tflint_linux_amd64.zip tflint_linux_arm64.zip tflint v0.62.1"
         # Gen AI Tools
-        "AlexsJones/llmfit llmfit-v{tag}-x86_64-unknown-linux-gnu.tar.gz llmfit"
+        "AlexsJones/llmfit llmfit-v{tag}-x86_64-unknown-linux-gnu.tar.gz llmfit-v{tag}-aarch64-unknown-linux-gnu.tar.gz llmfit v0.9.24"
         # Kubernetes Tools
-        "k0sproject/k0s k0s-v{tag}-amd64 k0s system"
-        "k0sproject/k0sctl k0sctl-linux-amd64 k0sctl"
-        "kubernetes-sigs/krew krew-linux_amd64.tar.gz krew"
-        "derailed/k9s k9s_Linux_amd64.tar.gz k9s"
-        "ahmetb/kubectx kubectx_v{tag}_linux_x86_64.tar.gz kubectx"
-        "ahmetb/kubectx kubens_v{tag}_linux_x86_64.tar.gz kubens"
-        "kastenhq/kubestr kubestr_{tag}_Linux_amd64.tar.gz kubestr"
+        "k0sproject/k0s k0s-v{tag}-amd64 k0s-v{tag}-arm64 k0s v1.35.4+k0s.0 system"
+        "k0sproject/k0sctl k0sctl-linux-amd64 k0sctl-linux-arm64 k0sctl v0.30.1"
+        "kubernetes-sigs/krew krew-linux_amd64.tar.gz krew-linux_arm64.tar.gz krew v0.5.0"
+        "derailed/k9s k9s_Linux_amd64.tar.gz k9s_Linux_arm64.tar.gz k9s v0.50.18"
+        "ahmetb/kubectx kubectx_v{tag}_linux_x86_64.tar.gz kubectx_v{tag}_linux_arm64.tar.gz kubectx v0.11.0"
+        "ahmetb/kubectx kubens_v{tag}_linux_x86_64.tar.gz kubens_v{tag}_linux_arm64.tar.gz kubens v0.11.0"
+        "kastenhq/kubestr kubestr_{tag}_Linux_amd64.tar.gz kubestr_{tag}_Linux_arm64.tar.gz kubestr v0.4.49"
     )
 
     # Check if repos array is empty
@@ -229,22 +225,38 @@ main() {
         exit 0
     fi
 
-    echo -e "${GREEN}Downloading binaries from ${#REPOS[@]} repositories...${NC}"
-    echo ""
+    echo -e "Downloading binaries from ${GREEN}${#REPOS[@]}${NC} repositories..."
 
     # Iterate through repositories and download binaries
     for repo in "${REPOS[@]}"; do
         # Skip empty lines or comments
         [[ -z "$repo" || "$repo" =~ ^#.*$ ]] && continue
-
         echo "---"
-        # Note: do not add quotes around repo variable, we want word splitting to happen
-        download_github_binary $repo
-        echo ""
+        # Read the first part (the repository name) from the $repo string
+        repo_name=$(echo "$repo" | awk '{print $1}')
+        binary_name=$(echo "$repo" | awk '{print $4}')
+        version=$(echo "$repo" | awk '{print $5}')
+        
+        read -p "Download $binary_name version $version? (y/Yes / n/No / b/Break) " choice
+        case "$choice" in 
+            y|Y )
+                # Note: do not add quotes around repo variable, we want word splitting to happen
+                download_github_binary $repo
+                ;;
+            n|N )
+                echo -e "${YELLOW}Skipping $repo_name...${NC}"
+                ;;
+            b|B )
+                echo -e "${YELLOW}Breaking loop...${NC}"
+                break
+                ;;
+            * )
+                echo -e "${RED}Invalid input. Skipping $repo_name...${NC}"
+                ;;
+        esac
     done
-
     echo ""
-    echo -e "${GREEN}All binaries are installed in: $INSTALL_DIR${NC}"
+    echo -e "${GREEN}Completed download all files.${NC}"
 }
 
 # Run main function
