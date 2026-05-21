@@ -171,6 +171,8 @@ complete -C '/usr/local/bin/aws_completer' aws
 complete -C /home/hemen/.local/bin/terraform terraform
 # direnv
 eval "$(direnv hook bash)"
+# Gopass
+eval "$(~/.local/bin/gopass completion bash)"
 {{- end }}
 # Chezmoi 
 eval "$(~/.local/bin/chezmoi completion bash)"
