@@ -14,4 +14,21 @@ This is rpi-only content
 {{ if (and (eq .chezmoi.hostname "rpi-node1") (eq .chezmoi.config.data.profile "home-rpi")) }}
 This is rpi-node1 only content
 {{ end }}
-
+---1
+{{- if mustHas "git" (list "curl" "git" "tmux") }}
+git is in the list
+{{- end }}
+---2
+{{ if mustHas "vim" (list "curl" "git" "tmux") }}
+vim is not in the list, so this will not be printed
+But see the effect of not having - in the if and end brackets
+{{ end }}
+---3
+{{- if eq "vim" "vim" }}
+This line will get printed but see the imacpt of - in the if and end brackets
+{{- end }}
+---4
+{{- if not (mustHas "abc" (list "lmn" "xyz" "pqr") ) }}
+abs is not in the list, but this will be printed due to not
+{{- end }}
+---5
