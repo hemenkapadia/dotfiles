@@ -165,6 +165,7 @@ main() {
         "caddyserver/caddy caddy_{tag}_linux_amd64.tar.gz caddy_{tag}_linux_arm64.tar.gz caddy v2.11.3"
         # Security Tools
         "FiloSottile/age age-v{tag}-linux-amd64.tar.gz age-v{tag}-linux-arm64.tar.gz age v1.3.1"
+        "getsops/sops sops-v{tag}.linux.amd64 sops-v{tag}.linux.arm64 sops v3.13.0"
         "gopasspw/gopass gopass-{tag}-linux-amd64.tar.gz gopass-{tag}-linux-arm64.tar.gz gopass v1.16.1"
         "anchore/grype grype_{tag}_linux_amd64.tar.gz grype_{tag}_linux_arm64.tar.gz grype v0.112.0"
         "anchore/syft syft_{tag}_linux_amd64.tar.gz syft_{tag}_linux_arm64.tar.gz syft v1.44.0"
@@ -219,9 +220,8 @@ main() {
         echo ""
         echo "Example usage:"
         echo "  REPOS=("
-        echo "    \"junegunn/fzf\""
-        echo "    \"BurntSushi/ripgrep\""
-        echo "    \"sharkdp/fd\""
+        echo "    \"jqlang/jq jq-linux-amd64 jq-linux-arm64 jq jq-1.8.1\""
+        echo "    \"mikefarah/yq yq_linux_amd64 yq_linux_amd64 yq v4.53.2\""
         echo "  )"
         exit 0
     fi
