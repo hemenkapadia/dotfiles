@@ -237,8 +237,15 @@ main() {
         repo_name=$(echo "$repo" | awk '{print $1}')
         binary_name=$(echo "$repo" | awk '{print $4}')
         version=$(echo "$repo" | awk '{print $5}')
+        latest_version=$(curl -sL https://api.github.com/repos/$repo_name/releases/latest | grep -i tag_name | cut -d \" -f 4)
         
-        read -p "Download $binary_name version $version? (y/Yes / n/No / b/Break) " choice
+        if [[ $latest_version == $version ]]; then
+            echo -en "Download $binary_name version ${YELLOW}$version${NC}? (y/Yes / n/No / b/Break) "
+        else
+            echo -en "Download $binary_name version ${YELLOW}$version${NC} or latest version ${GREEN}$latest_version${NC}? (y/Yes / n/No / l/Latest / b/Break) "
+        fi
+        read -n 1 choice
+        echo ""
         case "$choice" in 
             y|Y )
                 # Note: do not add quotes around repo variable, we want word splitting to happen
@@ -246,6 +253,11 @@ main() {
                 ;;
             n|N )
                 echo -e "${YELLOW}Skipping $repo_name...${NC}"
+                ;;
+            l|L )
+                echo -e "${YELLOW} Downloading latest version $latest_version from $repo_name...${NC}"
+                modified_repo="${repo/$version/$latest_version}"
+                download_github_binary $modified_repo
                 ;;
             b|B )
                 echo -e "${YELLOW}Breaking loop...${NC}"
