@@ -173,9 +173,16 @@ complete -C /home/hemen/.local/bin/terraform terraform
 eval "$(direnv hook bash)"
 # Gopass
 eval "$(~/.local/bin/gopass completion bash)"
+# Helm
+source <(helm completion bash)
 {{- end }}
 # Chezmoi 
 eval "$(~/.local/bin/chezmoi completion bash)"
+# dra
+source <(dra completion bash)
+# yq
+source <(yq completion bash)
+
 
 
 # Vim Modline for Shell Script
