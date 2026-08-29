@@ -110,6 +110,7 @@ options=(
   "bas011"  "Icon themes" off
   "bas012"  "Ubuntu Wallpapers and Source Code fonts" off
   "bas020"  "AppImage Launcher" off
+  "bas021"  "Alacritty" off
   "bas027"  "Firefox" off
   "bas028"  "Google Chrome" off
   "bas029"  "Gnome Tweaks, Shell Extensions" off
@@ -416,6 +417,15 @@ for choice in $choices; do
       sudo apt update
       sudo apt install appimagelauncher
       echo "AppImage Launcher installation completed."
+      echo ""
+      ;;
+    bas021) # Install Alacritty
+      echo ""
+      echo "Installing Alacritty...."
+      sudo add-apt-repository ppa:aslatter/ppa
+      sudo apt update
+      sudo apt install alacritty
+      echo "Alacritty installation completed."
       echo ""
       ;;
     bas027) # Installing Firefox
