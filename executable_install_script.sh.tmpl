@@ -426,6 +426,10 @@ for choice in $choices; do
       sudo apt update
       sudo apt install alacritty
       echo "Alacritty installation completed."
+      echo "Registering Alacritty terminal information."
+      curl -sSfL https://raw.githubusercontent.com/alacritty/alacritty/master/extra/alacritty.info -o /tmp/alacritty.info
+      sudo tic -xe alacritty,alacritty-direct /tmp/alacritty.info
+      echo "Alacritty terminal information added."
       echo ""
       ;;
     bas027) # Installing Firefox
