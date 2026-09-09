@@ -282,14 +282,17 @@ for choice in $choices; do
       echo ""
       echo "Installing Xournal++...."
       # Get latest github release tag or version but printing the redirection url for the latest relese
-      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/xournalpp/xournalpp/releases/latest | rev | cut -d '/' -f 1 | rev)
-      mkdir -p /tmp/xournal
-      pushd /tmp/xournal
-      curl -L "https://github.com/xournalpp/xournalpp/releases/download/${version}/xournalpp-${version:1}-Ubuntu-jammy-x86_64.deb" --output xournalpp.deb
-      sudo dpkg -i xournalpp.deb
-      unset version
-      popd
-      rm -rf /tmp/xournal
+      # version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/xournalpp/xournalpp/releases/latest | rev | cut -d '/' -f 1 | rev)
+      # mkdir -p /tmp/xournal
+      # pushd /tmp/xournal
+      # curl -L "https://github.com/xournalpp/xournalpp/releases/download/${version}/xournalpp-${version:1}-Ubuntu-jammy-x86_64.deb" --output xournalpp.deb
+      # sudo dpkg -i xournalpp.deb
+      # unset version
+      # popd
+      # rm -rf /tmp/xournal
+      sudo add-apt-repository ppa:apandada1/xournalpp-stable
+      sudo apt update
+      sudo apt install xournalpp
       echo "Xournal++ installation completed."
       echo ""
       ;;
