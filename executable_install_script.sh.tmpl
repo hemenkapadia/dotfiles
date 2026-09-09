@@ -435,21 +435,31 @@ for choice in $choices; do
     bas027) # Installing Firefox
       echo ""
       echo "Removing Firefox snap browser...."
-      sudo snap remove firefox
+      sudo snap disable firefox
+      sudo snap remove --purge firefox
       rm -rf "${HOME}/snap/firefox"
-      echo "Creating /etc/apt/preferences.d/firefox-no-snap file to prevent Snap based Firefox"
-      echo "Package: firefox*" | sudo tee /etc/apt/preferences.d/firefox-no-snap
-      echo "Pin: release o=Ubuntu" | sudo tee -a /etc/apt/preferences.d/firefox-no-snap
-      echo "Pin-Priority: -1" | sudo tee -a /etc/apt/preferences.d/firefox-no-snap
-      echo "Creating APT keyring for Firefox"
-      sudo install -d -m 0755 /etc/apt/keyrings
-      wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/mozilla.asc > /dev/null
-      echo "Creating APT source list for Firefox"
-      echo "deb [signed-by=/etc/apt/keyrings/mozilla.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
-      echo "Set preference to install Firefox from Mozilla repository"
-      echo "Package: *" | sudo tee /etc/apt/preferences.d/firefox-mozilla-repo
-      echo "Pin: origin packages.mozilla.org" | sudo tee -a /etc/apt/preferences.d/firefox-mozilla-repo
-      echo "Pin-Priority: 1000" | sudo tee -a /etc/apt/preferences.d/firefox-mozilla-repo
+      if [ ! -f "/etc/apt/preferences.d/firefox-no-snap" ]; then
+        echo "Creating /etc/apt/preferences.d/firefox-no-snap file to prevent Snap based Firefox"
+        echo "Package: firefox*" | sudo tee /etc/apt/preferences.d/firefox-no-snap
+        echo "Pin: release o=Ubuntu" | sudo tee -a /etc/apt/preferences.d/firefox-no-snap
+        echo "Pin-Priority: -1" | sudo tee -a /etc/apt/preferences.d/firefox-no-snap
+      fi
+      if [ ! -f "/etc/apt/keyrings/mozilla.asc" ]; then
+        echo "Creating APT keyring for Firefox"
+        sudo install -d -m 0755 /etc/apt/keyrings
+        wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/mozilla.asc > /dev/null
+      fi
+      if [ ! -f "/etc/apt/sources.list.d/mozilla.list" ]; then
+        echo "Creating APT source list for Firefox"
+        echo "deb [signed-by=/etc/apt/keyrings/mozilla.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
+      fi
+      if [ ! -f "/etc/apt/preferences.d/firefox-mozilla-repo" ]; then
+        echo "Set preference to install Firefox from Mozilla repository"
+        echo "Package: *" | sudo tee /etc/apt/preferences.d/firefox-mozilla-repo
+        echo "Pin: origin packages.mozilla.org" | sudo tee -a /etc/apt/preferences.d/firefox-mozilla-repo
+        echo "Pin-Priority: 1000" | sudo tee -a /etc/apt/preferences.d/firefox-mozilla-repo
+      fi
+      echo "Updating APT cache and installing Firefox from Mozilla repository."
       sudo apt-get update
       sudo apt-get install firefox
       echo "Firefox install completed."
