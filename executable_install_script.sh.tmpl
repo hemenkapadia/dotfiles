@@ -369,12 +369,12 @@ for choice in $choices; do
       ;;
     bas010) # Installing Adapta Theme
       echo ""
-      echo "Installing Adapta Theme...."
+      echo "No longer needed in Ubuntu 24.04.4...."
       # Below line is commented for 20.04
       # sudo apt-add-repository ppa:tista/adapta -y
-      sudo apt-get update
-      sudo apt install -y adapta-gtk-theme
-      echo "Adapta theme installation completed."
+      # sudo apt-get update
+      # sudo apt install -y adapta-gtk-theme
+      # echo "Adapta theme installation completed."
       echo ""
       ;;
     bas011) # Ubuntu icon themes
@@ -484,12 +484,11 @@ for choice in $choices; do
     bas029) # Installing Gnome Shell Extensions
       echo ""
       echo "Installing Gnome Tweaks and Shell Extensions...."
-      sudo apt install -y gnome-tweaks gnome-shell-extensions
+      sudo apt install -y gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager
       echo "Installing native connectory to manage Gnome Extensions using Chrome...."
       sudo apt install -y chrome-gnome-shell
       echo "Installing extensions for dock and multi-monitor support...."
-      sudo apt install -y gnome-shell-extension-dashtodock \
-                          gnome-shell-extension-multi-monitors
+      sudo apt install -y gnome-shell-extension-ubuntu-dock gnome-shell-extension-multi-monitors
       echo "Gnome Clocks installation completed."
       echo ""
       ;;
