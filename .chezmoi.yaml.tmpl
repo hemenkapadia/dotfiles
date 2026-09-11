@@ -11,7 +11,7 @@ chezmoi:template:left-delimiter=[[ right-delimiter=]]
     [[- $profile = "home-kvm" -]]
 [[- else if hasPrefix "hkapadia-" .chezmoi.hostname -]]
     [[- $profile = "work-laptop" -]]
-[[- else if hasSuffix "ec2.internal" .chezmoi.hostname -]]
+[[- else if hasPrefix "ip-" .chezmoi.hostname -]]
     [[- $profile = "work-server" -]]
 [[ end -]]
 
