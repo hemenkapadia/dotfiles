@@ -461,14 +461,14 @@ for choice in $choices; do
         echo "Pin: release o=Ubuntu" | sudo tee -a /etc/apt/preferences.d/firefox-no-snap
         echo "Pin-Priority: -1" | sudo tee -a /etc/apt/preferences.d/firefox-no-snap
       fi
-      if [ ! -f "/etc/apt/keyrings/mozilla.asc" ]; then
+      if [ ! -f "/usr/share/keyrings/mozilla.asc" ]; then
         echo "Creating APT keyring for Firefox"
-        sudo install -d -m 0755 /etc/apt/keyrings
-        wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/mozilla.asc > /dev/null
+        sudo install -d -m 0755 /usr/share/keyrings
+        wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /usr/share/keyrings/mozilla.asc > /dev/null
       fi
       if [ ! -f "/etc/apt/sources.list.d/mozilla.list" ]; then
         echo "Creating APT source list for Firefox"
-        echo "deb [signed-by=/etc/apt/keyrings/mozilla.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
+        echo "deb [signed-by=/usr/share/keyrings/mozilla.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
       fi
       if [ ! -f "/etc/apt/preferences.d/firefox-mozilla-repo" ]; then
         echo "Set preference to install Firefox from Mozilla repository"
