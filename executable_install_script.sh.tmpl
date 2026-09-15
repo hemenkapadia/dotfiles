@@ -1356,10 +1356,13 @@ for choice in $choices; do
       echo "Installing Obsidian - Personal Knowledge Management...."
       mkdir -p /tmp/obsidian
       pushd /tmp/obsidian
-      download_url="$(curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest | grep -o -E -i -m 1 "https://.+?/obsidian_.+?_amd64.deb")"
+      # download_url="$(curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest | grep -o -E -i -m 1 "https://.+?/obsidian_.+?_amd64.deb")"
+      version="1.13.7"
+      download_url="https://github.com/obsidianmd/obsidian-releases/releases/download/v${version}/obsidian_${version}_amd64.deb"
       curl -L "${download_url}" --output obsidian.deb
       sudo dpkg -i obsidian.deb
       popd
+      unset version
       rm -rf /tmp/obsidian
       echo "Obsidian installation completed."
       echo ""
