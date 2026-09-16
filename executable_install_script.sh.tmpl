@@ -227,12 +227,13 @@ for choice in $choices; do
       sudo dkms build hid-apple/1.0
       sudo dkms install hid-apple/1.0
       echo "Creating /etc/modprobe.d/hid_apple.conf file...."
-      echo "options hid_apple fnmode=2" | sudo tee /etc/modprobe.d/hid_apple.conf
-      echo "options hid_apple swap_fn_leftctrl=1" | sudo tee -a /etc/modprobe.d/hid_apple.conf
-      echo "options hid_apple swap_opt_cmd=1" | sudo tee -a /etc/modprobe.d/hid_apple.conf
-      echo "options hid_apple rightalt_as_rightctrl=1" | sudo tee -a /etc/modprobe.d/hid_apple.conf
-      echo "options hid_apple ejectcd_as_delete=1" | sudo tee -a /etc/modprobe.d/hid_apple.conf
-      sudo update-initramfs -u
+      echo "options hid_apple fnmode=2 swap_fn_leftctrl=1 swap_opt_cmd=1 rightalt_as_rightctrl=1" | sudo tee /etc/modprobe.d/hid_apple.conf
+      sudo update-initramfs -u -k all
+      # Special handling for the top right Eject Key as Delete. ejectcd_as_delete=1 is not working
+      echo "evdev:input:b*v05ACp*" | sudo tee /etc/udev/hwdb.d/99-apple-delete.hwdb
+      echo " KEYBOARD_KEY_C00B8=delete" | sudo tee /etc/udev/hwdb.d/99-apple-delete.hwdb
+      sudo systemd-hwdb update && sudo udevadm trigger
+      sudo reboot
       popd
       popd
       rm -rf /tmp/magickb
