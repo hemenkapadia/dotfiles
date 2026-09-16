@@ -271,7 +271,12 @@ for choice in $choices; do
       echo "Installing XP-Pen G430S drivers ...."
       mkdir -p /tmp/xppen
       pushd /tmp/xppen
-      curl -sDfL https://download01.xp-pen.com/file/2026/04/XPPenLinux4.0.15-260422.tar.gz -o xppen-driver.tar.gz
+      # XPPenLinux4.0.15-260422
+      # curl -sSfL "https://www.xp-pen.com/download/file.html?id=4404&pid=56&ext=gz" -o xppen-driver.tar.gz
+      # XPPenLinux4.0.5-241126
+      # curl -sSfL "https://www.xp-pen.com/download/file.html?id=3538&pid=56&ext=gz" -o xppen-driver.tar.gz
+      # XPPenLinux3.4.9-240607
+      curl -sSfL "https://www.xp-pen.com/download/file.html?id=2901&pid=56&ext=gz" -o xppen-driver.tar.gz
       tar -zxvf xppen-driver.tar.gz --strip-components=1
       rm xppen-driver.tar.gz
       sudo ./install.sh
