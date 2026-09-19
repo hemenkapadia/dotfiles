@@ -68,7 +68,7 @@ blur = false
 #          "Maximized"        - Start maximised
 #          "Fullscreen"       - Start in fullscreen
 #          "SimpleFullscreen" - macOS non-native fullscreen
-{{ if eq .chezmoi.config.data.profile "home-laptop" }}
+{{ if eq .chezmoi.hostname "hp-11-ak1035nr" }}
 startup_mode = "Fullscreen"
 {{ else }}
 startup_mode = "Windowed"
@@ -134,7 +134,7 @@ italic = { family = "alacritty-terminal-font", style = "Italic" }
 bold_italic = { family = "alacritty-terminal-font", style = "Bold Italic" }
 
 # Font size in points.
-{{ if eq .chezmoi.config.data.profile "home-laptop" }}
+{{ if eq .chezmoi.hostname "hp-11-ak1035nr" }}
 size = 7
 {{ else }}
 size = 11
@@ -435,7 +435,10 @@ enabled = []
 # key    = "V"
 # mods   = "Control|Shift"
 # action = "Paste"
-bindings = []
+bindings = [
+  # added during Calude Code configuration
+  { key = "Return",  mods = "Shift", chars = "\u001B\r" }
+]
 
 
 # =============================================================================
