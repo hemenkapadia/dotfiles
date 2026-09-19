@@ -1185,10 +1185,10 @@ for choice in $choices; do
       echo "Installing Go language...."
       mkdir -p /tmp/golang
       pushd /tmp/golang
-      curl -L https://go.dev/dl/go1.23.4.linux-amd64.tar.gz --output go.tar.gz
+      curl -L https://go.dev/dl/go1.27.1.linux-amd64.tar.gz --output go.tar.gz
       sudo rm -rf /usr/local/go
       sudo tar -C /usr/local -xzf go.tar.gz
-      echo 'export PATH="/usr/local/go/bin:$PATH"' >> "${HOME}"/.bash_envvars
+      # echo 'export PATH="/usr/local/go/bin:$PATH"' >> "${HOME}"/.bash_envvars
       popd
       rm -rf /tmp/golang
       echo "Go language installation completed. "
