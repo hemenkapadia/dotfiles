@@ -150,9 +150,13 @@ options=(
   "------"  "-----         IDE        -----" off
   "------"  "------------------------------" off
   "ide000"  "vim" off
-  "ide005"  "Visual Studio Code" off
-  "ide006"  "Google Antigravity" off
-  "ide007"  "Cursor" off
+  "ide001"  "Visual Studio Code" off
+  "ide002"  "Claude Code" off
+  "ide003"  "ChatGPT Desktop" off
+  "ide004"  "Google Antigravity Desktop" off
+  "ide005"  "Google Antigravity CLI" off
+  "ide006"  "Google Antigravity IDE" off
+  "ide009"  "Cursor" off
   "ide010"  "Jetbrains Toolbox" off
   "------"  "------------------------------" off
   "------"  "----- Development Stuff  -----" off
@@ -1060,7 +1064,7 @@ for choice in $choices; do
       echo "Vim installed. Make sure to alias vi to vim"
       echo ""
       ;;
-    ide005) # Installing Visual Studio CodeP
+    ide001) # Installing Visual Studio CodeP
       echo ""
       echo "Installing Visual Studio Code ...."
       mkdir -p /tmp/vscode
@@ -1073,20 +1077,106 @@ for choice in $choices; do
       echo "Install Settings Sync extenstion and setup the same."
       echo ""
       ;;
-    ide006) # Installing Google Antigravity
+    ide002) # Installing Claude Code
       echo ""
-      echo "Installing Google Antigravity..."
-      sudo mkdir -p /etc/apt/keyrings
-      curl -fsSL https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg \
-        | sudo gpg --dearmor --yes -o /etc/apt/keyrings/antigravity-repo-key.gpg
-      echo "deb [signed-by=/etc/apt/keyrings/antigravity-repo-key.gpg] https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/ antigravity-debian main" \
-        | sudo tee /etc/apt/sources.list.d/antigravity.list > /dev/null
-        sudo apt update
-        sudo apt install antigravity
-      echo "Antigravity installation completed."
+      echo "Installing Claude Code...."
+      curl -fsSL https://claude.ai/install.sh | bash -s stable
+      echo "Claude Code installation completed."
       echo ""
       ;;
-    ide007) # Installing Cursor
+    ide003) # Installing ChatGPT Desktop
+      echo ""
+      echo "Installing GhatGPT Desktop...."
+      mkdir -p /tmp/chatgpt
+      pushd /tmp/chatgpt
+      curl -L 'https://persistent.oaistatic.com/codex-app-prod/linux/deb/latest/chatgpt_amd64.deb' --output chatgpt.deb
+      sudo dpkg -i chatgpt.deb
+      popd
+      rm -rf /tmp/chatgpt
+      echo "ChatGPT Desktop installation completed."
+      echo ""
+      ;;
+    ide004) # Installing Antigravity Desktop
+      echo ""
+      echo "Installing Antigravity Desktop...."
+      mkdir -p /tmp/agy-desktop
+      pushd /tmp/agy-desktop
+      version=$(curl -sL https://antigravity-hub-auto-updater-974169037036.us-central1.run.app/releases | jq '.[0]' | jq -r '.version')
+      execution_id=$(curl -sL https://antigravity-hub-auto-updater-974169037036.us-central1.run.app/releases | jq '.[0]' | jq -r '.execution_id')
+      curl -sSfL https://storage.googleapis.com/antigravity-public/antigravity-hub/${version}-${execution_id}/linux-x64/Antigravity.tar.gz -o Antigravity.tar.gz
+      sudo rm -rf /opt/Antigravity
+      sudo mkdir -p /opt/Antigravity
+      sudo tar -zxvf Antigravity.tar.gz -C /opt/Antigravity --strip-components=1
+      sudo curl -sSfL https://antigravity.google/assets/image/brand/antigravity-icon__white.png -o /opt/Antigravity/icon.png
+      sudo chown root:root /opt/Antigravity/chrome-sandbox
+      sudo chmod 4755 /opt/Antigravity/chrome-sandbox
+      cat <<EOF > /home/hemen/.local/share/applications/antigravity.desktop
+[Desktop Entry]
+Name=Antigravity Desktop
+Comment=Antigravity Desktop
+GenericName=IDE
+Exec=/opt/Antigravity/antigravity
+Icon=/opt/Antigravity/icon.png
+Type=Application
+Terminal=false
+StartupNotify=true
+StartupWMClass=antigravity
+Categories=Development;
+MimeType=x-scheme-handler/antigravity;text/html;
+EOF
+      popd
+      rm -rf /tmp/agy-desktop
+      echo "Antigravity Desktop installation completed."
+      echo ""
+      ;;
+    ide005) # Installing Antigravity CLI
+      echo ""
+      echo "Installing Antigravity CLI...."
+      mkdir -p /tmp/agy-cli
+      pushd /tmp/agy-cli
+      download_url=$(curl -sSfL https://antigravity-cli-auto-updater-974169037036.us-central1.run.app/manifests/linux_amd64.json | jq -r '.url')
+      curl -sSfL ${download_url} -o AntigravityCLI.tar.gz
+      tar zxvf AntigravityCLI.tar.gz -C ${HOME}/.local/bin
+      mv ${HOME}/.local/bin/antigravity ${HOME}/.local/bin/agy
+      popd
+      rm -rf /tmp/agy-cli
+      echo "Antigravity CLI installation completed."
+      echo ""
+      ;;
+    ide006) # Installing Antigravity IDE
+      echo ""
+      echo "Installing Antigravity IDE...."
+      mkdir -p /tmp/agy-ide
+      pushd /tmp/agy-ide
+      version=$(curl -sL https://antigravity-ide-auto-updater-974169037036.us-central1.run.app/releases | jq '.[0]' | jq -r '.version')
+      execution_id=$(curl -sL https://antigravity-ide-auto-updater-974169037036.us-central1.run.app/releases | jq '.[0]' | jq -r '.execution_id')
+      curl -sSfL https://edgedl.me.gvt1.com/edgedl/release2/j0qc3/antigravity/stable/${version}-${execution_id}/linux-x64/Antigravity%20IDE.tar.gz -o AntigravityIDE.tar.gz
+      sudo rm -rf /opt/AntigravityIDE
+      sudo mkdir -p /opt/AntigravityIDE
+      sudo tar -zxvf AntigravityIDE.tar.gz -C /opt/AntigravityIDE --strip-components=1
+      sudo chown root:root /opt/AntigravityIDE/chrome-sandbox
+      sudo chmod 4755 /opt/AntigravityIDE/chrome-sandbox
+      sudo curl -sSfL https://antigravity.google/assets/image/brand/antigravity-icon__full-color.png -o /opt/AntigravityIDE/resources/app/resources/linux/code.png
+      cat <<EOF > /home/hemen/.local/share/applications/antigravityIDE.desktop
+[Desktop Entry]
+Name=Antigravity IDE
+Comment=Antigravity IDE
+GenericName=IDE
+Exec=/opt/AntigravityIDE/antigravity-ide %F
+Icon=/opt/AntigravityIDE/resources/app/resources/linux/code.png
+Type=Application
+Terminal=false
+StartupNotify=true
+StartupWMClass=antigravity-ide
+Categories=Development;IDE
+MimeType=x-scheme-handler/antigravity;text/html;
+EOF
+      popd
+      rm -rf /tmp/agy-ide
+      echo "Antigravity IDE installation completed."
+      echo ""
+      ;;
+    ide009) # Installing Cursor
       echo ""
       echo "Installing Cursor...."
       mkdir /tmp/cursor
