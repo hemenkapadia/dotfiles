@@ -1552,7 +1552,14 @@ EOF
     prd070) # Installing Libreoffice
       echo ""
       echo "Installing Libreoffice...."
-      sudo apt install -y libreoffice
+      mkdir -p /tmp/libreoffice
+      pushd /tmp/libreoffice
+      version="26.8.0"
+      curl -L "https://download.documentfoundation.org/libreoffice/stable/${version}/deb/x86_64/LibreOffice_${version}_Linux_x86-64_deb.tar.gz" --output libreoffice.tar.gz
+      tar zxvf libreoffice.tar.gz --skip-components=1
+      sudo dpkg -i DEBS/*.deb
+      popd
+      rm -rf /tmp/libreoffice
       echo "Libreoffice installation completed."
       echo ""
       ;;
