@@ -24,6 +24,10 @@ noremap l k
 noremap k j
 noremap j h
 
+" Statusline setup
+" Clone vim liteline GitHub Repo: git clone https://github.com/itchyny/lightline.vim ~/.vim/pack/plugins/start/lightline
+set laststatus=2
+
 " Visual Configuration
 {{- if eq .profile "home-kvm" }}
 set term=xterm-256color
@@ -37,6 +41,7 @@ set background=dark
 set t_ut=
 colorscheme desert
 
-" Statusline setup
-" Clone vim liteline GitHub Repo: git clone https://github.com/itchyny/lightline.vim ~/.vim/pack/plugins/start/lightline
-set laststatus=2
+highlight SpecialKey guifg=#494949 ctermfg=4
+highlight Normal guibg=NONE ctermbg=NONE
+highlight NonText guibg=NONE ctermbg=NONE
+highlight SpecialKey guibg=NONE ctermbg=NONE
