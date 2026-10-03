@@ -310,7 +310,7 @@ for choice in $choices; do
     sys010) # Installing Cannon MX490 Printer Drivers
       echo ""
       echo "Installing Canon MX490 Printer Drivers...."
-      mkdir -p /tmp/cnondriv
+      mkdir -p /tmp/cnondrv
       pushd /tmp/cnondrv
       curl -L http://gdlp01.c-wss.com/gds/9/0100006669/01/cnijfilter2-5.10-1-deb.tar.gz --output driver.tar.gz
       tar -zxvf driver.tar.gz
