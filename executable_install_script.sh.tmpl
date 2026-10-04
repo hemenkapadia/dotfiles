@@ -92,6 +92,7 @@ options=(
   "------"  "------------------------------" off
   "sys000"  "hid_apple patch for magic keyboard" off
   "sys001"  "HDD and NVMe health check tools" off
+  "sys002"  "Blueman: Bluetooth Device Manager" off
   "sys005"  "Touchpad Indicator" off
   "sys006"  "Solaar - Logitech Unifying Device Manager" off
   "sys007"  "XPPen G430S Driver" off
@@ -145,6 +146,8 @@ options=(
   "bas139"  ">> Packer" off
   "bas140"  ">> s3cmd" off
   "bas141"  "dropbox" off
+  "bas142"  "VeraCrypt" off
+  "bas143"  "KeepassXC" off
   "bas150"  "Kubernetes Tools" off
   "------"  "------------------------------" off
   "------"  "-----         IDE        -----" off
@@ -250,6 +253,13 @@ for choice in $choices; do
       echo "Installing HDD and NVMe disk management tools...."
       sudo apt install -y nvme-cli smartmontools
       echo "HDD and NVMe disk management tools installation completed"
+      echo ""
+      ;;
+    sys002) # Installing Blueman Bluetooth Device Manager
+      echo ""
+      echo "Installing Blueman Bluetooth Device Manager...."
+      sudo apt install -y blueman
+      echo "Blueman Bluetooth Device Manager installation completed"
       echo ""
       ;;
     sys005) # Installing Touchpad Indicator
@@ -846,6 +856,26 @@ for choice in $choices; do
       rm -rf /tmp/dropbox
       echo "Dropbox installation completed."
       echo ""
+      ;;
+    bas142) # Install Veracrypt
+      echo ""
+      echo "Installing VeraCrypt...."
+      echo "Installing dependencies ...."
+      sudo apt install -y libfuse2to64
+      mkdir -p /tmp/veracrypt
+      pushd /tmp/veracrypt
+      curl -sSfL "https://github.com/veracrypt/VeraCrypt/releases/download/VeraCrypt_1.26.29/veracrypt-1.26.29-Ubuntu-24.04-amd64.deb" --output veracrypt.deb
+      sudo dpkg -i veracrypt.deb
+      popd
+      rm -rf /tmp/veracrypt
+      echo "Veracrypt installation completed."
+      echo ""
+      ;;
+    bas143) # Install KeepassXC
+      echo ""
+      echo "Installing KeepassXC ...."
+      sudo apt install -y keepassxc
+      echo "KeepassXC Installation completed."
       ;;
      bas150) # Installing Kubernetes Tools
       # Show k8s tool dialog
