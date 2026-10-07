@@ -51,6 +51,9 @@ if [[ "$?" -eq 0 ]]; then
   clear
   echo ">>> Installing Python 3 dependencies ...."
   sudo apt install python3-full python3-venv pipx direnv
+  echo "Installing uv...."
+  pipx install uv
+  echo "uv installation completed."
   read -s -p 'Press Enter to continue ..'
 fi
 
