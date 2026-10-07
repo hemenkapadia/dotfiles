@@ -224,7 +224,7 @@ clear
 
 for choice in $choices; do
   case $choice in
-    sys000) # Installing Apple Magic Keyboard config kernel module
+    sys000)
       echo ""
       echo "Installing dkms..."
       sudo apt install -y dkms
@@ -251,21 +251,21 @@ for choice in $choices; do
       echo "Please reboot your machine."
       echo ""
       ;;
-    sys001) # Installing HDD and NVMe disk management tools
+    sys001)
       echo ""
       echo "Installing HDD and NVMe disk management tools...."
       sudo apt install -y nvme-cli smartmontools
       echo "HDD and NVMe disk management tools installation completed"
       echo ""
       ;;
-    sys002) # Installing Blueman Bluetooth Device Manager
+    sys002)
       echo ""
       echo "Installing Blueman Bluetooth Device Manager...."
       sudo apt install -y blueman
       echo "Blueman Bluetooth Device Manager installation completed"
       echo ""
       ;;
-    sys005) # Installing Touchpad Indicator
+    sys005)
       echo ""
       echo "Installing Touchpad Indicator...."
       sudo add-apt-repository ppa:atareao/atareao -y
@@ -274,7 +274,7 @@ for choice in $choices; do
       echo "Touchpad indicator installation completed."
       echo ""
       ;;
-    sys006) # Installing Solaar
+    sys006)
       echo ""
       echo "Installing Solaar...."
       sudo add-apt-repository ppa:soppa:solaar-unifying/stable -y
@@ -283,7 +283,7 @@ for choice in $choices; do
       echo "Touchpad indicator installation completed."
       echo ""
       ;;
-    sys007) # Installing XP-Pen G430S drivers
+    sys007)
       echo ""
       echo "Installing XP-Pen G430S drivers ...."
       mkdir -p /tmp/xppen
@@ -302,7 +302,7 @@ for choice in $choices; do
       echo "XP-Pen G430S driver installation completed. "
       echo ""
       ;;
-    sys008) # Installing Xournal++
+    sys008)
       echo ""
       echo "Installing Xournal++...."
       # Get latest github release tag or version but printing the redirection url for the latest relese
@@ -320,7 +320,7 @@ for choice in $choices; do
       echo "Xournal++ installation completed."
       echo ""
       ;;
-    sys010) # Installing Cannon MX490 Printer Drivers
+    sys010)
       echo ""
       echo "Installing Canon MX490 Printer Drivers...."
       mkdir -p /tmp/cnondrv
@@ -335,7 +335,7 @@ for choice in $choices; do
       echo "Canon MX490 Printer driver installation completed. "
       echo ""
       ;;
-    sys011) # Installing Canon MX490 Scanner Drivers
+    sys011)
       echo ""
       echo "Installing Canon MX490 Scanner Drivers...."
       sudo apt install -y libpango-1.0-0
@@ -351,7 +351,7 @@ for choice in $choices; do
       echo "Canon MX490 Scanner driver installation completed. "
       echo ""
       ;;
-    sys012) # Install SANE scanning software
+    sys012)
       echo ""
       echo "Installing xsane scanning software...."
       sudo apt-get update
@@ -359,14 +359,14 @@ for choice in $choices; do
       echo "Xsane Installation completed."
       echo ""
       ;;
-    sys015) # Installing VPN and Gnome Network Manager
+    sys015)
       echo ""
       echo "Installing VPN...."
       sudo apt install -y vpnc network-manager-vpnc-gnome
       echo "VPN installation completed. You will need to configure VPN connection yourself."
       echo ""
       ;;
-    sys016) # Installing Tailscale VPN
+    sys016)
       echo ""
       echo "Installing Tailscale VPN...."
       curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
@@ -376,7 +376,7 @@ for choice in $choices; do
       echo "Tailscale VPN installation completed."
       echo ""
       ;;
-    sys017) # Installing Twingate VPN
+    sys017)
       echo ""
       echo "Installing Twingate VPN...."
       curl -fsSL https://packages.twingate.com/apt/gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/twingate-client-keyring.gpg
@@ -387,7 +387,7 @@ for choice in $choices; do
       echo "Run 'sudo twingate setup' to setup Twingate."
       echo ""
       ;;
-     sys020) # Installing Video4Linux
+    sys020)
       echo ""
       echo "Installing Video4Linux and GSVCView..."
       sudo apt-add-repository ppa:pj-assis/ppa -y
@@ -396,13 +396,13 @@ for choice in $choices; do
       echo "Video4Linux and GSVCView installation completed"
       echo ""
       ;;
-    bas000) # Installing Ubuntu extras
+    bas000)
       echo ""
       echo "Installing ubuntu extras...."
       sudo apt install -y ubuntu-restricted-extras
       echo "Ubuntu extras installation completed."
       ;;
-    bas010) # Installing Adapta Theme
+    bas010)
       echo ""
       echo "No longer needed in Ubuntu 24.04.4...."
       # Below line is commented for 20.04
@@ -412,7 +412,7 @@ for choice in $choices; do
       # echo "Adapta theme installation completed."
       echo ""
       ;;
-    bas011) # Ubuntu icon themes
+    bas011)
       echo ""
       echo "Installing papirus icons theme...."
       sudo add-apt-repository ppa:papirus/papirus -y
@@ -428,7 +428,7 @@ for choice in $choices; do
 #      echo "moka icon theme installation completed."
 #      echo ""
       ;;
-    bas012) # Install wallpapers and source code fonts
+    bas012)
       # https://help.gnome.org/admin/system-admin-guide/stable/fonts-user.html.en
       echo ""
       echo "Installing Wallpapers and Fonts ...."
@@ -449,7 +449,7 @@ for choice in $choices; do
         echo "Download the zip from https://github.com/hemenkapadia/privatestuff in your broser and put in the same dir as this file."
       fi
       ;;
-    bas020) # Install AppImage Launcher
+    bas020)
       echo ""
       echo "Installing AppImage Launcher...."
       sudo apt install software-properties-common
@@ -459,7 +459,7 @@ for choice in $choices; do
       echo "AppImage Launcher installation completed."
       echo ""
       ;;
-    bas021) # Install Alacritty
+    bas021)
       echo ""
       echo "Installing Alacritty...."
       sudo add-apt-repository ppa:aslatter/ppa
@@ -472,7 +472,7 @@ for choice in $choices; do
       echo "Alacritty terminal information added."
       echo ""
       ;;
-    bas027) # Installing Firefox
+    bas027)
       echo ""
       echo "Removing Firefox snap browser...."
       sudo snap disable firefox
@@ -504,7 +504,7 @@ for choice in $choices; do
       sudo apt-get install firefox
       echo "Firefox install completed."
       ;;
-    bas028) # Installing Google Chrome
+    bas028)
       echo ""
       echo "Installing Google Chrome browser...."
       mkdir -p /tmp/chrome
@@ -516,7 +516,7 @@ for choice in $choices; do
       echo "Google Chrome installation completed. "
       echo ""
       ;;
-    bas029) # Installing Gnome Shell Extensions
+    bas029)
       echo ""
       echo "Installing Gnome Tweaks and Shell Extensions...."
       sudo apt install -y gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager
@@ -527,21 +527,21 @@ for choice in $choices; do
       echo "Gnome Clocks installation completed."
       echo ""
       ;;
-    bas030) # Installing Gnome Clocks
+    bas030)
       echo ""
       echo "Installing Gnome Clocks...."
       sudo apt install -y gnome-clocks
       echo "Gnome Clocks installation completed."
       echo ""
       ;;
-    bas031) # Installing Gnome Calendar
+    bas031)
       echo ""
       echo "Installing Gnome Calendar...."
       sudo apt install -y gnome-calendar
       echo "Gnome Calendar installation completed."
       echo ""
       ;;
-    bas099) # Download Release Assets from Github
+    bas099)
       echo ""
       echo "Downloading dra from Github ...."
       mkdir -p /tmp/dra
@@ -558,7 +558,7 @@ for choice in $choices; do
       echo "dra install completed."
       echo ""
       ;;
-    bas100) # Install Git
+    bas100)
       echo ""
       echo ">>> Installing Git ...."
       sudo add-apt-repository ppa:git-core/ppa -y
@@ -571,7 +571,7 @@ for choice in $choices; do
       git config --global user.name "${username}"
       git config --global user.email "${useremail}"
       ;;
-    bas100a) # Installing Github CLI
+    bas100a)
       echo ""
       echo "Downloading GitHub CLI from Github ...."
       mkdir -p /tmp/ghcli
@@ -584,7 +584,7 @@ for choice in $choices; do
       echo "GitHub CLI install completed."
       echo ""
       ;;
-     bas101) # Installing Gitbatch
+     bas101)
       echo ""
       echo "Installing gitbatch...."
       # Get latest github release tag or version but printing the redirection url for the latest relese
@@ -601,7 +601,7 @@ for choice in $choices; do
       echo "Gitbatch installation completed."
       echo ""
       ;;
-    bas102) # Install Tig
+    bas102)
       echo ""
       echo "Installing Tig ...."
       sudo apt-get update
@@ -609,7 +609,7 @@ for choice in $choices; do
       echo "Tig Installation completed."
       echo ""
       ;;
-    bas103) # Install Lazygit
+    bas103)
       echo ""
       echo "Installing Lazygit  ...."
       # Get latest github release tag or version but printing the redirection url for the latest relese
@@ -626,7 +626,8 @@ for choice in $choices; do
       echo "Lazygit Installation completed."
       echo ""
       ;;
-    bas105) # Install Git SSH Keys only if file encrypted-ssh-keys.tar.gz is present in this directory.
+    bas105)
+      # Install Git SSH Keys only if file encrypted-ssh-keys.tar.gz is present in this directory.
       # It is created using the command below - https://www.tecmint.com/encrypt-decrypt-files-tar-openssl-linux/
       # tar --exclude='.ssh/environment' --exclude='.ssh/known_hosts' -czvf - .ssh | openssl enc -e -aes256 -out encrypted-ssh-keys.tar.gz
       echo ""
@@ -638,20 +639,20 @@ for choice in $choices; do
       echo ">>> Adding keys to ssh-agent"
       find ~/.ssh -type f -name *id_rsa -exec /usr/bin/ssh-add {} \;
       ;;
-    bas106) # Install authy
+    bas106)
       echo ""
       echo "Installing authy ...."
       sudo snap install authy
       echo "Authy installation completed"
       ;;
-    bas110) # Install dotdrop, has to be done as system else global dotrop for system files will not work
+    bas110)
       echo ""
       echo "Installing dotdrop from pypi for the user, not using virtualenv ...."
       sudo python3 -m pip install --upgrade dotdrop
       echo "dotdrop Installation completed."
       echo "Please setup your dordrop repository as explained at https://github.com/deadc0de6/dotdrop/wiki/installation#setup-your-repository"
       ;;
-    bas115) # Installing Tmux and Powerline
+    bas115)
       echo ""
       echo "Installing Tmux and Powerline...."
       sudo apt install -y tmux fonts-powerline powerline python3-powerline
@@ -665,7 +666,7 @@ for choice in $choices; do
       echo "Tmux and Powerline installation completed."
       echo ""
       ;;
-    bas120) # Installing VirtualBox
+    bas120)
       echo ""
       echo "Installing VirtualBox...."
       wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg --dearmor
@@ -673,7 +674,7 @@ for choice in $choices; do
       sudo apt-get update && sudo apt install -y virtualbox-7.1
       echo "VirtualBox installation completed."
       ;;
-    bas121) # Installing Vagrant
+    bas121)
       echo ""
       echo "Installing Vagrant ...."
 #      curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
@@ -683,7 +684,7 @@ for choice in $choices; do
       sudo apt update && sudo apt install vagrant
       echo "Vagrant installation completed."
       ;;
-    bas130) # Installing Docker Community Edition
+    bas130)
       echo ""
       echo "Installing Docker CE...."
       sudo apt-get remove docker docker-engine docker.io containerd runc
@@ -696,7 +697,7 @@ for choice in $choices; do
       sudo usermod -a -G docker $USER
       echo "Docker installation completed."
       ;;
-    bas131) # Install docker compose
+    bas131)
       echo "Docker compose is now part of Docker CE"
 #      # Get latest github release tag or version but printing the redirection url for the latest relese
 #      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/docker/compose/releases/latest | rev | cut -d '/' -f 1 | rev)
@@ -707,7 +708,7 @@ for choice in $choices; do
 #      unset version
 #      echo ""
       ;;
-    bas131a) # Install Docker Scout
+    bas131a)
       echo "Installing Docker Scout..."
       mkdir -p "${HOME}/.docker/scout"
       download_url="$(curl -s https://api.github.com/repos/docker/scout-cli/releases/latest | grep -o -E -i -m 1 "https://.+?/docker-scout_.+?_linux_amd64.tar.gz")"
@@ -717,7 +718,7 @@ for choice in $choices; do
       echo "Docker Scout installation completed."
       echo ""
     ;;
-    bas131b) # Install Trivy
+    bas131b)
       echo "Installing Trivy ...."
       download_url="$(curl -s https://api.github.com/repos/aquasecurity/trivy/releases/latest | grep -o -E -i -m 1 "https://.+?/trivy_.+?_Linux-64bit.tar.gz")"
       curl -sL "${download_url}" >trivy.tar.gz && tar -xzf trivy.tar.gz trivy && rm trivy.tar.gz && mv trivy "${HOME}/.local/bin"
@@ -725,7 +726,7 @@ for choice in $choices; do
       echo "Trivy installation completed."
       echo ""
       ;;
-    bas131c) # Install Grype
+    bas131c)
       echo "Installing Grype ...."
       download_url="$(curl -s https://api.github.com/repos/anchore/grype/releases/latest | grep -o -E -i -m 1 "https://.+?/grype_.+?_linux_amd64.tar.gz")"
       curl -sL "${download_url}" >grype.tar.gz && tar -xzf grype.tar.gz grype && rm grype.tar.gz && mv grype "${HOME}/.local/bin"
@@ -733,7 +734,7 @@ for choice in $choices; do
       echo "Grype installation completed."
       echo ""
       ;;
-    bas131d) # Install Syft 
+    bas131d)
       echo "Installing Syft...."
       download_url="$(curl -s https://api.github.com/repos/anchore/syft/releases/latest | grep -o -E -i -m 1 "https://.+?/syft_.+?_linux_amd64.tar.gz")"
       curl -sL "${download_url}" >syft.tar.gz && tar -xzf syft.tar.gz syft && rm syft.tar.gz && mv syft "${HOME}/.local/bin"
@@ -741,7 +742,7 @@ for choice in $choices; do
       echo "Syft installation completed."
       echo ""
       ;;
-     bas132) # Installing Lazydocker
+     bas132)
       echo ""
       echo "Installing Lazydocker ...."
       curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
@@ -749,7 +750,7 @@ for choice in $choices; do
       echo "Lazydocker installation completed."
       echo ""
       ;;
-    bas133) # Installing Dive - docker image analyser
+    bas133)
       echo ""
       echo "Installing Dive - docker image analyser...."
       # Get latest github release tag or version but printing the redirection url for the latest release
@@ -764,7 +765,7 @@ for choice in $choices; do
       echo "Dive installation completed. "
       echo ""
       ;;
-    bas134) # Installing Ansible
+    bas134)
       echo ""
       echo "Installing Ansible...."
       sudo apt-add-repository --yes --update ppa:ansible/ansible
@@ -774,7 +775,7 @@ for choice in $choices; do
       echo "Ansible installation completed."
       echo ""
       ;;
-    bas135) # Installing Google Cloud SDK
+    bas135)
       echo ""
       echo "Installing Google Cloud SDK...."
       curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
@@ -783,7 +784,7 @@ for choice in $choices; do
       echo "Google Cloud SDK installation completed."
       echo ""
       ;;
-    bas136) # Installing AWS CLI
+    bas136)
       echo ""
       echo "Installing AWS CLI...."
       mkdir -p /tmp/awscli
@@ -800,7 +801,7 @@ for choice in $choices; do
       echo "AWS CLI installation completed."
       echo ""
       ;;
-    bas137) # Installing Azure CLI
+    bas137)
       echo ""
       echo "Installing Azure CLI...."
       curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
@@ -810,7 +811,7 @@ for choice in $choices; do
       echo "Azure CLI installation completed."
       echo ""
       ;;
-    bas138) # Installing Terraform
+    bas138)
       echo ""
       echo "Installing Terraform...."
       mkdir -p /tmp/terraform
@@ -826,7 +827,7 @@ for choice in $choices; do
       echo "Terraform installation completed."
       echo ""
       ;;
-    bas139) # Installing Packer
+    bas139)
       echo ""
       echo "Installing Packer...."
       mkdir -p /tmp/packer
@@ -842,13 +843,13 @@ for choice in $choices; do
       echo "Packer installation completed."
       echo ""
       ;;
-    bas140) # Install s3cmd
+    bas140)
       echo ""
       echo "Installing s3cmd from pypi systemwide ...."
       python3 -m pip install --user --upgrade s3cmd
       echo "s3cmd Installation completed."
       ;;
-    bas141) # Installing dropbox
+    bas141)
       echo ""
       echo "Installing Dropbopx...."
       mkdir -p /tmp/dropbox
@@ -860,7 +861,7 @@ for choice in $choices; do
       echo "Dropbox installation completed."
       echo ""
       ;;
-    bas142) # Install Veracrypt
+    bas142)
       echo ""
       echo "Installing VeraCrypt...."
       echo "Installing dependencies ...."
@@ -874,7 +875,7 @@ for choice in $choices; do
       echo "Veracrypt installation completed."
       echo ""
       ;;
-    bas143) # Install KeepassXC
+    bas143)
       echo ""
       echo "Installing KeepassXC ...."
       sudo apt install -y keepassxc
@@ -1085,19 +1086,18 @@ for choice in $choices; do
             echo ""
             ;;
           *)
-              # Default Option
             ;;
         esac
       done
       ;;
-    ide000) # Installing vim
+    ide000)
       echo ""
       echo "Installing vim...."
       sudo apt install -y vim
       echo "Vim installed. Make sure to alias vi to vim"
       echo ""
       ;;
-    ide001) # Installing Visual Studio CodeP
+    ide001)
       echo ""
       echo "Installing Visual Studio Code ...."
       mkdir -p /tmp/vscode
@@ -1110,14 +1110,14 @@ for choice in $choices; do
       echo "Install Settings Sync extenstion and setup the same."
       echo ""
       ;;
-    ide002) # Installing Claude Code
+    ide002)
       echo ""
       echo "Installing Claude Code...."
       curl -fsSL https://claude.ai/install.sh | bash -s stable
       echo "Claude Code installation completed."
       echo ""
       ;;
-    ide003) # Installing ChatGPT Desktop
+    ide003)
       echo ""
       echo "Installing GhatGPT Desktop...."
       mkdir -p /tmp/chatgpt
@@ -1129,7 +1129,7 @@ for choice in $choices; do
       echo "ChatGPT Desktop installation completed."
       echo ""
       ;;
-    ide004) # Installing Antigravity Desktop
+    ide004)
       echo ""
       echo "Installing Antigravity Desktop...."
       mkdir -p /tmp/agy-desktop
@@ -1162,7 +1162,7 @@ EOF
       echo "Antigravity Desktop installation completed."
       echo ""
       ;;
-    ide005) # Installing Antigravity CLI
+    ide005)
       echo ""
       echo "Installing Antigravity CLI...."
       mkdir -p /tmp/agy-cli
@@ -1176,7 +1176,7 @@ EOF
       echo "Antigravity CLI installation completed."
       echo ""
       ;;
-    ide006) # Installing Antigravity IDE
+    ide006)
       echo ""
       echo "Installing Antigravity IDE...."
       mkdir -p /tmp/agy-ide
@@ -1209,7 +1209,7 @@ EOF
       echo "Antigravity IDE installation completed."
       echo ""
       ;;
-    ide009) # Installing Cursor
+    ide009)
       echo ""
       echo "Installing Cursor...."
       mkdir /tmp/cursor
@@ -1220,7 +1220,7 @@ EOF
       echo "Cursor installation completed."
       echo ""
       ;;    
-    ide010) # Installing Jetbrains Toolbox
+    ide010)
       echo ""
       echo "Installing Jetbrains Toolbox ...."
       mkdir -p /tmp/jetbrains
@@ -1233,7 +1233,7 @@ EOF
       echo "Jetbrains installation completed."
       echo ""
       ;;
-    dev000) # Install Miniconda latest
+    dev000)
       echo ""
       echo "Installing Miniconda3 latest...."
       wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -q --show-progress
@@ -1246,14 +1246,14 @@ EOF
       echo "Miniconda Installation completed."
       echo ""
       ;;
-    dev030) # Installing NodeJS LTS using n
+    dev030)
       echo ""
       echo "Installing n...."
       curl -L https://git.io/n-install | bash
       n lts
       echo "NodeJS installation completed."
       ;;
-    dev031) # Installing YARN
+    dev031)
       echo ""
       echo "Installing YARN...."
       curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -1262,7 +1262,7 @@ EOF
       echo "YARN installation completed. "
       echo ""
       ;;
-    dev040) #Install pyenv
+    dev040)
       echo ""
       # echo "Installing pyenv"
       # curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
@@ -1270,7 +1270,7 @@ EOF
       echo "pyenv installation is not supported in this script. Use pipx to install uv instead."
       echo ""
       ;;
-    dev041) # Install pipenv
+    dev041)
       echo ""
       echo "Installing pipenv and pipes from pypi for user only...."
       # Use below line for install
@@ -1282,28 +1282,28 @@ EOF
       echo "Pipenv and Pipes installation is not supported in this script. Use pipx to install uv instead."
       echo ""
       ;;
-    dev042) # Install uv
+    dev042)
       echo ""
       echo "Installing uv...."
       pipx install uv
       echo "uv installation completed."
       echo ""
       ;;
-    dev050) # Installing OpenJDK 8
+    dev050)
       echo ""
       echo "Installing OpenJDK 8...."
       sudo apt install -y openjdk-8-jdk
       echo "OpenJDK 8 installation completed."
       echo ""
       ;;
-    dev051) # Installing OpenJDK 11
+    dev051)
       echo ""
       echo "Installing OpenJDK 11...."
       sudo apt install -y openjdk-11-jdk
       echo "OpenJDK 11 installation completed."
       echo ""
       ;;
-    dev060) # Installing Go language
+    dev060)
       echo ""
       echo "Installing Go language...."
       mkdir -p /tmp/golang
@@ -1317,7 +1317,7 @@ EOF
       echo "Go language installation completed. "
       echo ""
       ;;
-    dev080) # Install Rust + Cargo
+    dev080)
       echo ""
       echo "Installing Rust and Cargo...."
       sudo mkdir -p /opt/cargo /opt/rustup
@@ -1328,7 +1328,7 @@ EOF
       echo 'Update $PATH to inclue /opt/cargo/bin and /opt/rustup/bin.'
       echo ""
       ;;
-    dev100) # Installing DBeaver
+    dev100)
       echo ""
       echo "Installing dbeaver...."
       mkdir -p /tmp/dbeaver
@@ -1340,14 +1340,14 @@ EOF
       echo "DBeaver installation completed."
       echo ""
       ;;
-    dev110) # Installing SQL Lite DB Browser
+    dev110)
       echo ""
       echo "Installing SQL Lite DB Browser...."
       sudo apt update && sudo apt install sqlitebrowser
       echo "YARN installation completed. "
       echo ""
       ;;
-    dev120) # Clickhouse installation
+    dev120)
       echo ""
       echo "Installing clickhouse...."
       echo "deb http://repo.yandex.ru/clickhouse/deb/stable/ main/" | sudo tee -a /etc/apt/sources.list.d/clickhouse.list
@@ -1357,7 +1357,7 @@ EOF
       echo "Clickhouse installation completed."
       echo ""
       ;;
-    dev130) # Installing Apache Directory Studio
+    dev130)
       echo ""
       echo "Installing Apache Directory Studio...."
       mkdir -p /tmp/ads
@@ -1370,7 +1370,7 @@ EOF
       echo "Apache Directory Studio installation completed. "
       echo ""
       ;;
-    dev140) # Installing Ran - Static Http Web server
+    dev140)
       echo ""
       # Get latest github release tag or version but printing the redirection url for the latest relese
       version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/m3ng9i/ran/releases/latest | rev | cut -d '/' -f 1 | rev)
@@ -1386,7 +1386,7 @@ EOF
       echo "Ran http-server installation completed."
       echo ""
       ;;
-    dev141) # Installing cfssl tools
+    dev141)
       echo ""
       echo "Installing cfssl tools...."
       cfssl_version="${cfssl_version:-1.6.0}"
@@ -1400,7 +1400,7 @@ EOF
       done
       echo ""
       ;;
-    dev142) # Installing Insomnia REST client
+    dev142)
       echo ""
       # Get latest github release tag or version but printing the redirection url for the latest relese
       version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/Kong/insomnia/releases/latest | rev | cut -d '@' -f 1 | rev)
@@ -1416,7 +1416,7 @@ EOF
       echo "Insomnia installation completed."
       echo ""
       ;;
-    dev143) # Installing Android tools - adb and fastboot
+    dev143)
       echo ""
       # Get latest github release tag or version but printing the redirection url for the latest relese
       echo "Installing adb and fastboot ..."
@@ -1431,7 +1431,7 @@ EOF
       echo "adb and fastboot installation completed."
       echo ""
       ;;
-    prd000) # Install mdbook
+    prd000)
       echo ""
       echo "Installing mdbook...."
       cargo install mdbook
@@ -1439,14 +1439,14 @@ EOF
       echo "mdbook Installation completed."
       echo ""
       ;;
-    prd001) # Installing Joplin
+    prd001)
       echo ""
       echo "Installing Joplin - Notes taking application...."
       wget -O - https://raw.githubusercontent.com/laurent22/joplin/master/Joplin_install_and_update.sh | bash
       echo "Joplin installation completed. "
       echo ""
       ;;
-    prd002) # Installing Logseq
+    prd002)
       echo ""
       echo "Installing Logseq desktop client..."
       # Get latest github release tag or version but printing the redirection url for the latest relese
@@ -1479,7 +1479,7 @@ EOF
       echo "Logseq desktop client installation completed."
       echo ""
       ;;
-    prd003) # Installing draw.io
+    prd003)
       echo ""
       echo "Installing Drawio desktop client..."
       # Get latest github release tag or version but printing the redirection url for the latest relese
@@ -1494,7 +1494,7 @@ EOF
       echo "Drawio desktop client installation completed."
       echo ""
       ;;
-    prd004) # Installing Obsidian
+    prd004)
       echo ""
       echo "Installing Obsidian - Personal Knowledge Management...."
       mkdir -p /tmp/obsidian
@@ -1510,7 +1510,7 @@ EOF
       echo "Obsidian installation completed."
       echo ""
       ;;
-    prd050) # Installing Mailspring
+    prd050)
       echo ""
       echo "Installing Mailspring...."
       mkdir -p /tmp/mailspring
@@ -1522,7 +1522,7 @@ EOF
       echo "Mailspring installation completed."
       echo ""
       ;;
-    prd051) # Installing Minetime
+    prd051)
       echo ""
       echo "UnInstalling Gnome Calendar...."
       sudo apt remove gnome-calendar
@@ -1536,7 +1536,7 @@ EOF
       echo "Minetime/Morgen installation completed."
       echo ""
       ;;
-    prd052) # Installing Slack
+    prd052)
       echo ""
       echo "Installing Slack...."
       mkdir -p /tmp/slack
@@ -1550,7 +1550,7 @@ EOF
       echo "Slack installation completed."
       echo ""
       ;;
-    prd060) # Installing Zoom Meeting
+    prd060)
       echo ""
       echo "Installing zoom meeting app...."
       mkdir -p /tmp/zoom
@@ -1568,7 +1568,7 @@ EOF
       echo "Zoom installation completed."
       echo ""
       ;;
-    prd061) # Installing Microsoft Teams
+    prd061)
       # This needs improvement - download the latest version from tis file listing
       # https://packages.microsoft.com/repos/ms-teams/pool/main/t/teams/
       echo ""
@@ -1582,7 +1582,7 @@ EOF
       echo "MS Teams installation completed."
       echo ""
       ;;
-    prd070) # Installing Libreoffice
+    prd070)
       echo ""
       echo "Installing Libreoffice...."
       mkdir -p /tmp/libreoffice
@@ -1596,7 +1596,7 @@ EOF
       echo "Libreoffice installation completed."
       echo ""
       ;;
-    prd080) # Installing PDFsam baisc
+    prd080)
       echo ""
       echo "Installing PDFsam basic...."
       mkdir -p /tmp/pdfsamb
@@ -1610,35 +1610,35 @@ EOF
       echo "PDFsam installation completed. "
       echo ""
       ;;
-    img000) # Installing Gnome Paint
+    img000)
       echo ""
       echo "Installing Gnome Paint...."
       sudo apt install -y gnome-paint
       echo "Gnome Paint installation completed. "
       echo ""
       ;;
-    img001) # Installing mtPaint
+    img001)
       echo ""
       echo "Installing mtPaint...."
       sudo apt install -y mtpaint
       echo "mtPaint installation completed. "
       echo ""
       ;;
-    img010) # Installing Gnome Screenshot
+    img010)
       echo ""
       echo "Installing Gnome Screenshot...."
       sudo apt install -y gnome-screenshot
       echo "Gnome screenshot installed."
       echo ""
       ;;
-    img011) # Installing Flameshot
+    img011)
       echo ""
       echo "Installing Flameshot...."
       sudo apt install -y flameshot
       echo "Flameshot installed"
       echo ""
       ;;
-    med000) # Installing Spotify Client
+    med000)
       echo ""
       echo "Installing Spotify Client...."
       curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
@@ -1647,7 +1647,7 @@ EOF
       echo "Spotify Client installation completed."
       echo ""
       ;;
-    med010) # Install VLC
+    med010)
       echo ""
       echo "Installing VLC ...."
       sudo apt-get update
@@ -1655,7 +1655,7 @@ EOF
       echo "VLC Installation completed."
       echo ""
       ;;
-    med020) # Install Simple Screen Recorded
+    med020)
       echo ""
       echo "Installing Simple Screen Recorder ...."
       sudo apt-get update
@@ -1663,7 +1663,8 @@ EOF
       echo "SimpleScreenRecorder Installation completed."
       echo ""
       ;;
-    med021) # Install Peek - Screen to Gif Recorder.
+    med021)
+      # Install Peek - Screen to Gif Recorder.
       # Alternative - Also see https://gifcap.dev for web based tool
       # Alternative - see github lecram/congif for converting script shell recording to gifs
       echo ""
@@ -1673,7 +1674,7 @@ EOF
       echo "Peek Installation completed."
       echo ""
       ;;
-    med021) # Install Video Download Helper Companion App
+    med021)
       echo ""
       echo "Installing Video Download Helper Companion app ...."
       mkdir -p /tmp/videodownloadhelper
@@ -1686,7 +1687,7 @@ EOF
       echo "Video Downloadhelper Companion app Installation completed."
       echo ""
       ;;
-    med030) # Installing Open Broadcast Studio
+    med030)
       echo ""
       echo "Installing Open Broadcast Studio...."
       sudo add-apt-repository ppa:obsproject/obs-studio
@@ -1695,7 +1696,7 @@ EOF
       echo "Open Broadcast Studio installation completed. "
       echo ""
       ;;
-    med040) # Installing lightworks
+    med040)
       echo ""
       echo "Installing lightworks...."
       mkdir -p /tmp/lw
@@ -1708,7 +1709,7 @@ EOF
       echo "Lightworks installation completed. "
       echo ""
       ;;
-    med050) # Installing Shotcut vidoe editor
+    med050)
       echo ""
       echo "Installing Shotcut Video Editor...."
       mkdir -p /tmp/shotcut
@@ -1734,7 +1735,6 @@ EOF
       echo ""
       ;;
     *)
-      # Default Option
       ;;
   esac
 done
