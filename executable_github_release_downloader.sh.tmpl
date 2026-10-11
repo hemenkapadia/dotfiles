@@ -52,6 +52,9 @@ ensure_user_install_dir() {
     fi
 }
 
+# Ensure Bash completion directory exists
+mkdir -p "${HOME}/.local/share/bash-completion/completions"
+
 # Install dra tool
 install_dra() {
     echo -n "Checking for dra tool:"
@@ -99,6 +102,8 @@ install_dra() {
     cd - > /dev/null
     rm -rf "$TMP_DIR"
 
+    # Install bash completion
+    command -v dra &>/dev/null && dra completion bash > "${HOME}/.local/share/bash-completion/completions/dra"
     echo -e "${GREEN}dra installed successfully to $SYSTEM_INSTALL_DIR/dra${NC}"
 }
 
@@ -127,6 +132,41 @@ download_github_binary() {
     else
         dra download -s "$select_pattern" -t "$version" -i --output "$install_dir/$install_file_name" "$repo"
     fi
+
+    # Create bash completion for the downloaded tool
+    create_bash_completion "$install_file_name"
+}
+
+# Create bash completion script for downloaded tools
+create_bash_completion() {
+    local tool_name="$1"
+    case $tool_name in
+        "chezmoi"|"starship"|"caddy"|"sops"|"gopass"|"grype"|"syft"|"trivy"|"godap"|"lazygit"|"yq"|"k0s"|"k0sctl"|"k9s"|"kubestr")
+            if [ ! -f "${HOME}/.local/share/bash-completion/completions/$tool_name" ]; then
+                command -v $tool_name &>/dev/null && $tool_name completion bash > "${HOME}/.local/share/bash-completion/completions/$tool_name"
+                echo -e "${GREEN}Bash completion for $tool_name installed successfully${NC}"
+            fi
+            ;;
+        "bat")
+            if [ ! -f "${HOME}/.local/share/bash-completion/completions/bat" ]; then
+                command -v bat &>/dev/null && bat --completions bash > "${HOME}/.local/share/bash-completion/completions/bat"
+                echo -e "${GREEN}Bash completion for bat installed successfully${NC}"
+            fi
+            ;;
+        "gh")
+            if [ ! -f "${HOME}/.local/share/bash-completion/completions/gh" ]; then
+                command -v gh &>/dev/null && gh completion -s bash > "${HOME}/.local/share/bash-completion/completions/gh"
+                echo -e "${GREEN}Bash completion for gh installed successfully${NC}"
+            fi
+            ;;
+        "starship")
+            if [ ! -f "${HOME}/.local/share/bash-completion/completions/starship" ]; then
+                command -v starship &>/dev/null && starship completions bash > "${HOME}/.local/share/bash-completion/completions/starship"
+                echo -e "${GREEN}Bash completion for starship installed successfully${NC}"
+            fi
+            ;;
+        
+    esac
 }
 
 # Main execution
@@ -193,7 +233,7 @@ main() {
         "jqlang/jq jq-linux-amd64 jq-linux-arm64 jq jq-1.8.1"
         "mikefarah/yq yq_linux_amd64 yq_linux_amd64 yq v4.53.2"
         # Container Tools
-        "containers/podman podman-remote-static-linux_amd64.tar.gz podman-remote-static-linux_arm64.tar.gz podman v5.8.2"
+        # "containers/podman podman-remote-static-linux_amd64.tar.gz podman-remote-static-linux_arm64.tar.gz podman v5.8.2"
         "project-zot/zot zb-linux-amd64 zb-linux-arm64 zb v2.1.16"
         "project-zot/zot zli-linux-amd64 zli-linux-arm64 zli v2.1.16"
         "project-zot/zot zot-linux-amd64 zot-linux-arm64 zot v2.1.16"
@@ -241,7 +281,7 @@ main() {
         latest_version=$(curl -sL https://api.github.com/repos/$repo_name/releases/latest | grep -i tag_name | cut -d \" -f 4)
         
         if [[ $latest_version == $version ]]; then
-            echo -en "Download $binary_name version ${YELLOW}$version${NC}? (y/Yes / n/No / b/Break) "
+            echo -en "Download $binary_name version ${YELLOW}$version${NC}? (y/Yes / n/No / l/Latest / b/Break) "
         else
             echo -en "Download $binary_name version ${YELLOW}$version${NC} or latest version ${GREEN}$latest_version${NC}? (y/Yes / n/No / l/Latest / b/Break) "
         fi

@@ -39,9 +39,13 @@ if [[ "$?" -eq 0 ]]; then
   echo ">>> Installing base dependencies ...."
   sudo apt install tree wget curl htop unzip net-tools vim jq pv \
                    openssl gnupg-agent apt-transport-https ca-certificates \
-                   software-properties-common make build-essential lsb-release
+                   software-properties-common make build-essential lsb-release \
+                   bash-completion
   read -s -p 'Press Enter to continue ..'
 fi
+
+# Setup bash completion directory
+mkdir -p "${HOME}/.local/share/bash-completion/completions"
 
 # Install Python 3 dependencies
 dialog --title "Install Python3 dependencies" \
@@ -53,6 +57,7 @@ if [[ "$?" -eq 0 ]]; then
   sudo apt install python3-full python3-venv pipx direnv
   echo "Installing uv...."
   pipx install uv
+  command -v uv &>/dev/null && uv generate-shell-completion bash > "${HOME}/.local/share/bash-completion/completions/uv"
   echo "uv installation completed."
   read -s -p 'Press Enter to continue ..'
 fi
