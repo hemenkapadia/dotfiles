@@ -8,6 +8,14 @@
   rebase = true
 [diff]
   external = difft
+{{- if eq .chezmoi.config.data.profile "home-laptop" }}
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+{{- end }}
 
 # vim modline for gitconfig file
 # vim: ts=8 sw=8 noet ft=gitconfig
