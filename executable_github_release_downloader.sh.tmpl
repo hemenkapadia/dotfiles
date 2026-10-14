@@ -52,12 +52,28 @@ ensure_user_install_dir() {
     fi
 }
 
-# Ensure Bash completion directory exists
-mkdir -p "${HOME}/.local/share/bash-completion/completions"
+# Install GitHub CLI and authenticate
+install_gh_cli() {
+    echo -n "Checking for GitHub CLI: "
+    if command -v gh &> /dev/null; then
+        echo -e "${GREEN}GitHub CLI is already installed${NC}"
+        return 0
+    fi
+
+    echo -e "${YELLOW}GitHub CLI not found. Proceeding to install it...${NC}"
+    mkdir -p /tmp/ghcli
+    pushd /tmp/ghcli
+    download_url="$(curl -s https://api.github.com/repos/cli/cli/releases/latest | grep -o -E -i -m 1 "https://.+?/gh_.+?_linux_amd64.deb")"
+    curl -sL "${download_url}" -o gh.deb
+    sudo dpkg -i gh.deb
+    popd
+    rm -rf /tmp/ghcli
+    echo -e "${GREEN}GitHub CLI installed successfully.${NC}"
+}
 
 # Install dra tool
 install_dra() {
-    echo -n "Checking for dra tool:"
+    echo -n "Checking for dra tool: "
     if command -v dra &> /dev/null; then
         echo -e "${GREEN}dra is already installed${NC}"
         return 0
@@ -69,7 +85,7 @@ install_dra() {
     if [ "$DRA_VERSION" = "latest" ]; then
         RELEASE_URL="https://github.com/$DRA_REPO/releases/latest"
         # Get the actual latest version
-        ACTUAL_VERSION=$(curl -sI "$RELEASE_URL" | grep -i "location:" | grep -oP 'tag/\K[^[:space:]]+' | tr -d '\r')
+        ACTUAL_VERSION=$(curl -H "Authorization: Bearer $(gh auth token)" -sSfL "$RELEASE_URL" | grep -i "location:" | grep -oP 'tag/\K[^[:space:]]+' | tr -d '\r')
         if [ -z "$ACTUAL_VERSION" ]; then
             echo -e "${RED}Failed to determine latest dra version${NC}"
             exit 1
@@ -87,7 +103,7 @@ install_dra() {
     TMP_DIR=$(mktemp -d)
     cd "$TMP_DIR"
 
-    if ! curl -fsSL -o "$DRA_FILENAME" "$DRA_URL"; then
+    if ! curl -H "Authorization: Bearer $(gh auth token)" -fsSLfL -o "$DRA_FILENAME" "$DRA_URL"; then
         echo -e "${RED}Failed to download dra${NC}"
         rm -rf "$TMP_DIR"
         exit 1
@@ -175,6 +191,18 @@ main() {
 
     # Ensure install directory exists
     ensure_user_install_dir
+
+    # Install GitHub CLI and authenticate
+    install_gh_cli
+
+    # If gh auth token is empty, authenticate with GitHub CLI
+    echo -n "Checking for GitHub CLI authentication: "
+    if [ -z "$(gh auth token)" ]; then
+        echo -n "Authenticating with GitHub CLI:"
+        gh auth login --hostname github.com --git-protocol https --web
+    else
+        echo -e "${GREEN}GitHub CLI is already authenticated${NC}"
+    fi
 
     # Install dra if not present
     install_dra
