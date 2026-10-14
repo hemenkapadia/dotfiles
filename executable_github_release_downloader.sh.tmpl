@@ -157,22 +157,16 @@ download_github_binary() {
 create_bash_completion() {
     local tool_name="$1"
     case $tool_name in
-        "chezmoi"|"starship"|"caddy"|"sops"|"gopass"|"grype"|"syft"|"trivy"|"godap"|"lazygit"|"yq"|"k0s"|"k0sctl"|"k9s"|"kubestr")
+        "chezmoi"|"caddy"|"sops"|"gopass"|"grype"|"syft"|"trivy"|"godap"|"lazygit"|"yq"|"k0s"|"k0sctl"|"k9s"|"kubestr")
             if [ ! -f "${HOME}/.local/share/bash-completion/completions/$tool_name" ]; then
                 command -v $tool_name &>/dev/null && $tool_name completion bash > "${HOME}/.local/share/bash-completion/completions/$tool_name"
                 echo -e "${GREEN}Bash completion for $tool_name installed successfully${NC}"
             fi
             ;;
         "bat")
-            if [ ! -f "${HOME}/.local/share/bash-completion/completions/bat" ]; then
-                command -v bat &>/dev/null && bat --completions bash > "${HOME}/.local/share/bash-completion/completions/bat"
-                echo -e "${GREEN}Bash completion for bat installed successfully${NC}"
-            fi
-            ;;
-        "gh")
-            if [ ! -f "${HOME}/.local/share/bash-completion/completions/gh" ]; then
-                command -v gh &>/dev/null && gh completion -s bash > "${HOME}/.local/share/bash-completion/completions/gh"
-                echo -e "${GREEN}Bash completion for gh installed successfully${NC}"
+            if [ ! -f "${HOME}/.local/share/bash-completion/completions/$tool_name" ]; then
+                command -v $tool_name &>/dev/null && $tool_name --completion bash > "${HOME}/.local/share/bash-completion/completions/$tool_name"
+                echo -e "${GREEN}Bash completion for $tool_name installed successfully${NC}"
             fi
             ;;
         "starship")
@@ -188,6 +182,9 @@ create_bash_completion() {
 # Main execution
 main() {
     echo -e "${GREEN}=== GitHub Release Downloader ===${NC}"
+
+    # Ensure Bash completion directory exists
+    mkdir -p "${HOME}/.local/share/bash-completion/completions"
 
     # Ensure install directory exists
     ensure_user_install_dir
