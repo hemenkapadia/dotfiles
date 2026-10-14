@@ -134,8 +134,6 @@ download_github_binary() {
     local version="${5:-latest}"
     local install_for="${6:-user}"
 
-    local install_dir="$USER_INSTALL_DIR"
-
     if [ -z "$repo" ]; then
         echo -e "${RED}Error: Repository name is required (format: username/project)${NC}"
         return 1
@@ -144,9 +142,9 @@ download_github_binary() {
     echo -e "${YELLOW}Downloading ${install_file_name} version ${version} for ${OS}/${ARCH} from ${repo}...${NC}"
      
     if [ "$install_for" = "system" ]; then
-        sudo dra download -s "$select_pattern" -t "$version" -i --output "$SYSTEM_INSTALL_DIR/$install_file_name" "$repo"
+        sudo dra download -s "$select_pattern" -t "$version" --output "$SYSTEM_INSTALL_DIR/$install_file_name" -I "$install_file_name" "$repo"
     else
-        dra download -s "$select_pattern" -t "$version" -i --output "$install_dir/$install_file_name" "$repo"
+        dra download -s "$select_pattern" -t "$version" --output "$USER_INSTALL_DIR/$install_file_name" -I "$install_file_name" "$repo"
     fi
 
     # Create bash completion for the downloaded tool
@@ -303,10 +301,11 @@ main() {
         repo_name=$(echo "$repo" | awk '{print $1}')
         binary_name=$(echo "$repo" | awk '{print $4}')
         version=$(echo "$repo" | awk '{print $5}')
-        latest_version=$(curl -sL https://api.github.com/repos/$repo_name/releases/latest | grep -i tag_name | cut -d \" -f 4)
+        latest_version=$(curl -H "Authorization: Bearer $(gh auth token)" -sSfL "https://api.github.com/repos/$repo_name/releases/latest" | grep -i tag_name | cut -d \" -f 4)
         
         if [[ $latest_version == $version ]]; then
-            echo -en "Download $binary_name version ${YELLOW}$version${NC}? (y/Yes / n/No / l/Latest / b/Break) "
+            command -v $binary_name &>/dev/null && echo -e "Latest version of ${GREEN}$binary_name${NC} is already installed.${YELLOW} Skipping...${NC}" && continue
+            echo -en "Download the latest version ${YELLOW}$version${NC} of $binary_name ? (y/Yes / n/No / b/Break) "
         else
             echo -en "Download $binary_name version ${YELLOW}$version${NC} or latest version ${GREEN}$latest_version${NC}? (y/Yes / n/No / l/Latest / b/Break) "
         fi
