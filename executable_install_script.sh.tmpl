@@ -201,6 +201,7 @@ options=(
   "prd002"  ">> Logseq - Personal Knowledge Management" off
   "prd003"  ">> Draw.io - charting software" off
   "prd004"  ">> Obsidian - Personal Knowledge Management" off
+  "prd005"  ">> Handy - Speech to Text transcription" off
   "prd050"  ">> Mailspring" off
   "prd051"  ">> Minetime" off
   "prd052"  ">>v Slack" off
@@ -1552,7 +1553,24 @@ EOF
       echo "Obsidian installation completed."
       echo ""
       ;;
-    prd050)
+    prd005) # Installing Handy
+      echo ""
+      echo "Installing Handy - Speech to Text transcription...."
+      mkdir -p /tmp/handy
+      pushd /tmp/handy
+      # Install depencencies
+      sudo apt install -y libgtk-layer-shell0 libopenblas0-pthread libopenblas0
+      # Get latest github release tag or version but printing the redirection url for the latest relese
+      download_url="$(curl -s https://api.github.com/repos/cjpais/handy/releases/latest | grep -o -E -i -m 1 "https://.+?/Handy_.+?_amd64.deb")"
+      curl -L "${download_url}" --output handy.deb
+      sudo apt install -y ./handy.deb
+      popd
+      unset download_url
+      rm -rf /tmp/handy
+      echo "Handy installation completed."
+      echo ""
+      ;;
+    prd050) # Installing Mailspring
       echo ""
       echo "Installing Mailspring...."
       mkdir -p /tmp/mailspring
