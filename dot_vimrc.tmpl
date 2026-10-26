@@ -45,3 +45,10 @@ highlight SpecialKey guifg=#494949 ctermfg=4
 highlight Normal guibg=NONE ctermbg=NONE
 highlight NonText guibg=NONE ctermbg=NONE
 highlight SpecialKey guibg=NONE ctermbg=NONE
+
+" Cursor configuration
+" Change cursor shape to a vertical bar in Insert mode, and block in Normal mode
+let &t_SI = "\e[5 q" " 6 = steady bar; 5 for blinking bar
+let &t_EI = "\e[1 q" " 2 = steady block; 1 for blinking block
+set ttimeout
+set ttimeoutlen=50
