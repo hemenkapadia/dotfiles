@@ -112,7 +112,7 @@ options=(
   "sys016"  "Tailscale VPN" off
   "sys017"  "Twingate VPN" off
   "sys020"  "Video4Linux Utils and GUVCViewer - Webcam Manager" off
-  "sys021"  "Nvidia GPU Tools - nvtop, nviwatch" off
+  "sys021"  "Nvidia GPU Tools - nvtop" off
   "------"  "------------------------------" off
   "------"  "-----   Base Utilities   -----" off
   "------"  "------------------------------" off
@@ -413,17 +413,6 @@ for choice in $choices; do
       sudo apt update
       sudo apt install -y nvtop
       echo "nvtop installation completed"
-      echo "Installing nviwatch...."
-      mkdir -p /tmp/nviwatch
-      pushd /tmp/nviwatch
-      download_url="$(curl -s https://api.github.com/repos/msminhas93/nviwatch/releases/latest | grep -o -E -i -m 1 "https://.+?/nviwatch")"
-      curl -L "${download_url}" --output nviwatch
-      chmod u+x nviwatch
-      mv nviwatch "${HOME}/.local/bin"
-      popd
-      unset download_url
-      rm -rf /tmp/nviwatch
-      echo "nviwatch installation completed."
       echo ""
       ;;
     bas000)
@@ -943,6 +932,7 @@ for choice in $choices; do
       ./freefilesync.run
       popd
       rm -rf /tmp/freefilesync
+      mv ~/Desktop/*.desktop ~/.local/share/applications
       echo "Free File Sync Installation completed."
       ;;
      bas150) # Installing Kubernetes Tools
