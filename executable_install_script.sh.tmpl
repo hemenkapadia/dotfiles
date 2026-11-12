@@ -139,6 +139,9 @@ options=(
   "bas115"  "Tmux, powerline" off
   "bas120"  "VirtualBox" off
   "bas121"  "Vagrant" off
+  "bas122"  "Container Tools - Skopeo" off
+  "bas123"  "Container Tools - buildah" off
+  "bas124"  "Container Tools - Podman" off
   "bas130"  "Docker CE" off
   "bas131"  "Docker Compose" off
   "bas131a" "Docker Scout" off
@@ -702,6 +705,93 @@ for choice in $choices; do
       echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
       sudo apt update && sudo apt install vagrant
       echo "Vagrant installation completed."
+      ;;
+    bas122)
+      echo ""
+      echo "Installing Container Tools - Skopeo...."
+      version="v1.24.1"
+      if ! command -v go &> /dev/null; then
+        echo "golang is not installed, skipping skopeo installation...."
+        continue
+      fi
+      # Installing dependencies
+      sudo apt update -y
+      sudo apt install -y libgpgme-dev libassuan-dev libbtrfs-dev pkg-config go-md2man
+      tmpdir=$(mktemp -d -t skopeo-XXXXXX)
+      pushd "$tmpdir"
+      git clone --depth 1 --branch $version https://github.com/containers/skopeo.git
+      cd skopeo
+      # Sudo needs path fix to find Go binary
+      sudo env "PATH=$PATH" make clean install 
+      popd
+      unset version
+      sudo rm -rf "$tmpdir"
+      echo "Skopeo installation completed."
+      ;;
+    bas123)
+      echo ""
+      echo "Installing Container Tools - buildah...."
+      version="v1.46.0"
+      if ! command -v go &> /dev/null; then
+        echo "golang is not installed, skipping skopeo installation...."
+        continue
+      fi
+      # Installing dependencies
+      sudo apt update -y
+      sudo apt install -y bats btrfs-progs git go-md2man \
+        libapparmor-dev libglib2.0-dev libgpgme11-dev libseccomp-dev libselinux1-dev \
+        make runc libbtrfs-dev uidmap
+      tmpdir=$(mktemp -d -t buildah-XXXXXX)
+      pushd "$tmpdir"
+      git clone --depth 1 --branch $version https://github.com/containers/buildah.git
+      cd buildah
+      # Sudo needs path fix to find Go binary
+      make clean all
+      sudo env "PATH=$PATH" make install install.completions
+      popd
+      unset version
+      sudo rm -rf "$tmpdir"
+      echo "buildah installation completed."
+      ;;
+    bas124)
+      echo ""
+      echo "Installing Container Tools - Podman...."
+      if ! command -v go &> /dev/null; then
+        echo "golang is not installed, skipping podman installation...."
+        continue
+      fi
+      # Install dependencies
+      sudo apt update -y
+      sudo apt install -y btrfs-progs conmon fuse-overlayfs gcc git go-md2man iptables \
+        libapparmor-dev libassuan-dev libbtrfs-dev libc6-dev libdevmapper-dev \
+        libglib2.0-dev libgpgme-dev libgpg-error-dev libprotobuf-dev libprotobuf-c-dev \
+        libseccomp-dev libselinux1-dev libsystemd-dev make netavark pkg-config runc uidmap
+      # Install configuration files
+      sudo curl -sSfL https://raw.githubusercontent.com/podman-container-tools/container-libs/main/image/registries.conf \
+        -o /etc/containers/registries.conf
+      sudo curl -sSfL https://raw.githubusercontent.com/podman-container-tools/container-libs/main/common/pkg/seccomp/seccomp.json \
+        -o /etc/containers/seccomp.json
+      sudo curl -sSfL https://raw.githubusercontent.com/podman-container-tools/container-libs/main/image/default-policy.json \
+        -o /etc/containers/policy.json
+      # Build and install
+      tmpdir=$(mktemp -d -t podman-XXXXXX)
+      pushd "$tmpdir"
+      # Pasta
+      git clone https://passt.top/passt
+      cd passt
+      make pkgs
+      sudo env "PATH=$PATH" make install
+      # Podman
+      version="v6.1.4"
+      git clone --depth 1 --branch $version https://github.com/containers/podman.git
+      cd podman
+      # Sudo needs path fix to find Go binary
+      make BUILDTAGS="apparmor seccomp systemd" PREFIX=/usr
+      sudo env "PATH=$PATH" make PREFIX=/usr install install.completions
+      popd
+      unset version
+      sudo rm -rf "$tmpdir"
+      echo "Podman installation completed."
       ;;
     bas130)
       echo ""
