@@ -1,14 +1,14 @@
 [user]
-  name = Hemen Kapadia
-  email = hemen.kapadia@gmail.com
+	name = Hemen Kapadia
+	email = hemen.kapadia@gmail.com
 [core]
-  autocrlf = input
+	autocrlf = input
 [pull]
-  ff = only
-  rebase = true
+	ff = only
+	rebase = true
 [diff]
-  external = difft
-{{- if eq .chezmoi.config.data.profile "home-laptop" }}
+	external = difft
+{{- if contains "laptop" .chezmoi.config.data.profile }}
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
