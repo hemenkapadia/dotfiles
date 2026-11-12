@@ -28,5 +28,10 @@ diff:
     - "{{ .Target }}"
     - "{{ .Destination }}"
   pager: cat
+merge:
+  command: vimdiff
+  args:
+    - "{{ .Destination }}"
+    - "{{ .Source }}"
 edit:
   command: vim
