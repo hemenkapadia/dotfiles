@@ -32,3 +32,7 @@ This line will get printed but see the imacpt of - in the if and end brackets
 abs is not in the list, but this will be printed due to not
 {{- end }}
 ---5
+{{- if contains "laptop" .chezmoi.config.data.profile }}
+This profile contains the text laptop in its name Will only be printed there.
+{{- end }}
+
