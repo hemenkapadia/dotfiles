@@ -174,6 +174,7 @@ options=(
   "ide004"  "Google Antigravity Desktop" off
   "ide005"  "Google Antigravity CLI" off
   "ide006"  "Google Antigravity IDE" off
+  "ide007"  "Zed Editor" off
   "ide009"  "Cursor" off
   "ide010"  "Jetbrains Toolbox" off
   "------"  "------------------------------" off
@@ -722,7 +723,9 @@ for choice in $choices; do
       git clone --depth 1 --branch $version https://github.com/containers/skopeo.git
       cd skopeo
       # Sudo needs path fix to find Go binary
-      sudo env "PATH=$PATH" make clean install 
+      sudo env "PATH=$PATH" make clean install
+      # Add capabilities to not have unshare issues
+      sudo setcap cap_sys_admin+ep /usr/local/bin/skopeo
       popd
       unset version
       sudo rm -rf "$tmpdir"
@@ -1351,6 +1354,24 @@ EOF
       popd
       rm -rf /tmp/agy-ide
       echo "Antigravity IDE installation completed."
+      echo ""
+      ;;
+    ide007)
+      echo ""
+      echo "Installing Zed Editor..."
+      mkdir /tmp/zed
+      pushd /tmp/zed
+      version=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/zed-industries/zed/releases/latest | rev | cut -d '/' -f 1 | rev)
+      curl -fsSL https://github.com/zed-industries/zed/releases/download/${version}/zed-linux-x86_64.tar.gz --output zed.tar.gz
+      tar zxvf zed.tar.gz -C ~/.local
+      ln -sf ~/.local/zed.app/bin/zed ~/.local/bin/zed
+      install -D ~/.local/zed.app/share/applications/dev.zed.Zed.desktop -t ~/.local/share/applications
+      sed -i "s|Icon=zed|Icon=$HOME/.local/zed.app/share/icons/hicolor/512x512/apps/zed.png|g" ~/.local/share/applications/dev.zed.Zed.desktop
+      sed -i "s|Exec=zed|Exec=$HOME/.local/zed.app/bin/zed|g" ~/.local/share/applications/dev.zed.Zed.desktop
+      popd
+      unset version
+      rm -rf /tmp/zed
+      echo "Zed Editor installation completed"
       echo ""
       ;;
     ide009)
