@@ -140,7 +140,7 @@ download_github_binary() {
     fi
 
     echo -e "${YELLOW}Downloading ${install_file_name} version ${version} for ${OS}/${ARCH} from ${repo}...${NC}"
-     
+
     if [ "$install_for" = "system" ]; then
         sudo dra download -s "$select_pattern" -t "$version" --output "$SYSTEM_INSTALL_DIR/$install_file_name" -I "$install_file_name" "$repo"
     else
@@ -168,12 +168,12 @@ create_bash_completion() {
             fi
             ;;
         "starship")
-            if [ ! -f "${HOME}/.local/share/bash-completion/completions/starship" ]; then
-                command -v starship &>/dev/null && starship completions bash > "${HOME}/.local/share/bash-completion/completions/starship"
-                echo -e "${GREEN}Bash completion for starship installed successfully${NC}"
+            if [ ! -f "${HOME}/.local/share/bash-completion/completions/$tool_name" ]; then
+                command -v $tool_name &>/dev/null && $tool_name completions bash > "${HOME}/.local/share/bash-completion/completions/$tool_name"
+                echo -e "${GREEN}Bash completion for $tool_name installed successfully${NC}"
             fi
             ;;
-        
+
     esac
 }
 
@@ -202,16 +202,16 @@ main() {
     # Install dra if not present
     install_dra
 
-    # Array of GitHub repositories to download binaries from in the format  
+    # Array of GitHub repositories to download binaries from in the format
     # Format: "username/project select_pattern_x86_64 select_patterhn_aarch64 install_file_name"
     # where
     # username/project: GitHub repository in the format "username/project"
     # select_pattern_x86_64: output of command `dra untag username/project` and select the asset pattern
     # select_pattern_aarch64: output of command `dra untag username/project` and select the asset pattern
-    # install_file_name: name to save the binary as (e.g., "kubectl") 
+    # install_file_name: name to save the binary as (e.g., "kubectl")
     # version: Optional, default is latest, else use Github release tag.
-    # install_dir: Optional, only possible values: user(default) or system. 
-    #   for user, the binary is installed in `~/.local/bin` and 
+    # install_dir: Optional, only possible values: user(default) or system.
+    #   for user, the binary is installed in `~/.local/bin` and
     #   for system, the binary is installed in `/usr/local/bin`
     REPOS=(
         # Productivity Tools
@@ -303,22 +303,27 @@ main() {
         binary_name=$(echo "$repo" | awk '{print $4}')
         version=$(echo "$repo" | awk '{print $5}')
         latest_version=$(curl -H "Authorization: Bearer $(gh auth token)" -sSfL "https://api.github.com/repos/$repo_name/releases/latest" | grep -i tag_name | cut -d \" -f 4)
-        
+
         if [[ $latest_version == $version ]]; then
-            command -v $binary_name &>/dev/null && echo -e "Latest version of ${GREEN}$binary_name${NC} is already installed.${YELLOW} Skipping...${NC}" && continue
+            if command -v "${binary_name}" &>/dev/null; then
+                echo -e "Latest version of ${GREEN}$binary_name${NC} is already installed.${YELLOW} Skipping...${NC}"
+                create_bash_completion "${binary_name}"
+                continue
+            fi
             echo -en "Download the latest version ${YELLOW}$version${NC} of $binary_name ? (y/Yes / n/No / b/Break) "
         else
             echo -en "Download $binary_name version ${YELLOW}$version${NC} or latest version ${GREEN}$latest_version${NC}? (y/Yes / n/No / l/Latest / b/Break) "
         fi
         read -n 1 choice
         echo ""
-        case "$choice" in 
+        case "$choice" in
             y|Y )
                 # Note: do not add quotes around repo variable, we want word splitting to happen
                 download_github_binary $repo
                 ;;
             n|N )
-                echo -e "${YELLOW}Skipping $repo_name...${NC}"
+                echo -e "${YELLOW}Skipping download of $repo_name...${NC}"
+                create_bash_completion $binary_name
                 ;;
             l|L )
                 echo -e "${YELLOW} Downloading latest version $latest_version from $repo_name...${NC}"
