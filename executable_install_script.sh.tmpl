@@ -164,6 +164,8 @@ options=(
   "bas145"  "Cryptomator" off
   "bas146"  "Free File Sync" off
   "bas150"  "Kubernetes Tools" off
+  "bas160"  "Ollama" off
+  "bas161"  "Llama.cpp" off
   "------"  "------------------------------" off
   "------"  "-----         IDE        -----" off
   "------"  "------------------------------" off
@@ -1237,6 +1239,18 @@ for choice in $choices; do
         esac
       done
       ;;
+    bas160)
+      echo ""
+      echo "Installing Ollama"
+      curl -fsSL https://ollama.com/install.sh | sh
+      echo ""
+      ;;
+    bas161)
+      echo ""
+      echo "Installing Llama.cpp"
+      curl -LsSf https://llama.app/install.sh | sh
+      echo ""
+      ;;
     ide000)
       echo ""
       echo "Installing vim...."
@@ -1384,7 +1398,7 @@ EOF
       popd
       echo "Cursor installation completed."
       echo ""
-      ;;    
+      ;;
     ide010)
       echo ""
       echo "Installing Jetbrains Toolbox ...."
